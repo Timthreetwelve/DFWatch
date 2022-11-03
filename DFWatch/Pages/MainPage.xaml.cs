@@ -127,10 +127,10 @@ public partial class MainPage : Page
     }
     #endregion Delete extensions from the list
 
-    #region Sort the extension list
+    #region Remove duplicates and sort the extension list
     private static void SortExtList()
     {
-        var x = FileExt.ExtensionList.ToList();
+        List<string> x = FileExt.ExtensionList.Distinct().ToList();
         x.Sort();
         FileExt.ExtensionList.Clear();
         foreach (string item in x)
@@ -138,7 +138,7 @@ public partial class MainPage : Page
             FileExt.ExtensionList.Add(item);
         }
     }
-    #endregion Sort the extension list
+    #endregion Remove duplicates and sort the extension list
 
     private void Page_Loaded(object sender, RoutedEventArgs e)
     {
