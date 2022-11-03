@@ -5,17 +5,38 @@
     <TargetFramework>net6.0-windows</TargetFramework>
     <Nullable>disable</Nullable>
     <UseWPF>true</UseWPF>
+    <Description>TBD</Description>
+    <Copyright>Copyright © $([System.DateTime]::UtcNow.Year) Tim Kennedy</Copyright>
+    <Authors>Tim Kennedy</Authors>
+    <Company>T_K</Company>
+    <Product>Download Folder Watcher</Product>
+    <ApplicationIcon>Images\W.ico</ApplicationIcon>
+    <PlatformTarget>x64</PlatformTarget>
+    <Platforms>x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MaterialDesignThemes" Version="4.6.1" />
-    <PackageReference Include="NLog" Version="5.0.4" />
+    <Resource Include="Images\W.ico" />
+    <Resource Include="Images\W.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Images\" />
-    <Folder Include="Dialogs\" />
-    <Folder Include="Pages\" />
+    <PackageReference Include="GitVersion.MsBuild" Version="5.10.3">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
+    <PackageReference Include="MaterialDesignExtensions" Version="3.3.0" />
+    <PackageReference Include="MaterialDesignThemes" Version="4.6.1" />
+    <PackageReference Include="Microsoft.VisualBasic" Version="10.3.0" />
+    <PackageReference Include="NLog" Version="5.0.5" />
+    <PackageReference Include="ObservableConcurrentQueue" Version="2.0.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="ReadMe.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <Target Name="BuildInfo" AfterTargets="UpdateAssemblyInfo">

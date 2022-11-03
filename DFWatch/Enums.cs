@@ -5,13 +5,17 @@ namespace DFWatch;
 /// <summary>
 /// Navigation Page
 /// </summary>
-internal enum NavPage
+public enum NavPage
 {
-    Drives = 0,
-    Disks = 1,
-    Settings = 3,
-    About = 4,
-    Exit = 6
+    Main = 0,
+    Logs = 1,
+    // separator
+    Start = 3,
+    Stop = 4,
+    // separator
+    Settings = 6,
+    About = 7,
+    Exit = 8
 }
 
 /// <summary>

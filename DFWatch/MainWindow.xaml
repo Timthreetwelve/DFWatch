@@ -1,35 +1,218 @@
-﻿<Window x:Class="DFWatch.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:local="clr-namespace:DFWatch"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        mc:Ignorable="d" Title="MDIX Starter"
-        Width="400" Height="400"
-        Activated="Window_Activated"
-        Closing="Window_Closing" FontSize="12"
-        Style="{StaticResource MaterialDesignWindow}"
-        Background="{DynamicResource MaterialDesignPaper}"
-        TextElement.FontWeight="Regular"
-        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
-        TextOptions.TextFormattingMode="Ideal"
-        TextOptions.TextRenderingMode="Auto"
-        WindowStartupLocation="CenterScreen">
+﻿<mde:MaterialWindow x:Class="DFWatch.MainWindow"
+                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                    xmlns:local="clr-namespace:DFWatch"
+                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+                    xmlns:mde="https://spiegelp.github.io/MaterialDesignExtensions/winfx/xaml"
+                    xmlns:tb="http://www.hardcodet.net/taskbar"
+                    mc:Ignorable="d"
+                    MinHeight="375"
+                    MinWidth="575"
+                    Activated="Window_Activated"
+                    Background="{DynamicResource MaterialDesignPaper}"
+                    Closing="Window_Closing"
+                    FadeContentIfInactive="False"
+                    FontSize="12"
+                    Foreground="{DynamicResource MaterialDesignBody}"
+                    Loaded="Window_Loaded"
+                    WindowStartupLocation="CenterScreen">
 
-    <Grid x:Name="MainGrid">
-        <!--#region Row definitions-->
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <!--#endregion-->
+    <md:DialogHost CloseOnClickAway="False"
+                   DialogTheme="Inherit" Focusable="False"
+                   Identifier="MainDialogHost">
 
-        <TextBlock Grid.Row="1" Margin="20"
-                   HorizontalAlignment="Center"
-                   VerticalAlignment="Center" FontSize="24"
-                   Text="MDIX Starter" />
+        <Grid x:Name="MainGrid">
+            <!--#region Row definitions-->
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <!--#endregion-->
 
-    </Grid>
-</Window>
+            <!--#region Icon with Context menu in system tray-->
+            <tb:TaskbarIcon x:Name="tbIcon"
+                            IconSource="/Images/W.ico"
+                            MenuActivation="RightClick"
+                            ToolTipText="Change This"
+                            TrayLeftMouseDown="TbIconShowMainWindow_Click"
+                            TrayMouseDoubleClick="TbIconShowMainWindow_Click">
+                <tb:TaskbarIcon.ContextMenu>
+                    <ContextMenu Name="trayMenu"
+                                 Style="{StaticResource MaterialDesignContextMenu}"
+                                 UsesItemContainerTemplate="True">
+                        <MenuItem Command="{x:Static local:CustomCommands.ShowMainWindow}"
+                                  CommandTarget="{Binding Path=PlacementTarget,
+                                                          RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                        <Separator />
+                        <MenuItem Command="local:CustomCommands.StartWatching"
+                                  CommandTarget="{Binding Path=PlacementTarget,
+                                                          RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                        <MenuItem Command="local:CustomCommands.StopWatching"
+                                  CommandTarget="{Binding Path=PlacementTarget,
+                                                          RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+                        <Separator />
+                        <MenuItem Command="local:CustomCommands.Exit"
+                                  CommandTarget="{Binding Path=PlacementTarget,
+                                                          RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+
+                        <ContextMenu.CommandBindings>
+                            <CommandBinding CanExecute="Command_CanExecute"
+                                            Command="local:CustomCommands.Exit"
+                                            Executed="ExitCommand_Executed" />
+
+                            <CommandBinding CanExecute="Command_CanExecute"
+                                            Command="local:CustomCommands.ShowMainWindow"
+                                            Executed="ShowCommand_Executed" />
+
+                            <CommandBinding CanExecute="StopCommand_CanExecute"
+                                            Command="local:CustomCommands.StopWatching"
+                                            Executed="StopWatching_Executed" />
+
+                            <CommandBinding CanExecute="StartCommand_CanExecute"
+                                            Command="local:CustomCommands.StartWatching"
+                                            Executed="StartWatching_Executed" />
+                        </ContextMenu.CommandBindings>
+                    </ContextMenu>
+                </tb:TaskbarIcon.ContextMenu>
+            </tb:TaskbarIcon>
+            <!--#endregion-->
+
+            <!--#region Navigation menu-->
+            <md:Card Grid.Row="0" Grid.Column="0"
+                     md:ElevationAssist.Elevation="Dp0"
+                     UniformCornerRadius="0">
+                <Grid>
+                    <ListBox x:Name="LbxNavigation"
+                             SelectionChanged="LbxNavigation_SelectionChanged"
+                             Style="{StaticResource NavListBox}">
+                        <ListBoxItem Style="{StaticResource NavPaneListBoxItem}">
+                            <ListBoxItem.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <md:PackIcon Width="24" Height="24"
+                                                 VerticalAlignment="Center"
+                                                 Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                                 Kind="FileMoveOutline" />
+                                    <TextBlock Margin="10,0" VerticalAlignment="Center"
+                                               Text="Watcher Settings" />
+                                </StackPanel>
+                            </ListBoxItem.Content>
+                        </ListBoxItem>
+
+                        <ListBoxItem Style="{StaticResource NavPaneListBoxItem}">
+                            <ListBoxItem.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <md:PackIcon Width="24" Height="24"
+                                                 VerticalAlignment="Center"
+                                                 Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                                 Kind="DocumentSign" />
+                                    <TextBlock Margin="10,0" VerticalAlignment="Center"
+                                               Text="Watcher Log" />
+                                </StackPanel>
+                            </ListBoxItem.Content>
+                        </ListBoxItem>
+
+                        <Separator Background="{DynamicResource PrimaryHueMidBrush}" />
+
+                        <ListBoxItem Style="{StaticResource NavPaneListBoxItem}">
+                            <ListBoxItem.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <md:PackIcon Width="24" Height="24"
+                                                 VerticalAlignment="Center"
+                                                 Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                                 Kind="Play" />
+                                    <TextBlock Margin="10,0" VerticalAlignment="Center"
+                                               Text="Start" />
+                                </StackPanel>
+                            </ListBoxItem.Content>
+                        </ListBoxItem>
+
+                        <ListBoxItem Style="{StaticResource NavPaneListBoxItem}">
+                            <ListBoxItem.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <md:PackIcon Width="24" Height="24"
+                                                 VerticalAlignment="Center"
+                                                 Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                                 Kind="Pause" />
+                                    <TextBlock Margin="10,0" VerticalAlignment="Center"
+                                               Text="Stop" />
+                                </StackPanel>
+                            </ListBoxItem.Content>
+                        </ListBoxItem>
+
+                        <Separator Background="{DynamicResource PrimaryHueMidBrush}" />
+
+                        <ListBoxItem Style="{StaticResource NavPaneListBoxItem}">
+                            <ListBoxItem.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <md:PackIcon Width="24" Height="24"
+                                                 VerticalAlignment="Center"
+                                                 Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                                 Kind="CogOutline" />
+                                    <TextBlock Margin="10,0" VerticalAlignment="Center"
+                                               Text="App Settings" />
+                                </StackPanel>
+                            </ListBoxItem.Content>
+                        </ListBoxItem>
+
+                        <ListBoxItem Style="{StaticResource NavPaneListBoxItem}">
+                            <ListBoxItem.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <md:PackIcon Width="24" Height="24"
+                                                 VerticalAlignment="Center"
+                                                 Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                                 Kind="AboutOutline" />
+                                    <TextBlock Margin="10,0" VerticalAlignment="Center"
+                                               Text="About" />
+                                </StackPanel>
+                            </ListBoxItem.Content>
+                        </ListBoxItem>
+
+                        <ListBoxItem Style="{StaticResource NavPaneListBoxItem}">
+                            <ListBoxItem.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <md:PackIcon Width="24" Height="24"
+                                                 VerticalAlignment="Center"
+                                                 Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                                 Kind="ExitRun" />
+                                    <TextBlock Margin="10,0" VerticalAlignment="Center"
+                                               Text="Exit" />
+                                </StackPanel>
+                            </ListBoxItem.Content>
+                        </ListBoxItem>
+                    </ListBox>
+                </Grid>
+            </md:Card>
+            <!--#endregion-->
+
+            <Frame x:Name="MainFrame"
+                   Grid.Row="0" Grid.Column="1"
+                   NavigationUIVisibility="Hidden" />
+
+            <!--#region Status bar-->
+            <md:Card Grid.Row="3" Grid.Column="0"
+                           MouseDoubleClick="Sbar_MouseDoubleClick"
+                     Grid.ColumnSpan="2" Height="35">
+                <StatusBar Name="sbar"
+                           Background="{DynamicResource CardBackground}"
+                           FontSize="14"
+                           Foreground="{DynamicResource MaterialDesignBody}">
+                    <StatusBarItem x:Name="sbStatus"
+                                   Padding="20,2" />
+                    <StatusBarItem x:Name="sbNLog"
+                                   Padding="10,2" />
+                    <StatusBarItem x:Name="sbMessage"
+                                   Padding="25,2"
+                                   HorizontalAlignment="Right"
+                                   HorizontalContentAlignment="Right" />
+                </StatusBar>
+            </md:Card>
+            <!--#endregion-->
+        </Grid>
+    </md:DialogHost>
+</mde:MaterialWindow>

@@ -30,6 +30,6 @@ internal static class Heartbeat
 
     private static void TimerElapsed(object sender, ElapsedEventArgs e)
     {
-        log.Info("15 minute heartbeat");
+        log.Info("Heartbeat every 15 minutes");
     }
 }

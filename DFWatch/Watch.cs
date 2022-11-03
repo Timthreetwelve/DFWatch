@@ -2,9 +2,9 @@
 
 namespace DFWatch;
 
-internal static class Watch
+public static class Watch
 {
-    private static readonly FileSystemWatcher watcher = new();
+    public static readonly FileSystemWatcher watcher = new();
     private static readonly Logger log = LogManager.GetLogger("logTemp");
 
     public static void StartWatcher()
@@ -17,30 +17,67 @@ internal static class Watch
         watcher.Renamed += File_Renamed;
         watcher.Deleted += File_Deleted;
         watcher.EnableRaisingEvents = true;
-        log.Info($"The file system watcher has started watching {watcher.Path}.");
+        (Application.Current.MainWindow as MainWindow)?.SetStausMsg("Running");
+        log.Info($"{AppInfo.AppName} has started watching {watcher.Path}.");
     }
 
     public static void StopWatcher()
     {
         if (watcher != null)
         {
-            watcher.EnableRaisingEvents=false;
-            watcher.Dispose();
-            log.Info($"The file system watcher has stopped watching {watcher.Path}.");
+            watcher.EnableRaisingEvents = false;
+            (Application.Current.MainWindow as MainWindow)?.SetStausMsg("Stopped");
+            log.Info($"{AppInfo.AppName} has stopped watching {watcher.Path}.");
         }
     }
+
+    public static void DisposeWatcher()
+    {
+        if (watcher != null)
+        {
+            watcher.EnableRaisingEvents = false;
+            watcher.Dispose();
+
+            log.Info($"{AppInfo.AppName} has stopped watching {watcher.Path}.");
+        }
+    }
+
     private static void File_Renamed(object sender, RenamedEventArgs e)
     {
-        log.Debug($"file renamed: {e.Name} ");
+        log.Debug($"File renamed: {e.Name} ");
+
+        string thisFileExt = (Path.GetExtension(e.Name) ?? string.Empty).ToLower();
+
+        FileInfo fileInfo = new(e.FullPath);
+        if (Files.CheckExtension(FileExt.ExtensionList, thisFileExt))
+        {
+            Files.MoveFile(fileInfo);
+        }
+        else
+        {
+            log.Debug($"{thisFileExt} in not in the list of extensions. No action taken on file {e.Name}.");
+        }
     }
 
     private static void File_Created(object sender, FileSystemEventArgs e)
     {
-        log.Debug($"file created: {e.Name} ");
+        log.Debug($"File created: {e.Name} ");
+
+        string thisFileExt = (Path.GetExtension(e.Name) ?? string.Empty).ToLower();
+
+        FileInfo fileInfo = new(e.FullPath);
+        if (Files.CheckExtension(FileExt.ExtensionList, thisFileExt))
+        {
+            Files.MoveFile(fileInfo);
+        }
+        else
+        {
+            log.Debug($"{thisFileExt} in not in the list of extensions. No action taken on file {e.Name}.");
+        }
     }
 
     private static void File_Deleted(object sender, FileSystemEventArgs e)
     {
-        log.Debug($"file deleted: {e.Name} ");
+        log.Debug($"File deleted: {e.Name} ");
     }
 }

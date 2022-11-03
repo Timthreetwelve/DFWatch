@@ -11,19 +11,24 @@ internal static class NLHelpers
     /// <summary>
     /// Configure NLog
     /// </summary>
-    /// <param name="newfile">True to start with new log file. False to append to current file.</param>
-    public static void NLogConfig(bool newfile)
+    public static void NLogConfig()
     {
         LoggingConfiguration config = new();
 
         // create log file Target for NLog
         FileTarget logfile = new("logfile")
         {
-            // new file on startup
-            DeleteOldFileOnStartup = newfile,
+            // filename
+            FileName = "${basedir}Logs${dir-separator}${processname}.log",
 
-            // create the file if needed
-            FileName = CreateFilename(),
+            // create directories if needed
+            CreateDirs = true,
+
+            // archive parameters
+            ArchiveFileName = "${basedir}Logs${dir-separator}${processname}.{##}.log",
+            ArchiveNumbering = ArchiveNumberingMode.Sequence,
+            ArchiveAboveSize = 1024000,
+            MaxArchiveFiles = 10,
 
             // message and footer layouts
             Footer = "${date:format=yyyy/MM/dd HH\\:mm\\:ss}",
@@ -55,6 +60,25 @@ internal static class NLHelpers
         LoggingRule bug = new("*", LogLevel.Debug, debugger);
         config.LoggingRules.Add(bug);
 
+        // Method target
+        MethodCallTarget method = new("methodCall")
+        {
+            ClassName = typeof(MainWindow).AssemblyQualifiedName,
+            MethodName = "LogMethod"
+        };
+        method.Parameters.Add(new MethodCallParameter("${level:format=TriLetter:uppercase=true}"));
+        method.Parameters.Add(new MethodCallParameter("${message}"));
+
+        // add the target
+        config.AddTarget(method);
+
+        // add the rule
+        LoggingRule meth = new("*", LogLevel.Debug, method)
+        {
+            RuleName = "LogToMethod"
+        };
+        config.LoggingRules.Add(meth);
+
         // add the configuration to NLog
         LogManager.Configuration = config;
 
@@ -62,28 +86,6 @@ internal static class NLHelpers
         SetLogLevel(UserSettings.Setting.IncludeDebug);
     }
     #endregion Create the NLog configuration
-
-    #region Create a filename in the temp folder
-    private static string CreateFilename()
-    {
-        // create filename string
-        string myname = AppInfo.AppName;
-        string today = DateTime.Now.ToString("yyyyMMdd");
-        string filename;
-        if (Debugger.IsAttached)
-        {
-            filename = $"{myname}.{today}.debug.log";
-        }
-        else
-        {
-            filename = $"{myname}.{today}.log";
-        }
-
-        // combine temp folder with filename
-        string tempdir = Path.GetTempPath();
-        return Path.Combine(tempdir, "T_K", filename);
-    }
-    #endregion Create a filename in the temp folder
 
     #region Set NLog logging level
     /// <summary>
@@ -94,16 +96,19 @@ internal static class NLHelpers
     {
         LoggingConfiguration config = LogManager.Configuration;
 
-        LoggingRule rule = config.FindRuleByName("LogToFile");
-        if (rule != null)
+        LoggingRule rule1 = config.FindRuleByName("LogToFile");
+        LoggingRule rule2 = config.FindRuleByName("LogToMethod");
+        if (rule1 != null)
         {
             if (debug)
             {
-                rule.SetLoggingLevels(LogLevel.Debug, LogLevel.Fatal);
+                rule1.SetLoggingLevels(LogLevel.Debug, LogLevel.Fatal);
+                rule2.SetLoggingLevels(LogLevel.Debug, LogLevel.Fatal);
             }
             else
             {
-                rule.SetLoggingLevels(LogLevel.Info, LogLevel.Fatal);
+                rule1.SetLoggingLevels(LogLevel.Info, LogLevel.Fatal);
+                rule2.SetLoggingLevels(LogLevel.Info, LogLevel.Fatal);
             }
             LogManager.ReconfigExistingLoggers();
         }
@@ -121,8 +126,7 @@ internal static class NLHelpers
         Target target = config.FindTargetByName("logfile");
         if (target is FileTarget ft)
         {
-            // remove the enclosing apostrophes
-            return ft.FileName.ToString().Trim('\'');
+            return ft.FileName.Render(new LogEventInfo());
         }
         return string.Empty;
     }

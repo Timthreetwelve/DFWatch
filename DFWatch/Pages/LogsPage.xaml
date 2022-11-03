@@ -1,0 +1,79 @@
+﻿<Page x:Class="DFWatch.Pages.LogsPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:local="clr-namespace:DFWatch"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
+      mc:Ignorable="d" Title="LogsPage"
+      d:DesignHeight="450" d:DesignWidth="800"
+      Background="{DynamicResource MaterialDesignPaper}"
+      Loaded="Page_Loaded"
+      TextElement.FontSize="14"
+      TextElement.FontWeight="Regular"
+      TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+      TextOptions.TextFormattingMode="Ideal"
+      TextOptions.TextRenderingMode="Auto">
+
+    <Page.Resources>
+        <local:ColorConverter x:Key="ColorConverter" />
+    </Page.Resources>
+
+    <Grid>
+        <!--#region Row & Column definitions-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="55" />
+        </Grid.RowDefinitions>
+        <!--#endregion-->
+
+        <TextBlock Margin="21,5" FontWeight="DemiBold"
+                   Text="Last 100 Log Messages:" />
+        <TextBlock Margin="22,5"
+                   HorizontalAlignment="Right"
+                   FontWeight="DemiBold"
+                   Text="{Binding Count,
+                                  Source={x:Static local:MsgQueue.MessageQueue}}" />
+        <ListBox x:Name="lb1"
+                 Grid.Row="1" Margin="20,5"
+                 BorderBrush="{DynamicResource MaterialDesignDivider}"
+                 BorderThickness="1.25"
+                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                 ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem"
+                       BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                    <Setter Property="Height" Value="26" />
+                    <Setter Property="IsHitTestVisible" Value="False" />
+                    <Setter Property="Margin" Value="1,-1" />
+                    <Setter Property="Padding" Value="5" />
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Foreground="{Binding Converter={StaticResource ColorConverter}}"
+                               Text="{Binding}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <StackPanel Grid.Row="2" Margin="21,0"
+                    HorizontalAlignment="Center"
+                    Orientation="Horizontal">
+            <Button Margin="0,0,20,0"
+                    Click="BtnLogFile_Click"
+                    Content="View Log File"
+                    Style="{StaticResource MaterialDesignPaperButton}" />
+            <Button Margin="0,0,20,0"
+                    Click="BtnLogFolder_Click"
+                    Content="Open Logs Folder"
+                    Style="{StaticResource MaterialDesignPaperButton}" />
+            <ToggleButton Margin="0,0,20,0" Padding="0" Height="30"
+                          md:ToggleButtonAssist.OnContent="{md:PackIcon Kind=CheckBold,
+                                                                        Size=20}"
+                          Content="Color Messages" FontSize="14"
+                          Style="{StaticResource MaterialDesignSwitchToggleButton}" />
+        </StackPanel>
+    </Grid>
+</Page>
