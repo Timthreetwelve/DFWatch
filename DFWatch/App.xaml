@@ -48,17 +48,19 @@
                    BasedOn="{StaticResource MaterialDesignScrollBarMinimal}" />
             <!--#endregion-->
 
-            <Style TargetType="ListBoxItem"
-                   x:Key="ListBoxComfortable"
-                   BasedOn="{StaticResource {x:Type ListBoxItem}}">
-                <Setter Property="FocusVisualStyle" Value="{x:Null}" />
-                <Setter Property="Height"
-                        Value="58" />
-                <Setter Property="Margin"
-                        Value="10,4,10,4" />
-                <Setter Property="Padding"
-                        Value="3,3,20,5" />
+            <!--#region Style to enable thicker separators in the nav menu -->
+            <Style TargetType="Separator">
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Separator}">
+                            <Rectangle Height="{TemplateBinding Height}"
+                                       Fill="{DynamicResource PrimaryHueMidBrush}" />
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
             </Style>
+            <!--#endregion-->
+
         </ResourceDictionary>
     </Application.Resources>
 </Application>
