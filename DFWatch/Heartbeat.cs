@@ -1,10 +1,12 @@
 ﻿// Copyright (c) Tim Kennedy. All Rights Reserved. Licensed under the MIT License.
 
+//! Be mindful that log messages that begin with "Heartbeat" are parsed differently in ColorConverter.cs
+
 namespace DFWatch;
 
 internal static class Heartbeat
 {
-    private static Timer heartbeatTimer;
+    private static System.Timers.Timer heartbeatTimer;
     private static readonly Logger log = LogManager.GetLogger("logTemp");
 
     public static void StartHeartbeat()
@@ -12,7 +14,7 @@ internal static class Heartbeat
         if (UserSettings.Setting.Heartbeat)
         {
             TimeSpan interval = TimeSpan.FromMinutes(15);
-            heartbeatTimer = new Timer(interval.TotalMilliseconds)
+            heartbeatTimer = new System.Timers.Timer(interval.TotalMilliseconds)
             {
                 AutoReset = true
             };
