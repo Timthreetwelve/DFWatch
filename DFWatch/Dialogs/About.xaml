@@ -16,7 +16,6 @@
              TextOptions.TextFormattingMode="Ideal"
              TextOptions.TextRenderingMode="Auto">
 
-
     <Border BorderBrush="{DynamicResource PrimaryHueMidBrush}"
             BorderThickness="1" CornerRadius="0">
         <Grid>
@@ -95,7 +94,7 @@
                            Text="{x:Static dfw:AppInfo.AppName}" />
                 <TextBlock Grid.Row="0" Grid.Column="1"
                            Padding="0,0,10,0"
-                           Text="Watch Downloads folder and move files"
+                           Text="Move files from Downloads folder"
                            TextTrimming="CharacterEllipsis" />
 
                 <TextBlock Grid.Row="1" Grid.Column="0"
