@@ -1,7 +1,5 @@
 ﻿// Copyright (c) Tim Kennedy. All Rights Reserved. Licensed under the MIT License.
 
-using System.Threading;
-
 namespace DFWatch;
 /// <summary>
 /// Interaction logic for MainWindow.xaml
@@ -19,8 +17,11 @@ public partial class MainWindow : MaterialWindow
     #region Private fields
     private static SolidColorBrush TitleBrush;
     private readonly DispatcherTimer msgTimer = new();
-    public static StatusBarItem status;
     #endregion Private fields
+
+    #region Public properties
+    public static StatusBarItem Status { get; set; }
+    #endregion Public properties
 
     public MainWindow()
     {
@@ -37,6 +38,10 @@ public partial class MainWindow : MaterialWindow
             if (UserSettings.Setting.WatchOnStart)
             {
                 Watch.StartWatcher();
+            }
+            else
+            {
+                UpdateStartStopMenu(false);
             }
         }
 
@@ -337,7 +342,7 @@ public partial class MainWindow : MaterialWindow
                 break;
 
             case NavPage.Logs:
-                _ = MainFrame.Navigate(new LogsPage());
+                _ = MainFrame.Navigate(new LogPage());
                 break;
 
             case NavPage.Settings:
@@ -369,7 +374,6 @@ public partial class MainWindow : MaterialWindow
     {
         NavigateToPage((NavPage)LbxNavigation.SelectedIndex);
     }
-
     #endregion Navigation
 
     #region Window Events
@@ -380,7 +384,8 @@ public partial class MainWindow : MaterialWindow
 
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-        status = sbNLog;
+        //Todo is this still needed?
+        Status = sbNLog;
     }
 
     private void Window_Closing(object sender, CancelEventArgs e)
@@ -457,7 +462,7 @@ public partial class MainWindow : MaterialWindow
     #region Log watcher error
     private void Watcher_Error(object sender, ErrorEventArgs e)
     {
-        sbStatus.Content = "Error";
+        sbStatus.Content = "Error. See the log file.";
         log.Error($"FileWatcher reports an error {e.GetException()}");
     }
     #endregion Log watcher error
@@ -466,7 +471,7 @@ public partial class MainWindow : MaterialWindow
     /// <summary>
     /// Show the main window and set it's state to normal
     /// </summary>
-    private static void ShowMainWindow()
+    public static void ShowMainWindow()
     {
         Application.Current.MainWindow.Show();
         Application.Current.MainWindow.Visibility = Visibility.Visible;
@@ -475,6 +480,13 @@ public partial class MainWindow : MaterialWindow
     }
 
     private void TbIconShowMainWindow_Click(object sender, RoutedEventArgs e)
+    {
+        ShowMainWindow();
+    }
+
+#pragma warning disable CA1822 // Mark members as static
+    public void BringToForeground()
+#pragma warning restore CA1822 // Mark members as static
     {
         ShowMainWindow();
     }
@@ -599,7 +611,7 @@ public partial class MainWindow : MaterialWindow
     public void DisappearingMessage(string msg)
     {
         sbMessage.Content = msg;
-        msgTimer.Interval = TimeSpan.FromSeconds(3);
+        msgTimer.Interval = TimeSpan.FromSeconds(5);
         msgTimer.Tick += MsgTimer_Tick;
         msgTimer.Start();
     }
@@ -618,6 +630,23 @@ public partial class MainWindow : MaterialWindow
     }
     #endregion Status message
 
+    #region Enable/Disable start and stop in navigation menu
+    public void UpdateStartStopMenu(bool value)
+    {
+        if (value)
+        {
+            lbiStart.IsEnabled = false;
+            lbiStop.IsEnabled = true;
+        }
+        else
+        {
+            lbiStart.IsEnabled = true;
+            lbiStop.IsEnabled = false;
+        }
+    }
+    #endregion Enable/Disable start and stop in navigation menu
+
+    #region NLog "Method" target - writes to the message queue
     public static void LogMethod(string level, string message)
     {
         if (message.Contains("Setting Change", StringComparison.OrdinalIgnoreCase))
@@ -640,11 +669,12 @@ public partial class MainWindow : MaterialWindow
                 }
                 catch (Exception ex)
                 {
-                    Debug.WriteLine(ex);
+                    log.Error(ex, "Error while adding message to queue.");
                 }
             }
         }));
     }
+    #endregion NLog "Method" target - writes to the message queue
 
     #region Check source folder on startup
     private static void CheckOnStart()
@@ -680,6 +710,7 @@ public partial class MainWindow : MaterialWindow
     }
     #endregion Check source folder on startup
 
+    #region Double-click status bar for optimal window size
     private void Sbar_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
         SizeToContent = SizeToContent.WidthAndHeight;
@@ -688,4 +719,103 @@ public partial class MainWindow : MaterialWindow
         SizeToContent = SizeToContent.Manual;
         Width = width + 1;
     }
+    #endregion Double-click status bar for optimal window size
+
+    #region Key down events
+    /// <summary>
+    /// Keyboard events for window
+    /// </summary>
+    private void Window_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.L && Keyboard.Modifiers == ModifierKeys.Control)
+        {
+            NavigateToPage(NavPage.Logs);
+        }
+        if (e.Key == Key.W && Keyboard.Modifiers == ModifierKeys.Control)
+        {
+            NavigateToPage(NavPage.Main);
+        }
+        if (e.Key == Key.S && Keyboard.Modifiers == ModifierKeys.Control)
+        {
+            Watch.StartWatcher();
+            DisappearingMessage("Watcher Started");
+        }
+        if (e.Key == Key.P && Keyboard.Modifiers == ModifierKeys.Control)
+        {
+            Watch.StopWatcher();
+            DisappearingMessage("Watcher Stopped");
+        }
+
+        if (e.Key == Key.Add && Keyboard.Modifiers == ModifierKeys.Control)
+        {
+            EverythingLarger();
+        }
+        if (e.Key == Key.Subtract && Keyboard.Modifiers == ModifierKeys.Control)
+        {
+            EverythingSmaller();
+        }
+        if (e.Key == Key.F1)
+        {
+            if (!DialogHost.IsDialogOpen("MainDialogHost"))
+            {
+                DialogHelpers.ShowAboutDialog();
+            }
+            else
+            {
+                DialogHost.Close("MainDialogHost");
+                DialogHelpers.ShowAboutDialog();
+            }
+        }
+
+        if (e.Key == Key.OemComma && Keyboard.Modifiers == ModifierKeys.Control)
+        {
+            NavigateToPage(NavPage.Settings);
+        }
+
+        if (e.Key == Key.M && Keyboard.Modifiers == ModifierKeys.Control)
+        {
+            switch (UserSettings.Setting.DarkMode)
+            {
+                case (int)ThemeType.Light:
+                    UserSettings.Setting.DarkMode = (int)ThemeType.Dark;
+                    break;
+                case (int)ThemeType.Dark:
+                    UserSettings.Setting.DarkMode = (int)ThemeType.Darker;
+                    break;
+                case (int)ThemeType.Darker:
+                    UserSettings.Setting.DarkMode = (int)ThemeType.System;
+                    break;
+                case (int)ThemeType.System:
+                    UserSettings.Setting.DarkMode = (int)ThemeType.Light;
+                    break;
+            }
+        }
+    }
+    #endregion Key down events
+
+    #region Smaller/Larger
+    public void EverythingSmaller()
+    {
+        int size = UserSettings.Setting.UISize;
+        if (size > 0)
+        {
+            size--;
+            UserSettings.Setting.UISize = size;
+            double newSize = UIScale((MySize)size);
+            MainGrid.LayoutTransform = new ScaleTransform(newSize, newSize);
+        }
+    }
+
+    public void EverythingLarger()
+    {
+        int size = UserSettings.Setting.UISize;
+        if (size < (int)MySize.Largest)
+        {
+            size++;
+            UserSettings.Setting.UISize = size;
+            double newSize = UIScale((MySize)size);
+            MainGrid.LayoutTransform = new ScaleTransform(newSize, newSize);
+        }
+    }
+    #endregion Smaller/Larger
 }
