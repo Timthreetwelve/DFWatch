@@ -14,25 +14,32 @@ internal class ColorConverter : IValueConverter
         {
             if (baseTheme == BaseTheme.Light)
             {
-                if (value.ToString().IndexOf("Heartbeat") == 29)
+                if (UserSettings.Setting.ColoredMessages)
                 {
-                    return Brushes.SlateBlue;
-                }
-                else if (value.ToString().IndexOf("ERR") == 24)
-                {
-                    return Brushes.Red;
-                }
-                else if (value.ToString().IndexOf("WRN") == 24)
-                {
-                    return Brushes.OrangeRed;
-                }
-                else if (value.ToString().IndexOf("INF") == 24)
-                {
-                    return Brushes.DarkGreen;
-                }
-                else if (value.ToString().IndexOf("DBG") == 24)
-                {
-                    return Brushes.DimGray;
+                    if (value.ToString().IndexOf("Heartbeat") == 29)
+                    {
+                        return Brushes.SlateBlue;
+                    }
+                    else if (value.ToString().IndexOf("ERR") == 24)
+                    {
+                        return Brushes.Red;
+                    }
+                    else if (value.ToString().IndexOf("WRN") == 24)
+                    {
+                        return Brushes.OrangeRed;
+                    }
+                    else if (value.ToString().IndexOf("INF") == 24)
+                    {
+                        return Brushes.DarkGreen;
+                    }
+                    else if (value.ToString().IndexOf("DBG") == 24)
+                    {
+                        return Brushes.DimGray;
+                    }
+                    else
+                    {
+                        return Brushes.Black;
+                    }
                 }
                 else
                 {
@@ -41,25 +48,32 @@ internal class ColorConverter : IValueConverter
             }
             else if (baseTheme == BaseTheme.Dark)
             {
-                if (value.ToString().IndexOf("Heartbeat") == 29)
+                if (UserSettings.Setting.ColoredMessages)
                 {
-                    return Brushes.LightSlateGray;
-                }
-                else if (value.ToString().IndexOf("ERR") == 24)
-                {
-                    return Brushes.Red;
-                }
-                else if (value.ToString().IndexOf("WRN") == 24)
-                {
-                    return Brushes.Orange;
-                }
-                else if (value.ToString().IndexOf("INF") == 24)
-                {
-                    return Brushes.MediumSpringGreen;
-                }
-                else if (value.ToString().IndexOf("DBG") == 24)
-                {
-                    return Brushes.SkyBlue;
+                    if (value.ToString().IndexOf("Heartbeat") == 29)
+                    {
+                        return Brushes.LightSlateGray;
+                    }
+                    else if (value.ToString().IndexOf("ERR") == 24)
+                    {
+                        return Brushes.Red;
+                    }
+                    else if (value.ToString().IndexOf("WRN") == 24)
+                    {
+                        return Brushes.Orange;
+                    }
+                    else if (value.ToString().IndexOf("INF") == 24)
+                    {
+                        return Brushes.MediumSpringGreen;
+                    }
+                    else if (value.ToString().IndexOf("DBG") == 24)
+                    {
+                        return Brushes.SkyBlue;
+                    }
+                    else
+                    {
+                        return Brushes.WhiteSmoke;
+                    }
                 }
                 else
                 {

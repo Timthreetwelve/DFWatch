@@ -48,6 +48,16 @@ public class UserSettings : SettingsManager<UserSettings>, INotifyPropertyChange
         }
     }
 
+    public bool ColoredMessages
+    {
+        get => coloredMessages;
+        set
+        {
+            coloredMessages = value;
+            OnPropertyChanged();
+        }
+    }
+
     public int DarkMode
     {
         get => darkmode;
@@ -237,6 +247,7 @@ public class UserSettings : SettingsManager<UserSettings>, INotifyPropertyChange
 
     #region Private backing fields
     private bool checkOnStartup = true;
+    private bool coloredMessages = true;
     private string destinationFolder = string.Empty;
     private bool heartbeat = true;
     private int initialDelay = 1000;
