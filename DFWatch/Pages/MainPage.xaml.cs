@@ -100,7 +100,7 @@ public partial class MainPage : Page
     {
         if (!string.IsNullOrWhiteSpace(tbx1.Text))
         {
-            FileExt newitem = new() { FileExtension = tbx1.Text };
+            FileExt newitem = new() { FileExtension = tbx1.Text.ToLower() };
             log.Debug($"Adding {newitem.FileExtension} to extension list");
             (Application.Current.MainWindow as MainWindow)?.DisappearingMessage($"{newitem.FileExtension} has been added");
             FileExt.ExtensionList.Add(newitem.FileExtension);
@@ -144,35 +144,9 @@ public partial class MainPage : Page
     {
         FileExt.ExtensionList = UserSettings.Setting.ExtensionList;
         lbxExtensions.ItemsSource = FileExt.ExtensionList;
-    }
-
-    private void BtnStop_Click(object sender, RoutedEventArgs e)
-    {
-        Watch.StopWatcher();
-    }
-
-    private void BtnStart_Click_1(object sender, RoutedEventArgs e)
-    {
-        Watch.StartWatcher();
-    }
-
-    private void StartCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-    {
-        e.CanExecute = !Watch.watcher.EnableRaisingEvents;
-    }
-
-    private void StartWatching_Executed(object sender, ExecutedRoutedEventArgs e)
-    {
-        Watch.StartWatcher();
-    }
-
-    private void StopCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-    {
-        e.CanExecute = Watch.watcher.EnableRaisingEvents;
-    }
-
-    private void StopWatching_Executed(object sender, ExecutedRoutedEventArgs e)
-    {
-        Watch.StopWatcher();
+        if (FileExt.ExtensionList.Count == 0)
+        {
+            // some stuff here
+        }
     }
 }

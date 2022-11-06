@@ -16,23 +16,12 @@
       TextOptions.TextFormattingMode="Ideal"
       TextOptions.TextRenderingMode="Auto">
 
-    <!--#region Command Bindings-->
-    <Page.CommandBindings>
-        <CommandBinding CanExecute="StartCommand_CanExecute"
-                        Command="dfw:CustomCommands.StartWatching"
-                        Executed="StartWatching_Executed" />
-
-        <CommandBinding CanExecute="StopCommand_CanExecute"
-                        Command="dfw:CustomCommands.StopWatching"
-                        Executed="StopWatching_Executed" />
-    </Page.CommandBindings>
-    <!--#endregion-->
-
     <Grid Margin="10">
         <!--#region Row & Column definitions-->
         <Grid.RowDefinitions>
             <RowDefinition Height="150" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="10" />
         </Grid.RowDefinitions>
         <!--#endregion-->
 
@@ -112,33 +101,69 @@
         <!--#endregion-->
 
         <!--#region File extensions-->
-        <StackPanel Grid.Row="1" Grid.RowSpan="2"
-                    Grid.Column="0" Orientation="Vertical">
+        <StackPanel Grid.Row="1" Grid.Column="0"
+                    Orientation="Vertical">
             <TextBlock Margin="5,3,0,7"
                        HorizontalAlignment="Left"
                        FontWeight="SemiBold"
                        Text="File Extensions" />
 
-            <StackPanel Orientation="Horizontal">
-                <Border Height="135" Margin="5,1,15,7"
-                        Padding="0" VerticalAlignment="Top"
-                        BorderBrush="{DynamicResource MaterialDesignTextAreaBorder}"
-                        BorderThickness="1" CornerRadius="4">
-
-                    <ListBox x:Name="lbxExtensions"
-                             Width="90" HorizontalAlignment="Left"
-                             VerticalAlignment="Top"
-                             SelectionMode="Extended"
-                             Style="{StaticResource MaterialDesignListBox}">
-                        <ListBox.ItemContainerStyle>
-                            <Style TargetType="ListBoxItem"
-                                   BasedOn="{StaticResource {x:Type ListBoxItem}}">
-                                <Setter Property="Height" Value="33" />
-                                <Setter Property="Padding" Value="10,5,1,5" />
+            <StackPanel VerticalAlignment="Stretch"
+                        Orientation="Horizontal">
+                <StackPanel Orientation="Vertical">
+                    <Border x:Name="bdrLbxExt"
+                            Height="135" Margin="5,1,15,7"
+                            Padding="0" VerticalAlignment="Top"
+                            CornerRadius="4">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesignTextAreaBorder}" />
+                                <Setter Property="BorderThickness" Value="1" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=lbxExtensions, Path=Items.Count}"
+                                                 Value="0">
+                                        <Setter Property="BorderBrush" Value="#b00020" />
+                                        <Setter Property="BorderThickness" Value="2" />
+                                    </DataTrigger>
+                                </Style.Triggers>
                             </Style>
-                        </ListBox.ItemContainerStyle>
-                    </ListBox>
-                </Border>
+                        </Border.Style>
+
+                        <ListBox x:Name="lbxExtensions"
+                                 Width="90" HorizontalAlignment="Left"
+                                 VerticalAlignment="Top"
+                                 SelectionMode="Extended"
+                                 Style="{StaticResource MaterialDesignListBox}">
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem"
+                                       BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                                    <Setter Property="Height" Value="33" />
+                                    <Setter Property="Padding" Value="10,5,1,5" />
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                        </ListBox>
+                    </Border>
+
+                    <TextBlock x:Name="extCount"
+                               Margin="5,0" HorizontalAlignment="Left"
+                               Text="{Binding ElementName=lbxExtensions,
+                                              Path=Items.Count,
+                                              StringFormat='{}{0} Extensions'}">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="FontWeight" Value="Normal" />
+                                <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=lbxExtensions, Path=Items.Count}"
+                                                 Value="0">
+                                        <Setter Property="FontWeight" Value="SemiBold" />
+                                        <Setter Property="Foreground" Value="#b00020" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </StackPanel>
 
                 <StackPanel Orientation="Vertical">
                     <TextBox x:Name="tbx1"
@@ -147,10 +172,12 @@
                              HorizontalAlignment="Right"
                              HorizontalContentAlignment="Center"
                              VerticalContentAlignment="Center"
+                             md:ElevationAssist.Elevation="Dp24"
                              md:HintAssist.FloatingOffset="-5,-25"
                              md:HintAssist.FloatingScale="1.1"
-                             md:HintAssist.Hint="new ext"
+                             md:HintAssist.Hint="Add Here"
                              md:HintAssist.IsFloating="True"
+                             md:ShadowAssist.Darken="True"
                              PreviewKeyDown="Tbx1_PreviewKeyDown"
                              PreviewTextInput="Tbx1_PreviewTextInput"
                              Style="{StaticResource MaterialDesignOutlinedTextBox}"
@@ -172,7 +199,7 @@
         </StackPanel>
         <!--#endregion-->
 
-        <!--#region Numeric Up/Down-->
+        <!--#region Retries and delay-->
         <StackPanel Grid.Row="1" Margin="275,5,0,0"
                     Orientation="Horizontal">
             <StackPanel Orientation="Vertical">
@@ -207,17 +234,7 @@
         <!--#region Toggle buttons-->
         <StackPanel Grid.Row="1" Margin="275,80,0,0"
                     Orientation="Vertical">
-            <StackPanel Margin="0,0,0,5"
-                        Orientation="Horizontal">
-                <ToggleButton HorizontalAlignment="Left"
-                              md:ToggleButtonAssist.OnContent="{md:PackIcon Kind=CheckBold,
-                                                                            Size=20}"
-                              IsChecked="{Binding StartWithWindows,
-                                                  Source={x:Static dfw:UserSettings.Setting}}"
-                              Style="{StaticResource MaterialDesignSwitchToggleButton}" />
-                <Label Margin="10,0,0,0"
-                       Content="Start with Windows" />
-            </StackPanel>
+
             <StackPanel Margin="0,0,0,5"
                         Orientation="Horizontal">
                 <ToggleButton HorizontalAlignment="Left"
@@ -250,27 +267,6 @@
                               Style="{StaticResource MaterialDesignSwitchToggleButton}" />
                 <Label Margin="10,0,0,0"
                        Content="Heartbeat message in log" />
-            </StackPanel>
-        </StackPanel>
-        <!--#endregion-->
-
-        <!--#region Start & Stop buttons-->
-        <StackPanel Grid.Row="1" Margin="0,200,0,0"
-                    VerticalAlignment="Top"
-                    Orientation="Vertical">
-            <TextBlock Margin="5,0" FontWeight="DemiBold"
-                       Text="Watcher Control" />
-            <StackPanel Orientation="Horizontal">
-                <Button x:Name="btnStart"
-                        Width="100" Margin="7,10"
-                        Command="{x:Static dfw:CustomCommands.StartWatching}"
-                        Content="Start"
-                        Style="{StaticResource MaterialDesignPaperButton}" />
-                <Button x:Name="btnStop"
-                        Width="100" Margin="10,10"
-                        Command="{x:Static dfw:CustomCommands.StopWatching}"
-                        Content="Stop"
-                        Style="{StaticResource MaterialDesignPaperButton}" />
             </StackPanel>
         </StackPanel>
         <!--#endregion-->
