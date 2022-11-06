@@ -3,13 +3,11 @@
 namespace DFWatch.Pages;
 
 /// <summary>
-/// Interaction logic for LogsPage.xaml
+/// Interaction logic for LogPage.xaml
 /// </summary>
-public partial class LogsPage : Page
+public partial class LogPage : Page
 {
-    internal static LogsPage LogPage { get; set; }
-
-    public LogsPage()
+    public LogPage()
     {
         InitializeComponent();
 
@@ -35,7 +33,6 @@ public partial class LogsPage : Page
 
     private void Page_Loaded(object sender, RoutedEventArgs e)
     {
-        LogPage = this;
         ScrollToBottom(lb1);
     }
 
@@ -50,5 +47,10 @@ public partial class LogsPage : Page
         string logFile = NLHelpers.GetLogfileName();
         string folder = Path.GetDirectoryName(logFile);
         _ = Process.Start("explorer.exe", folder);
+    }
+
+    private void ToggleButton_Click(object sender, RoutedEventArgs e)
+    {
+        (Application.Current.MainWindow as MainWindow).NavigateToPage(NavPage.Logs);
     }
 }
