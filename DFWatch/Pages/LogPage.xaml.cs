@@ -49,8 +49,8 @@ public partial class LogPage : Page
         _ = Process.Start("explorer.exe", folder);
     }
 
-    private void ToggleButton_Click(object sender, RoutedEventArgs e)
+    private void BtnColorMsgToggle_Click(object sender, RoutedEventArgs e)
     {
-        (Application.Current.MainWindow as MainWindow).NavigateToPage(NavPage.Logs);
+        (Application.Current.MainWindow as MainWindow)?.NavigateToPage(NavPage.Logs);
     }
 }

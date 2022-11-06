@@ -71,7 +71,7 @@
                     Style="{StaticResource MaterialDesignPaperButton}" />
             <StackPanel Orientation="Horizontal">
                 <ToggleButton HorizontalAlignment="Left"
-                              Click="ToggleButton_Click"
+                              Click="BtnColorMsgToggle_Click"
                               Width="150"
                               Content="Colorize Messages"
                               IsChecked="{Binding ColoredMessages,
