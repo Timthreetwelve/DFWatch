@@ -33,7 +33,6 @@ public class FileExt : INotifyPropertyChanged
     protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        Debug.WriteLine($"{propertyName} has changed");
     }
     #endregion Property changed
 }
