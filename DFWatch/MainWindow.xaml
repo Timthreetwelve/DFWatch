@@ -16,6 +16,7 @@
                     FadeContentIfInactive="False"
                     FontSize="12"
                     Foreground="{DynamicResource MaterialDesignBody}"
+                    KeyDown="Window_KeyDown"
                     Loaded="Window_Loaded"
                     WindowStartupLocation="CenterScreen">
 
@@ -97,7 +98,7 @@
                                     <md:PackIcon Width="24" Height="24"
                                                  VerticalAlignment="Center"
                                                  Foreground="{DynamicResource PrimaryHueMidBrush}"
-                                                 Kind="FileMoveOutline" />
+                                                 Kind="Cog" />
                                     <TextBlock Margin="10,0" VerticalAlignment="Center"
                                                Text="Watcher Settings" />
                                 </StackPanel>
@@ -117,9 +118,10 @@
                             </ListBoxItem.Content>
                         </ListBoxItem>
 
-                        <Separator Background="{DynamicResource PrimaryHueMidBrush}" />
+                        <Separator Height="2"/>
 
-                        <ListBoxItem Style="{StaticResource NavPaneListBoxItem}">
+                        <ListBoxItem Style="{StaticResource NavPaneListBoxItem}"
+                                     x:Name="lbiStart">
                             <ListBoxItem.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <md:PackIcon Width="24" Height="24"
@@ -132,7 +134,8 @@
                             </ListBoxItem.Content>
                         </ListBoxItem>
 
-                        <ListBoxItem Style="{StaticResource NavPaneListBoxItem}">
+                        <ListBoxItem Style="{StaticResource NavPaneListBoxItem}"
+                                     x:Name="lbiStop">
                             <ListBoxItem.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <md:PackIcon Width="24" Height="24"
@@ -145,7 +148,7 @@
                             </ListBoxItem.Content>
                         </ListBoxItem>
 
-                        <Separator Background="{DynamicResource PrimaryHueMidBrush}" />
+                        <Separator Height="2"/>
 
                         <ListBoxItem Style="{StaticResource NavPaneListBoxItem}">
                             <ListBoxItem.Content>
@@ -196,6 +199,7 @@
 
             <!--#region Status bar-->
             <md:Card Grid.Row="3" Grid.Column="0"
+                     md:ElevationAssist.Elevation="Dp4"
                            MouseDoubleClick="Sbar_MouseDoubleClick"
                      Grid.ColumnSpan="2" Height="35">
                 <StatusBar Name="sbar"
