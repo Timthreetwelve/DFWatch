@@ -19,10 +19,6 @@ public partial class MainWindow : MaterialWindow
     private readonly DispatcherTimer msgTimer = new();
     #endregion Private fields
 
-    #region Public properties
-    public static StatusBarItem Status { get; set; }
-    #endregion Public properties
-
     public MainWindow()
     {
         InitializeSettings();
@@ -125,7 +121,6 @@ public partial class MainWindow : MaterialWindow
         // Initial status message
         SetStausMsg("Stopped");
     }
-
     #endregion Settings
 
     #region Setting change
@@ -377,17 +372,6 @@ public partial class MainWindow : MaterialWindow
         {
             Hide();
         }
-    }
-
-    private void Window_Activated(object sender, EventArgs e)
-    {
-        // window activated stuff here
-    }
-
-    private void Window_Loaded(object sender, RoutedEventArgs e)
-    {
-        //Todo is this still needed?
-        Status = sbNLog;
     }
 
     private void Window_Closing(object sender, CancelEventArgs e)

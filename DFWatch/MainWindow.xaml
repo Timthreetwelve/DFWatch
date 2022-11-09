@@ -10,15 +10,12 @@
                     mc:Ignorable="d"
                     MinHeight="375"
                     MinWidth="575"
-                    Activated="Window_Activated"
                     Background="{DynamicResource MaterialDesignPaper}"
-                    
                     Closing="Window_Closing"
                     FadeContentIfInactive="False"
                     FontSize="12"
                     Foreground="{DynamicResource MaterialDesignBody}"
                     KeyDown="Window_KeyDown"
-                    Loaded="Window_Loaded"
                     StateChanged="Window_StateChanged"
                     WindowStartupLocation="CenterScreen">
 
@@ -209,8 +206,6 @@
                            Foreground="{DynamicResource MaterialDesignBody}">
                     <StatusBarItem x:Name="sbStatus"
                                    Padding="20,2" />
-                    <StatusBarItem x:Name="sbNLog"
-                                   Padding="10,2" />
                     <StatusBarItem x:Name="sbMessage"
                                    Padding="25,2"
                                    HorizontalAlignment="Right"
