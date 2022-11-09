@@ -113,7 +113,7 @@
                      PreviewTextInput="NumericBox_PreviewTextInput"
                      Style="{StaticResource MaterialDesignOutlinedTextBox}" />
         </Grid>
-        <Grid Grid.Column="1">
+        <Grid Grid.Column="1" Margin="5,0,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
