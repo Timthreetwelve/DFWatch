@@ -88,12 +88,22 @@ public class UserSettings : SettingsManager<UserSettings>, INotifyPropertyChange
         }
     }
 
-    public bool IncludeDebug
+    public bool IncludeDebugInFile
     {
-        get => includeDebug;
+        get => includeDebugInFile;
         set
         {
-            includeDebug = value;
+            includeDebugInFile = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public bool IncludeDebugInGui
+    {
+        get => includeDebugInGui;
+        set
+        {
+            includeDebugInGui = value;
             OnPropertyChanged();
         }
     }
@@ -121,6 +131,47 @@ public class UserSettings : SettingsManager<UserSettings>, INotifyPropertyChange
         set
         {
             keepOnTop = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public int LogFileSize
+    {
+        get => logFileSize;
+        set
+        {
+            logFileSize = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public int LogFileVersions
+    {
+        get => logFileVersions;
+        set
+        {
+            logFileVersions = value;
+            OnPropertyChanged();
+        }
+    }
+
+
+    public bool MinimizeToTray
+    {
+        get => minimizeToTray;
+        set
+        {
+            minimizeToTray = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public bool MinimizeToTrayOnClose
+    {
+        get => minimizeToTrayOnClose;
+        set
+        {
+            minimizeToTrayOnClose = value;
             OnPropertyChanged();
         }
     }
@@ -158,6 +209,16 @@ public class UserSettings : SettingsManager<UserSettings>, INotifyPropertyChange
         set
         {
             sourceFolder = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public bool StartMinimized
+    {
+        get => startMinimized;
+        set
+        {
+            startMinimized = value;
             OnPropertyChanged();
         }
     }
@@ -254,9 +315,15 @@ public class UserSettings : SettingsManager<UserSettings>, INotifyPropertyChange
     private int numRetries = 5;
     private string sourceFolder = string.Empty;
     private int darkmode = 0;
-    private bool includeDebug = true;
+    private bool includeDebugInFile = true;
+    private bool includeDebugInGui = true;
     private bool keepOnTop = false;
+    private int logFileSize = 20;
+    private int logFileVersions = 10;
+    private bool minimizeToTray = false;
+    private bool minimizeToTrayOnClose = false;
     private int primaryColor = (int)AccentColor.Blue;
+    private bool startMinimized = false;
     private bool startWithWindows = false;
     private int uiSize = (int)MySize.Default;
     private bool watchOnStart = false;
