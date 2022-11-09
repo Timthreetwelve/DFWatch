@@ -119,6 +119,9 @@ public partial class MainWindow : MaterialWindow
         // Watch for errors
         Watch.watcher.Error += Watcher_Error;
 
+        // Session ending
+        Application.Current.SessionEnding += Current_SessionEnding;
+
         // Initial status message
         SetStausMsg("Stopped");
     }
@@ -457,6 +460,16 @@ public partial class MainWindow : MaterialWindow
             MessageBoxImage.Error);
     }
     #endregion Unhandled Exception Handler
+
+    #region Session ending
+    /// <summary>
+    /// Log reason for shutdown
+    /// </summary>
+    private void Current_SessionEnding(object sender, SessionEndingCancelEventArgs e)
+    {
+        log.Info($"{AppInfo.AppName} is stopping due to {e.ReasonSessionEnding}");
+    }
+    #endregion Session ending
 
     #region Log watcher error
     private void Watcher_Error(object sender, ErrorEventArgs e)
