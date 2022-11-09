@@ -15,6 +15,7 @@ internal static class NLHelpers
     {
         LoggingConfiguration config = new();
 
+        #region Log File
         // create log file Target for NLog
         FileTarget logfile = new("logfile")
         {
@@ -46,7 +47,9 @@ internal static class NLHelpers
             RuleName = "LogToFile"
         };
         config.LoggingRules.Add(file);
+        #endregion Log File
 
+        #region Debug
         // create debugger target
         DebuggerTarget debugger = new("debugger")
         {
@@ -59,7 +62,9 @@ internal static class NLHelpers
         // add the rule
         LoggingRule bug = new("*", LogLevel.Debug, debugger);
         config.LoggingRules.Add(bug);
+        #endregion Debug
 
+        #region Method
         // Method target
         MethodCallTarget method = new("methodCall")
         {
@@ -78,6 +83,7 @@ internal static class NLHelpers
             RuleName = "LogToMethod"
         };
         config.LoggingRules.Add(meth);
+        #endregion Method
 
         // add the configuration to NLog
         LogManager.Configuration = config;
