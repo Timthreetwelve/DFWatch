@@ -27,8 +27,8 @@ internal static class NLHelpers
             // archive parameters
             ArchiveFileName = "${basedir}Logs${dir-separator}${processname}.{##}.log",
             ArchiveNumbering = ArchiveNumberingMode.Sequence,
-            ArchiveAboveSize = 1024000,
-            MaxArchiveFiles = 10,
+            ArchiveAboveSize = UserSettings.Setting.LogFileSize * 1024,
+            MaxArchiveFiles = UserSettings.Setting.LogFileVersions,
 
             // message and footer layouts
             Footer = "${date:format=yyyy/MM/dd HH\\:mm\\:ss}",
@@ -83,7 +83,8 @@ internal static class NLHelpers
         LogManager.Configuration = config;
 
         // Lastly, set the logging level based on setting
-        SetLogLevel(UserSettings.Setting.IncludeDebug);
+        SetLogToFileLevel(UserSettings.Setting.IncludeDebugInFile);
+        SetLogToMethodLevel(UserSettings.Setting.IncludeDebugInGui);
     }
     #endregion Create the NLog configuration
 
@@ -92,26 +93,46 @@ internal static class NLHelpers
     /// Set the NLog logging level to Debug or Info
     /// </summary>
     /// <param name="debug">If true set level to Debug, otherwise set to Info</param>
-    public static void SetLogLevel(bool debug)
+    public static void SetLogToFileLevel(bool debug)
     {
         LoggingConfiguration config = LogManager.Configuration;
 
         LoggingRule rule1 = config.FindRuleByName("LogToFile");
-        LoggingRule rule2 = config.FindRuleByName("LogToMethod");
         if (rule1 != null)
         {
             if (debug)
             {
                 rule1.SetLoggingLevels(LogLevel.Debug, LogLevel.Fatal);
-                rule2.SetLoggingLevels(LogLevel.Debug, LogLevel.Fatal);
             }
             else
             {
                 rule1.SetLoggingLevels(LogLevel.Info, LogLevel.Fatal);
+            }
+        }
+        LogManager.ReconfigExistingLoggers();
+    }
+
+    /// <summary>
+    /// Set the NLog logging level to Debug or Info
+    /// </summary>
+    /// <param name="debug">If true set level to Debug, otherwise set to Info</param>
+    public static void SetLogToMethodLevel(bool debug)
+    {
+        LoggingConfiguration config = LogManager.Configuration;
+
+        LoggingRule rule2 = config.FindRuleByName("LogToMethod");
+        if (rule2 != null)
+        {
+            if (debug)
+            {
+                rule2.SetLoggingLevels(LogLevel.Debug, LogLevel.Fatal);
+            }
+            else
+            {
                 rule2.SetLoggingLevels(LogLevel.Info, LogLevel.Fatal);
             }
-            LogManager.ReconfigExistingLoggers();
         }
+        LogManager.ReconfigExistingLoggers();
     }
     #endregion Set NLog logging level
 
