@@ -146,6 +146,7 @@
 
                     <TextBlock x:Name="extCount"
                                Margin="5,0" HorizontalAlignment="Left"
+                               Opacity=".75"
                                Text="{Binding ElementName=lbxExtensions,
                                               Path=Items.Count,
                                               StringFormat='{}{0} Extensions'}">
