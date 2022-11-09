@@ -12,12 +12,14 @@
                     MinWidth="575"
                     Activated="Window_Activated"
                     Background="{DynamicResource MaterialDesignPaper}"
+                    
                     Closing="Window_Closing"
                     FadeContentIfInactive="False"
                     FontSize="12"
                     Foreground="{DynamicResource MaterialDesignBody}"
                     KeyDown="Window_KeyDown"
                     Loaded="Window_Loaded"
+                    StateChanged="Window_StateChanged"
                     WindowStartupLocation="CenterScreen">
 
     <md:DialogHost CloseOnClickAway="False"
@@ -40,7 +42,6 @@
             <tb:TaskbarIcon x:Name="tbIcon"
                             IconSource="/Images/W.ico"
                             MenuActivation="RightClick"
-                            ToolTipText="Change This"
                             TrayLeftMouseDown="TbIconShowMainWindow_Click"
                             TrayMouseDoubleClick="TbIconShowMainWindow_Click">
                 <tb:TaskbarIcon.ContextMenu>

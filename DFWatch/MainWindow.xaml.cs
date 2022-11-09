@@ -48,41 +48,6 @@ public partial class MainWindow : MaterialWindow
         Heartbeat.StartHeartbeat();
     }
 
-    #region Check folders and extension list
-    /// <summary>
-    /// Checks the settings. - This might need to move to a separate file.
-    /// </summary>
-    private static bool CheckFoldersAndExt()
-    {
-        if (UserSettings.Setting.ExtensionList is null
-            || UserSettings.Setting.ExtensionList.Count == 0)
-        {
-            log.Warn("No extensions found in extension list");
-        }
-        else
-        {
-            int count = 0;
-            log.Debug("Extension List:");
-            foreach (var extension in UserSettings.Setting.ExtensionList)
-            {
-                log.Info($"  [{count}] {extension}");
-                count++;
-            }
-        }
-        if (string.IsNullOrEmpty(UserSettings.Setting.SourceFolder))
-        {
-            log.Warn("Source folder not specified");
-            return false;
-        }
-        if (string.IsNullOrEmpty(UserSettings.Setting.DesitinationFolder))
-        {
-            log.Warn("Destination folder not specified");
-            return false;
-        }
-        return true;
-    }
-    #endregion Check folders and extension list
-
     #region Settings
     /// <summary>
     /// Read and apply settings
@@ -108,6 +73,10 @@ public partial class MainWindow : MaterialWindow
         // Set primary accent color
         SetPrimaryColor((AccentColor)UserSettings.Setting.PrimaryColor);
 
+        // UI size
+        double size = UIScale((MySize)UserSettings.Setting.UISize);
+        MainGrid.LayoutTransform = new ScaleTransform(size, size);
+
         // Put version number in window title
         WindowTitleVersionAdmin();
 
@@ -122,16 +91,30 @@ public partial class MainWindow : MaterialWindow
         log.Debug($".NET version: {AppInfo.RuntimeVersion.Replace(".NET", "")}  ({version})");
         log.Debug(AppInfo.Framework);
         log.Debug(AppInfo.OsPlatform);
+        tbIcon.ToolTipText = $"DFWatch {AppInfo.TitleVersion}";
 
         // Window position
         UserSettings.Setting.SetWindowPos();
         Topmost = UserSettings.Setting.KeepOnTop;
 
-        // Settings change event
-        UserSettings.Setting.PropertyChanged += UserSettingChanged;
-
         //Start with main page
         NavigateToPage(NavPage.Main);
+
+        // Minimize to tray
+        tbIcon.Visibility = UserSettings.Setting.MinimizeToTray ? Visibility.Visible : Visibility.Collapsed;
+
+        // Start minimized
+        if (UserSettings.Setting.StartMinimized)
+        {
+            WindowState = WindowState.Minimized;
+            if (UserSettings.Setting.MinimizeToTray)
+            {
+                Hide();
+            }
+        }
+
+        // Settings change event
+        UserSettings.Setting.PropertyChanged += UserSettingChanged;
 
         // Watch for errors
         Watch.watcher.Error += Watcher_Error;
@@ -158,8 +141,12 @@ public partial class MainWindow : MaterialWindow
                 Topmost = (bool)newValue;
                 break;
 
-            case nameof(UserSettings.Setting.IncludeDebug):
-                NLHelpers.SetLogLevel((bool)newValue);
+            case nameof(UserSettings.Setting.IncludeDebugInFile):
+                NLHelpers.SetLogToFileLevel((bool)newValue);
+                break;
+
+            case nameof(UserSettings.Setting.IncludeDebugInGui):
+                NLHelpers.SetLogToMethodLevel((bool)newValue);
                 break;
 
             case nameof(UserSettings.Setting.DarkMode):
@@ -174,6 +161,10 @@ public partial class MainWindow : MaterialWindow
                 int size = (int)newValue;
                 double newSize = UIScale((MySize)size);
                 MainGrid.LayoutTransform = new ScaleTransform(newSize, newSize);
+                break;
+
+            case nameof(UserSettings.Setting.MinimizeToTray):
+                tbIcon.Visibility = (bool)newValue ? Visibility.Visible : Visibility.Collapsed;
                 break;
 
             case nameof(UserSettings.Setting.StartWithWindows):
@@ -377,6 +368,14 @@ public partial class MainWindow : MaterialWindow
     #endregion Navigation
 
     #region Window Events
+    private void Window_StateChanged(object sender, EventArgs e)
+    {
+        if (WindowState == WindowState.Minimized && UserSettings.Setting.MinimizeToTray)
+        {
+            Hide();
+        }
+    }
+
     private void Window_Activated(object sender, EventArgs e)
     {
         // window activated stuff here
@@ -818,4 +817,39 @@ public partial class MainWindow : MaterialWindow
         }
     }
     #endregion Smaller/Larger
+
+    #region Check folders and extension list
+    /// <summary>
+    /// Checks the extension list and the source and destination folders
+    /// </summary>
+    private static bool CheckFoldersAndExt()
+    {
+        if (UserSettings.Setting.ExtensionList is null
+            || UserSettings.Setting.ExtensionList.Count == 0)
+        {
+            log.Warn("No extensions found in extension list");
+        }
+        else
+        {
+            int count = 0;
+            log.Info("Extension List:");
+            foreach (var extension in UserSettings.Setting.ExtensionList)
+            {
+                log.Info($"  [{count}] {extension}");
+                count++;
+            }
+        }
+        if (string.IsNullOrEmpty(UserSettings.Setting.SourceFolder))
+        {
+            log.Warn("Source folder not specified");
+            return false;
+        }
+        if (string.IsNullOrEmpty(UserSettings.Setting.DesitinationFolder))
+        {
+            log.Warn("Destination folder not specified");
+            return false;
+        }
+        return true;
+    }
+    #endregion Check folders and extension list
 }
