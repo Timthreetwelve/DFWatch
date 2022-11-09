@@ -11,11 +11,10 @@ public partial class LogPage : Page
     {
         InitializeComponent();
 
-        lb1.ItemsSource = MsgQueue.MessageQueue;
-
         MsgQueue.MessageQueue.CollectionChanged += MessageQueue_CollectionChanged;
     }
 
+    #region Scroll to bottom when message queue changes
     private void MessageQueue_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
         ScrollToBottom(lb1);
@@ -30,12 +29,16 @@ public partial class LogPage : Page
             viewer.ScrollToBottom();
         }
     }
+    #endregion Scroll to bottom when message queue changes
 
+    #region Page events
     private void Page_Loaded(object sender, RoutedEventArgs e)
     {
         ScrollToBottom(lb1);
     }
+    #endregion Page events
 
+    #region Button click events
     private void BtnLogFile_Click(object sender, RoutedEventArgs e)
     {
         string logFile = NLHelpers.GetLogfileName();
@@ -53,4 +56,5 @@ public partial class LogPage : Page
     {
         (Application.Current.MainWindow as MainWindow)?.NavigateToPage(NavPage.Logs);
     }
+    #endregion Button click events
 }
