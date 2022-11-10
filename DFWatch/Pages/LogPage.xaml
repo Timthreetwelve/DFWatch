@@ -15,7 +15,7 @@
       TextOptions.TextFormattingMode="Ideal"
       TextOptions.TextRenderingMode="Auto">
 
-    <!--#region Page Resources -->
+    <!--#region Page Resources-->
     <Page.Resources>
         <local:ColorConverter x:Key="ColorConverter" />
     </Page.Resources>
@@ -30,7 +30,7 @@
         </Grid.RowDefinitions>
         <!--#endregion-->
 
-        <!--#region ListBox for messages -->
+        <!--#region ListBox for messages-->
         <TextBlock Margin="21,5" FontWeight="DemiBold"
                    Text="Last 100 Log Messages:" />
         <TextBlock Margin="22,5"
@@ -42,13 +42,13 @@
                  Grid.Row="1" Margin="20,5"
                  BorderBrush="{DynamicResource MaterialDesignDivider}"
                  BorderThickness="1.25"
+                 IsSynchronizedWithCurrentItem="True"
                  ItemsSource="{x:Static local:MsgQueue.MessageQueue}"
-                 ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                 ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  ScrollViewer.VerticalScrollBarVisibility="Auto">
             <ListBox.ItemContainerStyle>
                 <Style TargetType="ListBoxItem"
                        BasedOn="{StaticResource {x:Type ListBoxItem}}">
-                    <Setter Property="Height" Value="26" />
                     <Setter Property="IsHitTestVisible" Value="False" />
                     <Setter Property="Margin" Value="1,-1" />
                     <Setter Property="Padding" Value="5" />
@@ -57,13 +57,14 @@
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <TextBlock Foreground="{Binding Converter={StaticResource ColorConverter}}"
-                               Text="{Binding}" />
+                               Text="{Binding}"
+                               TextWrapping="Wrap" />
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
         <!--#endregion-->
 
-        <!--#region Buttons at the bottom -->
+        <!--#region Buttons at the bottom-->
         <StackPanel Grid.Row="2" Margin="21,0"
                     HorizontalAlignment="Center"
                     Orientation="Horizontal">
@@ -76,9 +77,8 @@
                     Content="Open Logs Folder"
                     Style="{StaticResource MaterialDesignPaperButton}" />
             <StackPanel Orientation="Horizontal">
-                <ToggleButton HorizontalAlignment="Left"
+                <ToggleButton Width="150" HorizontalAlignment="Left"
                               Click="BtnColorMsgToggle_Click"
-                              Width="150"
                               Content="Colorize Messages"
                               IsChecked="{Binding ColoredMessages,
                                                   Source={x:Static local:UserSettings.Setting}}"
