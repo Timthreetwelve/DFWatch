@@ -29,7 +29,7 @@ public partial class MainWindow : MaterialWindow
 
         if (CheckFoldersAndExt())
         {
-            CheckOnStart();
+            Watch.CheckOnStart();
 
             if (UserSettings.Setting.WatchOnStart)
             {
@@ -94,7 +94,7 @@ public partial class MainWindow : MaterialWindow
         Topmost = UserSettings.Setting.KeepOnTop;
 
         //Start with main page
-        NavigateToPage(NavPage.Main);
+        NavigateToPage(NavPage.Logs);
 
         // Minimize to tray
         tbIcon.Visibility = UserSettings.Setting.MinimizeToTray ? Visibility.Visible : Visibility.Collapsed;
@@ -109,7 +109,7 @@ public partial class MainWindow : MaterialWindow
             }
         }
 
-        // Settings change event
+        // ASettings change event
         UserSettings.Setting.PropertyChanged += UserSettingChanged;
 
         // Watch for errors
@@ -326,7 +326,7 @@ public partial class MainWindow : MaterialWindow
     {
         switch (selectedIndex)
         {
-            case NavPage.Main:
+            case NavPage.WSettings:
                 _ = MainFrame.Navigate(new MainPage());
                 break;
 
@@ -334,7 +334,7 @@ public partial class MainWindow : MaterialWindow
                 _ = MainFrame.Navigate(new LogPage());
                 break;
 
-            case NavPage.Settings:
+            case NavPage.ASettings:
                 _ = MainFrame.Navigate(new SettingsPage());
                 break;
 
@@ -670,41 +670,8 @@ public partial class MainWindow : MaterialWindow
             }
         }));
     }
-    #endregion NLog "Method" target - writes to the message queue
 
-    #region Check source folder on startup
-    private static void CheckOnStart()
-    {
-        if (UserSettings.Setting.CheckOnStartup)
-        {
-            log.Info("Checking for existing files in source folder.");
-            string[] files = Directory.GetFiles(UserSettings.Setting.SourceFolder);
-            FileExt.ExtensionList = UserSettings.Setting.ExtensionList;
-            if (files.Length > 0)
-            {
-                foreach (string file in files)
-                {
-                    string thisFileExt = (Path.GetExtension(file) ?? string.Empty).ToLower();
-                    if (thisFileExt != null)
-                    {
-                        FileInfo fi = new(file);
-                        if ((fi.Attributes & FileAttributes.Hidden) == 0 || (fi.Attributes & FileAttributes.System) == 0)
-                        {
-                            if (Files.CheckExtension(FileExt.ExtensionList, thisFileExt))
-                            {
-                                Files.MoveFile(fi);
-                            }
-                            else
-                            {
-                                log.Debug($"{thisFileExt} in not in the list of extensions. No action taken on file {file}.");
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-    #endregion Check source folder on startup
+    #endregion NLog "Method" target - writes to the message queue
 
     #region Double-click status bar for optimal window size
     private void Sbar_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -729,7 +696,7 @@ public partial class MainWindow : MaterialWindow
         }
         if (e.Key == Key.W && Keyboard.Modifiers == ModifierKeys.Control)
         {
-            NavigateToPage(NavPage.Main);
+            NavigateToPage(NavPage.WSettings);
         }
         if (e.Key == Key.S && Keyboard.Modifiers == ModifierKeys.Control)
         {
@@ -765,7 +732,7 @@ public partial class MainWindow : MaterialWindow
 
         if (e.Key == Key.OemComma && Keyboard.Modifiers == ModifierKeys.Control)
         {
-            NavigateToPage(NavPage.Settings);
+            NavigateToPage(NavPage.ASettings);
         }
 
         if (e.Key == Key.M && Keyboard.Modifiers == ModifierKeys.Control)
