@@ -90,18 +90,6 @@
                     <ListBox x:Name="LbxNavigation"
                              SelectionChanged="LbxNavigation_SelectionChanged"
                              Style="{StaticResource NavListBox}">
-                        <ListBoxItem Style="{StaticResource NavPaneListBoxItem}">
-                            <ListBoxItem.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <md:PackIcon Width="24" Height="24"
-                                                 VerticalAlignment="Center"
-                                                 Foreground="{DynamicResource PrimaryHueMidBrush}"
-                                                 Kind="Cog" />
-                                    <TextBlock Margin="10,0" VerticalAlignment="Center"
-                                               Text="Watcher Settings" />
-                                </StackPanel>
-                            </ListBoxItem.Content>
-                        </ListBoxItem>
 
                         <ListBoxItem Style="{StaticResource NavPaneListBoxItem}">
                             <ListBoxItem.Content>
@@ -112,6 +100,19 @@
                                                  Kind="DocumentSign" />
                                     <TextBlock Margin="10,0" VerticalAlignment="Center"
                                                Text="Watcher Log" />
+                                </StackPanel>
+                            </ListBoxItem.Content>
+                        </ListBoxItem>
+
+                        <ListBoxItem Style="{StaticResource NavPaneListBoxItem}">
+                            <ListBoxItem.Content>
+                                <StackPanel Orientation="Horizontal">
+                                    <md:PackIcon Width="24" Height="24"
+                                                 VerticalAlignment="Center"
+                                                 Foreground="{DynamicResource PrimaryHueMidBrush}"
+                                                 Kind="Cog" />
+                                    <TextBlock Margin="10,0" VerticalAlignment="Center"
+                                               Text="Watcher Settings" />
                                 </StackPanel>
                             </ListBoxItem.Content>
                         </ListBoxItem>
