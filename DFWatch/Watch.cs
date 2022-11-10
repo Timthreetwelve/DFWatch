@@ -57,7 +57,7 @@ public static class Watch
         }
         else
         {
-            log.Debug($"{thisFileExt} in not in the list of extensions. No action taken on file {e.Name}.");
+            log.Debug($"\"{thisFileExt}\" in not in the list of file extensions. No action taken on file {e.Name}.");
         }
     }
 
@@ -74,7 +74,7 @@ public static class Watch
         }
         else
         {
-            log.Debug($"{thisFileExt} in not in the list of extensions. No action taken on file {e.Name}.");
+            log.Debug($"\"{thisFileExt}\" in not in the list of file extensions. No action taken on file {e.Name}.");
         }
     }
 
@@ -82,4 +82,38 @@ public static class Watch
     {
         log.Debug($"File deleted: {e.Name} ");
     }
+
+    #region Check source folder on startup
+    public static void CheckOnStart()
+    {
+        if (UserSettings.Setting.CheckOnStartup)
+        {
+            log.Info($"Checking for existing files in source folder ({UserSettings.Setting.SourceFolder}).");
+            string[] files = Directory.GetFiles(UserSettings.Setting.SourceFolder);
+            FileExt.ExtensionList = UserSettings.Setting.ExtensionList;
+            if (files.Length > 0)
+            {
+                foreach (string file in files)
+                {
+                    string thisFileExt = (Path.GetExtension(file) ?? string.Empty).ToLower();
+                    if (thisFileExt != null)
+                    {
+                        FileInfo fi = new(file);
+                        if ((fi.Attributes & FileAttributes.Hidden) == 0 || (fi.Attributes & FileAttributes.System) == 0)
+                        {
+                            if (Files.CheckExtension(FileExt.ExtensionList, thisFileExt))
+                            {
+                                Files.MoveFile(fi);
+                            }
+                            else
+                            {
+                                log.Debug($"\"{thisFileExt}\" in not in the list of file extensions. No action taken on file {fi.Name}.");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+    #endregion Check source folder on startup
 }
