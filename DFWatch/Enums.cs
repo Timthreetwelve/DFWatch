@@ -7,13 +7,13 @@ namespace DFWatch;
 /// </summary>
 public enum NavPage
 {
-    Main = 0,
-    Logs = 1,
+    Logs = 0,
+    WSettings = 1,
     // separator
     Start = 3,
     Stop = 4,
     // separator
-    Settings = 6,
+    ASettings = 6,
     About = 7,
     Exit = 8
 }
