@@ -155,7 +155,6 @@ public class UserSettings : SettingsManager<UserSettings>, INotifyPropertyChange
         }
     }
 
-
     public bool MinimizeToTray
     {
         get => minimizeToTray;
@@ -309,20 +308,20 @@ public class UserSettings : SettingsManager<UserSettings>, INotifyPropertyChange
     #region Private backing fields
     private bool checkOnStartup = true;
     private bool coloredMessages = true;
+    private int darkmode = 0;
     private string destinationFolder = string.Empty;
     private bool heartbeat = true;
-    private int initialDelay = 1000;
-    private int numRetries = 5;
-    private string sourceFolder = string.Empty;
-    private int darkmode = 0;
     private bool includeDebugInFile = true;
     private bool includeDebugInGui = true;
+    private int initialDelay = 1000;
     private bool keepOnTop = false;
     private int logFileSize = 20;
     private int logFileVersions = 10;
     private bool minimizeToTray = false;
     private bool minimizeToTrayOnClose = false;
+    private int numRetries = 5;
     private int primaryColor = (int)AccentColor.Blue;
+    private string sourceFolder = string.Empty;
     private bool startMinimized = false;
     private bool startWithWindows = false;
     private int uiSize = (int)MySize.Default;
