@@ -2,10 +2,10 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net6.0-windows</TargetFramework>
+    <TargetFramework>net6.0-windows10.0.19041.0</TargetFramework>
     <Nullable>disable</Nullable>
     <UseWPF>true</UseWPF>
-    <Description>TBD</Description>
+    <Description>Watches download folder and moves files based on extension</Description>
     <Copyright>Copyright © $([System.DateTime]::UtcNow.Year) Tim Kennedy</Copyright>
     <Authors>Tim Kennedy</Authors>
     <Company>T_K</Company>
@@ -13,6 +13,10 @@
     <ApplicationIcon>Images\W.ico</ApplicationIcon>
     <PlatformTarget>x64</PlatformTarget>
     <Platforms>x64</Platforms>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <SatelliteResourceLanguages>en-US</SatelliteResourceLanguages>
   </PropertyGroup>
 
   <ItemGroup>
