@@ -233,7 +233,7 @@
         <!--#endregion-->
 
         <!--#region Toggle buttons-->
-        <StackPanel Grid.Row="1" Margin="275,80,0,0"
+        <StackPanel Grid.Row="1" Margin="275,85,0,0"
                     Orientation="Vertical">
 
             <StackPanel Margin="0,0,0,5"
@@ -247,7 +247,7 @@
                 <Label Margin="10,0,0,0"
                        Content="Start watching on application start" />
             </StackPanel>
-            <StackPanel Margin="0,0,0,5"
+            <StackPanel Margin="0,20,0,5"
                         Orientation="Horizontal">
                 <ToggleButton HorizontalAlignment="Left"
                               md:ToggleButtonAssist.OnContent="{md:PackIcon Kind=CheckBold,
@@ -257,17 +257,6 @@
                               Style="{StaticResource MaterialDesignSwitchToggleButton}" />
                 <Label Margin="10,0,0,0"
                        Content="Check monitored folder on start" />
-            </StackPanel>
-            <StackPanel Margin="0,0,0,5"
-                        Orientation="Horizontal">
-                <ToggleButton HorizontalAlignment="Left"
-                              md:ToggleButtonAssist.OnContent="{md:PackIcon Kind=CheckBold,
-                                                                            Size=20}"
-                              IsChecked="{Binding Heartbeat,
-                                                  Source={x:Static dfw:UserSettings.Setting}}"
-                              Style="{StaticResource MaterialDesignSwitchToggleButton}" />
-                <Label Margin="10,0,0,0"
-                       Content="Heartbeat message in log" />
             </StackPanel>
         </StackPanel>
         <!--#endregion-->
