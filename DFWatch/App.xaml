@@ -21,7 +21,7 @@
                    BasedOn="{StaticResource {x:Type ListBoxItem}}">
                 <Setter Property="Height" Value="50" />
                 <Setter Property="MinWidth" Value="150" />
-                <Setter Property="Padding" Value="20,0,0,0" />
+                <Setter Property="Padding" Value="20,0,20,0" />
             </Style>
             <!--#endregion-->
 

@@ -154,6 +154,7 @@
                     <RowDefinition Height="30" />
                     <RowDefinition Height="30" />
                     <RowDefinition Height="30" />
+                    <RowDefinition Height="30" />
                 </Grid.RowDefinitions>
                 <!--#endregion-->
 
@@ -203,6 +204,32 @@
                     <ToggleButton HorizontalAlignment="Left"
                                   md:ToggleButtonAssist.OnContent="{md:PackIcon Kind=CheckBold,
                                                                                 Size=20}"
+                                  IsChecked="{Binding MinimizeToTray,
+                                                      Source={x:Static dfw:UserSettings.Setting}}"
+                                  Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                  TabIndex="24" />
+                    <Label Margin="10,-1,0,0"
+                           Content="Minimize to tray" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="4" Grid.Column="0"
+                            Margin="10,0" Orientation="Horizontal">
+                    <ToggleButton HorizontalAlignment="Left"
+                                  md:ToggleButtonAssist.OnContent="{md:PackIcon Kind=CheckBold,
+                                                                                Size=20}"
+                                  IsChecked="{Binding StartMinimized,
+                                                      Source={x:Static dfw:UserSettings.Setting}}"
+                                  Style="{StaticResource MaterialDesignSwitchToggleButton}" />
+                    <Label Margin="10,-1,0,0"
+                           Content="Start minimized" />
+                </StackPanel>
+
+                <StackPanel Grid.Row="5" Grid.Column="0"
+                            Grid.ColumnSpan="2" Margin="10,0"
+                            Orientation="Horizontal">
+                    <ToggleButton HorizontalAlignment="Left"
+                                  md:ToggleButtonAssist.OnContent="{md:PackIcon Kind=CheckBold,
+                                                                                Size=20}"
                                   IsChecked="{Binding IncludeDebugInFile,
                                                       Source={x:Static dfw:UserSettings.Setting}}"
                                   Style="{StaticResource MaterialDesignSwitchToggleButton}"
@@ -211,7 +238,7 @@
                            Content="Include debug level messages in log file" />
                 </StackPanel>
 
-                <StackPanel Grid.Row="4" Grid.Column="0"
+                <StackPanel Grid.Row="6" Grid.Column="0"
                             Grid.ColumnSpan="2" Margin="10,0"
                             Orientation="Horizontal">
                     <ToggleButton HorizontalAlignment="Left"
@@ -225,18 +252,17 @@
                            Content="Include debug level messages in Watcher Log" />
                 </StackPanel>
 
-                <StackPanel Grid.Row="5" Grid.Column="0"
-                            Grid.ColumnSpan="2" Margin="10,0"
-                            Orientation="Horizontal">
+
+                <StackPanel Grid.Row="7" Grid.Column="0"
+                            Margin="10,0" Orientation="Horizontal">
                     <ToggleButton HorizontalAlignment="Left"
                                   md:ToggleButtonAssist.OnContent="{md:PackIcon Kind=CheckBold,
                                                                                 Size=20}"
-                                  IsChecked="{Binding MinimizeToTray,
+                                  IsChecked="{Binding Heartbeat,
                                                       Source={x:Static dfw:UserSettings.Setting}}"
-                                  Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                                  TabIndex="24" />
+                                  Style="{StaticResource MaterialDesignSwitchToggleButton}" />
                     <Label Margin="10,-1,0,0"
-                           Content="Minimize to tray" />
+                           Content="Show Heartbeat message in log" />
                 </StackPanel>
             </Grid>
         </Grid>
