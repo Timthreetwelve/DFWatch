@@ -15,24 +15,9 @@
                     FontSize="12"
                     Foreground="{DynamicResource MaterialDesignBody}"
                     KeyDown="Window_KeyDown"
+                    Loaded="Window_Loaded"
                     StateChanged="Window_StateChanged"
                     WindowStartupLocation="CenterScreen">
-    <!--<mde:MaterialWindow.Resources>
-        <Storyboard x:Key="Storyboard1">
-            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="statusBarItem">
-                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:3" Value="1"/>
-                <EasingDoubleKeyFrame KeyTime="0:0:4" Value="0"/>
-            </DoubleAnimationUsingKeyFrames>
-        </Storyboard>
-    </mde:MaterialWindow.Resources>
-    <mde:MaterialWindow.Triggers>
-        <EventTrigger RoutedEvent="TextBoxBase.TextChanged" SourceName="sbMessage">
-            <BeginStoryboard Storyboard="{StaticResource Storyboard1}"/>
-        </EventTrigger>
-    </mde:MaterialWindow.Triggers>-->
-
 
     <md:DialogHost CloseOnClickAway="False"
                    DialogTheme="Inherit" Focusable="False"

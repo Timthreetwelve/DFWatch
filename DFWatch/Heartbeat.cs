@@ -17,17 +17,15 @@ internal static class Heartbeat
     /// </summary>
     public static void StartHeartbeat()
     {
-        if (UserSettings.Setting.Heartbeat)
+        TimeSpan interval = TimeSpan.FromMinutes(15);
+        heartbeatTimer = new System.Timers.Timer(interval.TotalMilliseconds)
         {
-            TimeSpan interval = TimeSpan.FromMinutes(15);
-            heartbeatTimer = new System.Timers.Timer(interval.TotalMilliseconds)
-            {
-                AutoReset = true
-            };
-            heartbeatTimer.Elapsed += TimerElapsed;
-            heartbeatTimer.Start();
-            log.Info("Heartbeat timer started");
-        }
+            AutoReset = true
+        };
+        heartbeatTimer.Elapsed += TimerElapsed;
+        heartbeatTimer.Start();
+        log.Info("Heartbeat timer started");
+        (Application.Current.MainWindow as MainWindow)?.DisappearingMessage("Heartbeat Started");
     }
 
     /// <summary>
@@ -37,6 +35,7 @@ internal static class Heartbeat
     {
         heartbeatTimer.Stop();
         log.Info("Heartbeat timer stopped");
+        (Application.Current.MainWindow as MainWindow)?.DisappearingMessage("Heartbeat Stopped");
     }
     #endregion Start and stop the heartbeat timer
 

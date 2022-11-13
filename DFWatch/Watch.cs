@@ -86,29 +86,26 @@ public static class Watch
     #region Check source folder on startup
     public static void CheckOnStart()
     {
-        if (UserSettings.Setting.CheckOnStartup)
+        log.Info($"Checking for existing files in source folder ({UserSettings.Setting.SourceFolder}).");
+        string[] files = Directory.GetFiles(UserSettings.Setting.SourceFolder);
+        FileExt.ExtensionList = UserSettings.Setting.ExtensionList;
+        if (files.Length > 0)
         {
-            log.Info($"Checking for existing files in source folder ({UserSettings.Setting.SourceFolder}).");
-            string[] files = Directory.GetFiles(UserSettings.Setting.SourceFolder);
-            FileExt.ExtensionList = UserSettings.Setting.ExtensionList;
-            if (files.Length > 0)
+            foreach (string file in files)
             {
-                foreach (string file in files)
+                string thisFileExt = (Path.GetExtension(file) ?? string.Empty).ToLower();
+                if (thisFileExt != null)
                 {
-                    string thisFileExt = (Path.GetExtension(file) ?? string.Empty).ToLower();
-                    if (thisFileExt != null)
+                    FileInfo fi = new(file);
+                    if ((fi.Attributes & FileAttributes.Hidden) == 0 || (fi.Attributes & FileAttributes.System) == 0)
                     {
-                        FileInfo fi = new(file);
-                        if ((fi.Attributes & FileAttributes.Hidden) == 0 || (fi.Attributes & FileAttributes.System) == 0)
+                        if (Files.CheckExtension(FileExt.ExtensionList, thisFileExt))
                         {
-                            if (Files.CheckExtension(FileExt.ExtensionList, thisFileExt))
-                            {
-                                Files.MoveFile(fi);
-                            }
-                            else
-                            {
-                                log.Debug($"\"{thisFileExt}\" in not in the list of file extensions. No action taken on file {fi.Name}.");
-                            }
+                            Files.MoveFile(fi);
+                        }
+                        else
+                        {
+                            log.Debug($"\"{thisFileExt}\" in not in the list of file extensions. No action taken on file {fi.Name}.");
                         }
                     }
                 }

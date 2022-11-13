@@ -26,10 +26,16 @@ public partial class MainWindow : MaterialWindow
         InitializeComponent();
 
         ReadSettings();
+    }
 
+    private void StartUp()
+    {
         if (CheckFoldersAndExt())
         {
-            Watch.CheckOnStart();
+            if (UserSettings.Setting.CheckOnStartup)
+            {
+                Watch.CheckOnStart();
+            }
 
             if (UserSettings.Setting.WatchOnStart)
             {
@@ -41,7 +47,10 @@ public partial class MainWindow : MaterialWindow
             }
         }
 
-        Heartbeat.StartHeartbeat();
+        if (UserSettings.Setting.Heartbeat)
+        {
+            Heartbeat.StartHeartbeat();
+        }
     }
 
     #region Settings
@@ -117,9 +126,6 @@ public partial class MainWindow : MaterialWindow
 
         // Session ending
         Application.Current.SessionEnding += Current_SessionEnding;
-
-        // Initial status message
-        //SetStatusMsg("Stopped");
     }
     #endregion Settings
 
@@ -366,6 +372,11 @@ public partial class MainWindow : MaterialWindow
     #endregion Navigation
 
     #region Window Events
+    private void Window_Loaded(object sender, RoutedEventArgs e)
+    {
+        StartUp();
+    }
+
     private void Window_StateChanged(object sender, EventArgs e)
     {
         if (WindowState == WindowState.Minimized && UserSettings.Setting.MinimizeToTray)
