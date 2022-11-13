@@ -119,7 +119,7 @@ public partial class MainWindow : MaterialWindow
         Application.Current.SessionEnding += Current_SessionEnding;
 
         // Initial status message
-        SetStausMsg("Stopped");
+        //SetStatusMsg("Stopped");
     }
     #endregion Settings
 
@@ -456,6 +456,9 @@ public partial class MainWindow : MaterialWindow
     #endregion Session ending
 
     #region Log watcher error
+    /// <summary>
+    /// Handles the Error event of the Watcher control.
+    /// </summary>
     private void Watcher_Error(object sender, ErrorEventArgs e)
     {
         sbStatus.Content = "Error. See the log file.";
@@ -532,7 +535,7 @@ public partial class MainWindow : MaterialWindow
 
     #region Add/Remove from registry
     /// <summary>
-    /// Add a registry item to start My Launcher with Windows
+    /// Add a registry item to start DFWatch with Windows
     /// </summary>
     private void AddStartToRegistry()
     {
@@ -634,13 +637,19 @@ public partial class MainWindow : MaterialWindow
     #endregion Disappearing message in status bar
 
     #region Status message
-    public void SetStausMsg(string message)
+    /// <summary>
+    /// Sets the status message on the left side of the status menu.
+    /// </summary>
+    /// <param name="message">The message.</param>
+    public void SetStatusMsg(string message)
     {
         sbStatus.Content = $"Status:  {message}";
     }
     #endregion Status message
 
     #region Enable/Disable start and stop in navigation menu
+    /// <summary>Updates Start and Stop in the navigation menu.</summary>
+    /// <param name="value">if set to <c>true</c> [value].</param>
     public void UpdateStartStopMenu(bool value)
     {
         if (value)
@@ -657,6 +666,11 @@ public partial class MainWindow : MaterialWindow
     #endregion Enable/Disable start and stop in navigation menu
 
     #region NLog "Method" target - writes to the message queue
+    /// <summary>
+    /// Writes to the message queue
+    /// </summary>
+    /// <param name="level">The message level.</param>
+    /// <param name="message">The message to be written.</param>
     public static void LogMethod(string level, string message)
     {
         if (message.Contains("Setting Change", StringComparison.OrdinalIgnoreCase))
@@ -684,10 +698,12 @@ public partial class MainWindow : MaterialWindow
             }
         }));
     }
-
     #endregion NLog "Method" target - writes to the message queue
 
     #region Double-click status bar for optimal window size
+    /// <summary>
+    /// Handles the MouseDoubleClick event of the status bar
+    /// </summary>
     private void Sbar_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
         SizeToContent = SizeToContent.WidthAndHeight;
@@ -700,7 +716,7 @@ public partial class MainWindow : MaterialWindow
 
     #region Key down events
     /// <summary>
-    /// Keyboard events for window
+    /// Keyboard events
     /// </summary>
     private void Window_KeyDown(object sender, KeyEventArgs e)
     {
@@ -726,10 +742,12 @@ public partial class MainWindow : MaterialWindow
         if (e.Key == Key.Add && Keyboard.Modifiers == ModifierKeys.Control)
         {
             EverythingLarger();
+            DisappearingMessage($"Size changed to: {(MySize)UserSettings.Setting.UISize}");
         }
         if (e.Key == Key.Subtract && Keyboard.Modifiers == ModifierKeys.Control)
         {
             EverythingSmaller();
+            DisappearingMessage($"Size changed to: {(MySize)UserSettings.Setting.UISize}");
         }
         if (e.Key == Key.F1)
         {
@@ -766,11 +784,15 @@ public partial class MainWindow : MaterialWindow
                     UserSettings.Setting.DarkMode = (int)ThemeType.Light;
                     break;
             }
+            DisappearingMessage($"Theme changed to: {(ThemeType)UserSettings.Setting.DarkMode}");
         }
     }
     #endregion Key down events
 
     #region Smaller/Larger
+    /// <summary>
+    /// Decreases the size of the UI
+    /// </summary>
     public void EverythingSmaller()
     {
         int size = UserSettings.Setting.UISize;
@@ -783,6 +805,9 @@ public partial class MainWindow : MaterialWindow
         }
     }
 
+    /// <summary>
+    /// Increases the size of the UI
+    /// </summary>
     public void EverythingLarger()
     {
         int size = UserSettings.Setting.UISize;
