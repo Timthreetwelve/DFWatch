@@ -7,9 +7,8 @@
                     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
                     xmlns:mde="https://spiegelp.github.io/MaterialDesignExtensions/winfx/xaml"
                     xmlns:tb="http://www.hardcodet.net/taskbar"
-                    mc:Ignorable="d"
+                    mc:Ignorable="d" MinWidth="575"
                     MinHeight="375"
-                    MinWidth="575"
                     Background="{DynamicResource MaterialDesignPaper}"
                     Closing="Window_Closing"
                     FadeContentIfInactive="False"
@@ -18,6 +17,22 @@
                     KeyDown="Window_KeyDown"
                     StateChanged="Window_StateChanged"
                     WindowStartupLocation="CenterScreen">
+    <!--<mde:MaterialWindow.Resources>
+        <Storyboard x:Key="Storyboard1">
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" Storyboard.TargetName="statusBarItem">
+                <EasingDoubleKeyFrame KeyTime="0" Value="0"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.5" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:3" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:4" Value="0"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </mde:MaterialWindow.Resources>
+    <mde:MaterialWindow.Triggers>
+        <EventTrigger RoutedEvent="TextBoxBase.TextChanged" SourceName="sbMessage">
+            <BeginStoryboard Storyboard="{StaticResource Storyboard1}"/>
+        </EventTrigger>
+    </mde:MaterialWindow.Triggers>-->
+
 
     <md:DialogHost CloseOnClickAway="False"
                    DialogTheme="Inherit" Focusable="False"
@@ -117,10 +132,10 @@
                             </ListBoxItem.Content>
                         </ListBoxItem>
 
-                        <Separator Height="2"/>
+                        <Separator Height="2" />
 
-                        <ListBoxItem Style="{StaticResource NavPaneListBoxItem}"
-                                     x:Name="lbiStart">
+                        <ListBoxItem x:Name="lbiStart"
+                                     Style="{StaticResource NavPaneListBoxItem}">
                             <ListBoxItem.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <md:PackIcon Width="24" Height="24"
@@ -133,8 +148,8 @@
                             </ListBoxItem.Content>
                         </ListBoxItem>
 
-                        <ListBoxItem Style="{StaticResource NavPaneListBoxItem}"
-                                     x:Name="lbiStop">
+                        <ListBoxItem x:Name="lbiStop"
+                                     Style="{StaticResource NavPaneListBoxItem}">
                             <ListBoxItem.Content>
                                 <StackPanel Orientation="Horizontal">
                                     <md:PackIcon Width="24" Height="24"
@@ -147,7 +162,7 @@
                             </ListBoxItem.Content>
                         </ListBoxItem>
 
-                        <Separator Height="2"/>
+                        <Separator Height="2" />
 
                         <ListBoxItem Style="{StaticResource NavPaneListBoxItem}">
                             <ListBoxItem.Content>
@@ -198,19 +213,43 @@
 
             <!--#region Status bar-->
             <md:Card Grid.Row="3" Grid.Column="0"
+                     Grid.ColumnSpan="2" Height="35"
                      md:ElevationAssist.Elevation="Dp4"
-                           MouseDoubleClick="Sbar_MouseDoubleClick"
-                     Grid.ColumnSpan="2" Height="35">
+                     MouseDoubleClick="Sbar_MouseDoubleClick">
                 <StatusBar Name="sbar"
                            Background="{DynamicResource CardBackground}"
                            FontSize="14"
                            Foreground="{DynamicResource MaterialDesignBody}">
                     <StatusBarItem x:Name="sbStatus"
-                                   Padding="20,2" />
+                                   Padding="20,2"
+                                   HorizontalAlignment="Left" />
                     <StatusBarItem x:Name="sbMessage"
                                    Padding="25,2"
                                    HorizontalAlignment="Right"
-                                   HorizontalContentAlignment="Right" />
+                                   Visibility="Collapsed">
+                        <StatusBarItem.Style>
+                            <Style TargetType="StatusBarItem">
+                                <Style.Triggers>
+                                    <Trigger Property="Visibility" Value="Visible">
+                                        <Trigger.EnterActions>
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation BeginTime="00:00:00"
+                                                                     Storyboard.TargetProperty="Opacity"
+                                                                     From="0.0" To="1.0"
+                                                                     Duration="00:00:00" />
+                                                    <DoubleAnimation BeginTime="00:00:03"
+                                                                     Storyboard.TargetProperty="Opacity"
+                                                                     From="1.0" To="0.0"
+                                                                     Duration="00:00:02" />
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </Trigger.EnterActions>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StatusBarItem.Style>
+                    </StatusBarItem>
                 </StatusBar>
             </md:Card>
             <!--#endregion-->

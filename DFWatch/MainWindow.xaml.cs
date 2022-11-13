@@ -190,7 +190,7 @@ public partial class MainWindow : MaterialWindow
     }
     #endregion Setting change
 
-    #region Set light or dark theme
+    #region Set light, dark or darker theme
     /// <summary>
     /// Gets the current theme
     /// </summary>
@@ -207,7 +207,7 @@ public partial class MainWindow : MaterialWindow
     /// <param name="mode">Light, Dark, Darker or System</param>
     internal void SetBaseTheme(ThemeType mode)
     {
-        //Get the accent color
+        //Get the Windows accent color
         TitleBrush = (SolidColorBrush)SystemParameters.WindowGlassBrush;
 
         //Retrieve the app's existing theme
@@ -247,7 +247,7 @@ public partial class MainWindow : MaterialWindow
         //Change the app's current theme
         paletteHelper.SetTheme(theme);
     }
-    #endregion Set light or dark theme
+    #endregion Set light, dark or darker theme
 
     #region Set primary accent color
     /// <summary>
@@ -604,9 +604,23 @@ public partial class MainWindow : MaterialWindow
     #endregion Add/Remove from registry
 
     #region Disappearing message in status bar
+    /// <summary>
+    /// Displays the message which then fades out after 5 seconds.
+    /// </summary>
+    /// <remarks>
+    /// Inspired by https://stackoverflow.com/a/1601994/15237757.
+    /// </remarks>
+    /// <param name="msg">The message to be displayed</param>
     public void DisappearingMessage(string msg)
     {
+        if (msgTimer.IsEnabled)
+        {
+            msgTimer.Stop();
+            sbMessage.Visibility = Visibility.Collapsed;
+        }
         sbMessage.Content = msg;
+        sbMessage.Visibility = Visibility.Visible;
+
         msgTimer.Interval = TimeSpan.FromSeconds(5);
         msgTimer.Tick += MsgTimer_Tick;
         msgTimer.Start();
@@ -614,8 +628,8 @@ public partial class MainWindow : MaterialWindow
 
     private void MsgTimer_Tick(object sender, EventArgs e)
     {
-        sbMessage.Content = string.Empty;
         msgTimer.Stop();
+        sbMessage.Visibility = Visibility.Collapsed;
     }
     #endregion Disappearing message in status bar
 
