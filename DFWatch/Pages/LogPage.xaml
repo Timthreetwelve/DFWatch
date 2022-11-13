@@ -68,23 +68,22 @@
         <StackPanel Grid.Row="2" Margin="21,0"
                     HorizontalAlignment="Center"
                     Orientation="Horizontal">
+
+            <Button Width="150" Margin="0,0,20,0"
+                    Click="BtnCheckNow_Click"
+                    Content="Check Now"
+                    Style="{StaticResource MaterialDesignPaperButton}" />
+
             <Button Width="150" Margin="0,0,20,0"
                     Click="BtnLogFile_Click"
                     Content="View Log File"
                     Style="{StaticResource MaterialDesignPaperButton}" />
+
             <Button Width="150" Margin="0,0,20,0"
                     Click="BtnLogFolder_Click"
                     Content="Open Logs Folder"
                     Style="{StaticResource MaterialDesignPaperButton}" />
-            <StackPanel Orientation="Horizontal">
-                <ToggleButton Width="150" HorizontalAlignment="Left"
-                              Click="BtnColorMsgToggle_Click"
-                              Content="Colorize Messages"
-                              IsChecked="{Binding ColoredMessages,
-                                                  Source={x:Static local:UserSettings.Setting}}"
-                              Style="{StaticResource MaterialDesignPaperButton}"
-                              TabIndex="24" />
-            </StackPanel>
+
         </StackPanel>
         <!--#endregion-->
     </Grid>

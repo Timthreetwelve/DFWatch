@@ -64,12 +64,12 @@ public partial class LogPage : Page
         _ = Process.Start("explorer.exe", folder);
     }
 
-    /// <summary>Handles the Click event of the BtnColorMsgToggle control.</summary>
+    /// <summary>Handles the Click event of the BtnCheckNow control.</summary>
     /// <param name="sender">The source of the event.</param>
     /// <param name="e">The <see cref="RoutedEventArgs" /> instance containing the event data.</param>
-    private void BtnColorMsgToggle_Click(object sender, RoutedEventArgs e)
+    private void BtnCheckNow_Click(object sender, RoutedEventArgs e)
     {
-        (Application.Current.MainWindow as MainWindow)?.NavigateToPage(NavPage.Logs);
+        Watch.CheckOnStart();
     }
     #endregion Button click events
 }
