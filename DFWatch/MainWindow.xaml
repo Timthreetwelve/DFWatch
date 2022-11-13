@@ -42,7 +42,7 @@
                             TrayLeftMouseDown="TbIconShowMainWindow_Click"
                             TrayMouseDoubleClick="TbIconShowMainWindow_Click">
                 <tb:TaskbarIcon.ContextMenu>
-                    <ContextMenu Name="trayMenu"
+                    <ContextMenu Name="trayMenu" FontSize="13"
                                  Style="{StaticResource MaterialDesignContextMenu}"
                                  UsesItemContainerTemplate="True">
                         <MenuItem Command="{x:Static local:CustomCommands.ShowMainWindow}"
