@@ -28,9 +28,11 @@
         <!--#region Source and destination boxes-->
         <StackPanel Grid.Row="0" HorizontalAlignment="Left"
                     Orientation="Vertical">
-            <TextBlock Margin="5,5,0,0" FontWeight="SemiBold"
-                       Text="Source Folder (folder to monitor)" />
-            <StackPanel Orientation="Horizontal">
+            <TextBlock Margin="5,5,0,2">
+                <Span FontWeight="SemiBold">Source Folder </Span>
+                <Span FontWeight="Normal">(folder to watch)</Span>
+            </TextBlock>
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
                 <TextBox x:Name="tbxSource"
                          Width="550" Height="35"
                          Margin="5,0" Padding="5,5"
@@ -53,18 +55,19 @@
                     </TextBox.Text>
                 </TextBox>
                 <Button x:Name="btnDestSourcePicker"
-                        Margin="0,0,0,0"
+                        Margin="5,0"
+                        Padding="5,2"
                         HorizontalAlignment="Right"
                         Click="BtnDestSourcePicker_Click"
-                        Style="{StaticResource MaterialDesignIconButton}"
+                        Style="{StaticResource MaterialDesignFlatButton}"
                         ToolTip="Click to browse for a folder">
-                    <md:PackIcon Width="32" Height="32"
+                    <md:PackIcon Width="30" Height="30"
                                  Kind="FolderOutline" />
                 </Button>
             </StackPanel>
 
-            <TextBlock Margin="5,5,0,0" FontWeight="SemiBold"
-                       Text="Destination folder" />
+            <TextBlock Margin="5,5,0,2" FontWeight="SemiBold"
+                       Text="Destination Folder" />
             <StackPanel Orientation="Horizontal">
                 <TextBox x:Name="tbxDestination"
                          Width="550" Height="35"
@@ -88,12 +91,13 @@
                     </TextBox.Text>
                 </TextBox>
                 <Button x:Name="btnDestFolderPicker"
-                        Margin="0,0,0,0"
+                        Margin="5,0"
                         HorizontalAlignment="Right"
                         Click="BtnDestFolderPicker_Click"
-                        Style="{StaticResource MaterialDesignIconButton}"
+                        Padding="5,2"
+                        Style="{StaticResource MaterialDesignFlatButton}"
                         ToolTip="Click to browse for a file">
-                    <md:PackIcon Width="32" Height="32"
+                    <md:PackIcon Width="30" Height="30"
                                  Kind="FolderOutline" />
                 </Button>
             </StackPanel>
@@ -139,7 +143,7 @@
                                 <Style TargetType="ListBoxItem"
                                        BasedOn="{StaticResource {x:Type ListBoxItem}}">
                                     <Setter Property="Height" Value="33" />
-                                    <Setter Property="Padding" Value="10,5,1,5" />
+                                    <Setter Property="Padding" Value="10,5,10,5" />
                                 </Style>
                             </ListBox.ItemContainerStyle>
                         </ListBox>
