@@ -222,6 +222,7 @@
                            Foreground="{DynamicResource MaterialDesignBody}">
                     <StatusBarItem x:Name="sbStatus"
                                    Padding="20,2"
+                                   Content="Status: Stopped"
                                    HorizontalAlignment="Left" />
                     <StatusBarItem x:Name="sbMessage"
                                    Padding="25,2"
