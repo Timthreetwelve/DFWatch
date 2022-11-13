@@ -17,7 +17,7 @@ public static class Watch
         watcher.Renamed += File_Renamed;
         watcher.Deleted += File_Deleted;
         watcher.EnableRaisingEvents = true;
-        (Application.Current.MainWindow as MainWindow)?.SetStausMsg("Running");
+        (Application.Current.MainWindow as MainWindow)?.SetStatusMsg("Running");
         (Application.Current.MainWindow as MainWindow)?.UpdateStartStopMenu(true);
         log.Info($"{AppInfo.AppName} has started watching {watcher.Path}.");
     }
@@ -27,7 +27,7 @@ public static class Watch
         if (watcher != null)
         {
             watcher.EnableRaisingEvents = false;
-            (Application.Current.MainWindow as MainWindow)?.SetStausMsg("Stopped");
+            (Application.Current.MainWindow as MainWindow)?.SetStatusMsg("Stopped");
             (Application.Current.MainWindow as MainWindow)?.UpdateStartStopMenu(false);
             log.Info($"{AppInfo.AppName} has stopped watching {watcher.Path}.");
         }
