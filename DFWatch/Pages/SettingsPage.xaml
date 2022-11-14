@@ -23,6 +23,7 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
 
+            <!--#region Top Section - Combo boxes and log stuff-->
             <Grid Grid.Row="0">
                 <!--#region Row & Column definitions-->
                 <Grid.RowDefinitions>
@@ -123,7 +124,7 @@
                                        Margin="5" HorizontalAlignment="Left"
                                        HorizontalContentAlignment="Stretch"
                                        Increment="10" Maximum="1000"
-                                       Minimum="10"
+                                       Minimum="10" TabIndex="4"
                                        Value="{Binding LogFileSize,
                                                        Source={x:Static dfw:UserSettings.Setting},
                                                        Mode=TwoWay}" />
@@ -137,13 +138,15 @@
                                        Margin="5" HorizontalAlignment="Left"
                                        HorizontalContentAlignment="Stretch"
                                        Increment="1" Maximum="100"
-                                       Minimum="1"
+                                       Minimum="1" TabIndex="5"
                                        Value="{Binding LogFileVersions,
                                                        Source={x:Static dfw:UserSettings.Setting},
                                                        Mode=TwoWay}" />
                 </StackPanel>
             </Grid>
+            <!--#endregion-->
 
+            <!--#region Bottom Section - Toggle buttons-->
             <Grid Grid.Row="1">
                 <!--#region Row definitions-->
                 <Grid.RowDefinitions>
@@ -165,23 +168,23 @@
                                                                                 Size=20}"
                                   IsChecked="{Binding StartWithWindows,
                                                       Source={x:Static dfw:UserSettings.Setting}}"
-                                  Style="{StaticResource MaterialDesignSwitchToggleButton}" />
+                                  Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                  TabIndex="6" />
                     <Label Margin="10,0,0,0"
                            Content="Start with Windows" />
                 </StackPanel>
 
                 <StackPanel Grid.Row="1" Grid.Column="0"
-                            Grid.ColumnSpan="2" Margin="10,0"
-                            Orientation="Horizontal">
+                            Margin="10,0" Orientation="Horizontal">
                     <ToggleButton HorizontalAlignment="Left"
                                   md:ToggleButtonAssist.OnContent="{md:PackIcon Kind=CheckBold,
                                                                                 Size=20}"
-                                  IsChecked="{Binding ColoredMessages,
+                                  IsChecked="{Binding StartMinimized,
                                                       Source={x:Static dfw:UserSettings.Setting}}"
                                   Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                                  TabIndex="24" />
+                                  TabIndex="7" />
                     <Label Margin="10,-1,0,0"
-                           Content="Color messages in Watcher Log according to severity" />
+                           Content="Start minimized" />
                 </StackPanel>
 
                 <StackPanel Grid.Row="2" Grid.Column="0"
@@ -190,12 +193,12 @@
                     <ToggleButton HorizontalAlignment="Left"
                                   md:ToggleButtonAssist.OnContent="{md:PackIcon Kind=CheckBold,
                                                                                 Size=20}"
-                                  IsChecked="{Binding KeepOnTop,
+                                  IsChecked="{Binding MinimizeToTray,
                                                       Source={x:Static dfw:UserSettings.Setting}}"
                                   Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                                  TabIndex="18" />
+                                  TabIndex="8" />
                     <Label Margin="10,-1,0,0"
-                           Content="Keep on top of other windows" />
+                           Content="Minimize to tray" />
                 </StackPanel>
 
                 <StackPanel Grid.Row="3" Grid.Column="0"
@@ -204,24 +207,26 @@
                     <ToggleButton HorizontalAlignment="Left"
                                   md:ToggleButtonAssist.OnContent="{md:PackIcon Kind=CheckBold,
                                                                                 Size=20}"
-                                  IsChecked="{Binding MinimizeToTray,
+                                  IsChecked="{Binding ColoredMessages,
                                                       Source={x:Static dfw:UserSettings.Setting}}"
                                   Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                                  TabIndex="24" />
+                                  TabIndex="9" />
                     <Label Margin="10,-1,0,0"
-                           Content="Minimize to tray" />
+                           Content="Color messages in Watcher Log according to severity" />
                 </StackPanel>
 
                 <StackPanel Grid.Row="4" Grid.Column="0"
-                            Margin="10,0" Orientation="Horizontal">
+                            Grid.ColumnSpan="2" Margin="10,0"
+                            Orientation="Horizontal">
                     <ToggleButton HorizontalAlignment="Left"
                                   md:ToggleButtonAssist.OnContent="{md:PackIcon Kind=CheckBold,
                                                                                 Size=20}"
-                                  IsChecked="{Binding StartMinimized,
+                                  IsChecked="{Binding KeepOnTop,
                                                       Source={x:Static dfw:UserSettings.Setting}}"
-                                  Style="{StaticResource MaterialDesignSwitchToggleButton}" />
+                                  Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                  TabIndex="10" />
                     <Label Margin="10,-1,0,0"
-                           Content="Start minimized" />
+                           Content="Keep on top of other windows" />
                 </StackPanel>
 
                 <StackPanel Grid.Row="5" Grid.Column="0"
@@ -233,7 +238,7 @@
                                   IsChecked="{Binding IncludeDebugInFile,
                                                       Source={x:Static dfw:UserSettings.Setting}}"
                                   Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                                  TabIndex="24" />
+                                  TabIndex="11" />
                     <Label Margin="10,-1,0,0"
                            Content="Include debug level messages in log file" />
                 </StackPanel>
@@ -247,11 +252,10 @@
                                   IsChecked="{Binding IncludeDebugInGui,
                                                       Source={x:Static dfw:UserSettings.Setting}}"
                                   Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                                  TabIndex="24" />
+                                  TabIndex="12" />
                     <Label Margin="10,-1,0,0"
                            Content="Include debug level messages in Watcher Log" />
                 </StackPanel>
-
 
                 <StackPanel Grid.Row="7" Grid.Column="0"
                             Margin="10,0" Orientation="Horizontal">
@@ -260,11 +264,13 @@
                                                                                 Size=20}"
                                   IsChecked="{Binding Heartbeat,
                                                       Source={x:Static dfw:UserSettings.Setting}}"
-                                  Style="{StaticResource MaterialDesignSwitchToggleButton}" />
+                                  Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                  TabIndex="13" />
                     <Label Margin="10,-1,0,0"
                            Content="Show Heartbeat message in log" />
                 </StackPanel>
             </Grid>
+            <!--#endregion-->
         </Grid>
     </Grid>
 </Page>
