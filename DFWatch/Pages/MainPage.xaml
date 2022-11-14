@@ -16,24 +16,27 @@
       TextOptions.TextFormattingMode="Ideal"
       TextOptions.TextRenderingMode="Auto">
 
-    <Grid Margin="10">
-        <!--#region Row & Column definitions-->
-        <Grid.RowDefinitions>
-            <RowDefinition Height="150" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="10" />
-        </Grid.RowDefinitions>
-        <!--#endregion-->
+    <ScrollViewer CanContentScroll="True"
+                      HorizontalScrollBarVisibility="Auto"
+                      VerticalScrollBarVisibility="Auto">
+        <Grid Margin="10">
+            <!--#region Row & Column definitions-->
+            <Grid.RowDefinitions>
+                <RowDefinition Height="150" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="10" />
+            </Grid.RowDefinitions>
+            <!--#endregion-->
 
-        <!--#region Source and destination boxes-->
-        <StackPanel Grid.Row="0" HorizontalAlignment="Left"
+            <!--#region Source and destination boxes-->
+            <StackPanel Grid.Row="0" HorizontalAlignment="Left"
                     Orientation="Vertical">
-            <TextBlock Margin="5,5,0,2">
+                <TextBlock Margin="5,5,0,2">
                 <Span FontWeight="SemiBold">Source Folder </Span>
                 <Span FontWeight="Normal">(folder to watch)</Span>
-            </TextBlock>
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                <TextBox x:Name="tbxSource"
+                </TextBlock>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                    <TextBox x:Name="tbxSource"
                          Width="550" Height="35"
                          Margin="5,0" Padding="5,5"
                          VerticalContentAlignment="Center"
@@ -43,33 +46,33 @@
                          md:ValidationAssist.UsePopup="True"
                          KeyDown="TextBox_KeyDown"
                          Style="{StaticResource MaterialDesignOutlinedTextBox}">
-                    <TextBox.Text>
-                        <Binding Path="SourceFolder"
+                        <TextBox.Text>
+                            <Binding Path="SourceFolder"
                                  Source="{x:Static dfw:UserSettings.Setting}"
                                  UpdateSourceTrigger="Default"
                                  ValidatesOnDataErrors="True">
-                            <Binding.ValidationRules>
-                                <dfw:DirectoryValidationRule ValidatesOnTargetUpdated="True" />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox.Text>
-                </TextBox>
-                <Button x:Name="btnDestSourcePicker"
+                                <Binding.ValidationRules>
+                                    <dfw:DirectoryValidationRule ValidatesOnTargetUpdated="True" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                    <Button x:Name="btnDestSourcePicker"
                         Margin="5,0"
                         Padding="5,2"
                         HorizontalAlignment="Right"
                         Click="BtnDestSourcePicker_Click"
                         Style="{StaticResource MaterialDesignFlatButton}"
                         ToolTip="Click to browse for a folder">
-                    <md:PackIcon Width="30" Height="30"
+                        <md:PackIcon Width="30" Height="30"
                                  Kind="FolderOutline" />
-                </Button>
-            </StackPanel>
+                    </Button>
+                </StackPanel>
 
-            <TextBlock Margin="5,5,0,2" FontWeight="SemiBold"
+                <TextBlock Margin="5,5,0,2" FontWeight="SemiBold"
                        Text="Destination Folder" />
-            <StackPanel Orientation="Horizontal">
-                <TextBox x:Name="tbxDestination"
+                <StackPanel Orientation="Horizontal">
+                    <TextBox x:Name="tbxDestination"
                          Width="550" Height="35"
                          Margin="5,0" Padding="5,5"
                          VerticalContentAlignment="Center"
@@ -79,100 +82,100 @@
                          md:ValidationAssist.UsePopup="True"
                          KeyDown="TextBox_KeyDown"
                          Style="{StaticResource MaterialDesignOutlinedTextBox}">
-                    <TextBox.Text>
-                        <Binding Path="DesitinationFolder"
+                        <TextBox.Text>
+                            <Binding Path="DesitinationFolder"
                                  Source="{x:Static dfw:UserSettings.Setting}"
                                  UpdateSourceTrigger="Default"
                                  ValidatesOnDataErrors="True">
-                            <Binding.ValidationRules>
-                                <dfw:DirectoryValidationRule ValidatesOnTargetUpdated="True" />
-                            </Binding.ValidationRules>
-                        </Binding>
-                    </TextBox.Text>
-                </TextBox>
-                <Button x:Name="btnDestFolderPicker"
+                                <Binding.ValidationRules>
+                                    <dfw:DirectoryValidationRule ValidatesOnTargetUpdated="True" />
+                                </Binding.ValidationRules>
+                            </Binding>
+                        </TextBox.Text>
+                    </TextBox>
+                    <Button x:Name="btnDestFolderPicker"
                         Margin="5,0"
                         HorizontalAlignment="Right"
                         Click="BtnDestFolderPicker_Click"
                         Padding="5,2"
                         Style="{StaticResource MaterialDesignFlatButton}"
                         ToolTip="Click to browse for a file">
-                    <md:PackIcon Width="30" Height="30"
+                        <md:PackIcon Width="30" Height="30"
                                  Kind="FolderOutline" />
-                </Button>
+                    </Button>
+                </StackPanel>
             </StackPanel>
-        </StackPanel>
-        <!--#endregion-->
+            <!--#endregion-->
 
-        <!--#region File extensions-->
-        <StackPanel Grid.Row="1" Grid.Column="0"
+            <!--#region File extensions-->
+            <StackPanel Grid.Row="1" Grid.Column="0"
                     Orientation="Vertical">
-            <TextBlock Margin="5,3,0,7"
+                <TextBlock Margin="5,3,0,7"
                        HorizontalAlignment="Left"
                        FontWeight="SemiBold"
                        Text="File Extensions" />
 
-            <StackPanel VerticalAlignment="Stretch"
+                <StackPanel VerticalAlignment="Stretch"
                         Orientation="Horizontal">
-                <StackPanel Orientation="Vertical">
-                    <Border x:Name="bdrLbxExt"
+                    <StackPanel Orientation="Vertical">
+                        <Border x:Name="bdrLbxExt"
                             Height="136" Margin="5,1,15,7"
                             Padding="0" VerticalAlignment="Top"
                             CornerRadius="4">
-                        <Border.Style>
-                            <Style TargetType="Border">
-                                <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesignTextAreaBorder}" />
-                                <Setter Property="BorderThickness" Value="1" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ElementName=lbxExtensions, Path=Items.Count}"
+                            <Border.Style>
+                                <Style TargetType="Border">
+                                    <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesignTextAreaBorder}" />
+                                    <Setter Property="BorderThickness" Value="1" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=lbxExtensions, Path=Items.Count}"
                                                  Value="0">
-                                        <Setter Property="BorderBrush" Value="#b00020" />
-                                        <Setter Property="BorderThickness" Value="2" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Border.Style>
+                                            <Setter Property="BorderBrush" Value="#b00020" />
+                                            <Setter Property="BorderThickness" Value="2" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
 
-                        <ListBox x:Name="lbxExtensions"
+                            <ListBox x:Name="lbxExtensions"
                                  Width="Auto" MinWidth="90"
                                  HorizontalAlignment="Left"
                                  VerticalAlignment="Top"
                                  SelectionMode="Extended"
                                  Style="{StaticResource MaterialDesignListBox}">
-                            <ListBox.ItemContainerStyle>
-                                <Style TargetType="ListBoxItem"
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem"
                                        BasedOn="{StaticResource {x:Type ListBoxItem}}">
-                                    <Setter Property="Height" Value="33" />
-                                    <Setter Property="Padding" Value="10,5,10,5" />
-                                </Style>
-                            </ListBox.ItemContainerStyle>
-                        </ListBox>
-                    </Border>
+                                        <Setter Property="Height" Value="33" />
+                                        <Setter Property="Padding" Value="10,5,10,5" />
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                            </ListBox>
+                        </Border>
 
-                    <TextBlock x:Name="extCount"
+                        <TextBlock x:Name="extCount"
                                Margin="5,0" HorizontalAlignment="Left"
                                Opacity=".75"
                                Text="{Binding ElementName=lbxExtensions,
                                               Path=Items.Count,
                                               StringFormat='{}{0} Extensions'}">
-                        <TextBlock.Style>
-                            <Style TargetType="TextBlock">
-                                <Setter Property="FontWeight" Value="Normal" />
-                                <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ElementName=lbxExtensions, Path=Items.Count}"
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="FontWeight" Value="Normal" />
+                                    <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=lbxExtensions, Path=Items.Count}"
                                                  Value="0">
-                                        <Setter Property="FontWeight" Value="SemiBold" />
-                                        <Setter Property="Foreground" Value="#b00020" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBlock.Style>
-                    </TextBlock>
-                </StackPanel>
+                                            <Setter Property="FontWeight" Value="SemiBold" />
+                                            <Setter Property="Foreground" Value="#b00020" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
 
-                <StackPanel Orientation="Vertical">
-                    <TextBox x:Name="tbx1"
+                    <StackPanel Orientation="Vertical">
+                        <TextBox x:Name="tbx1"
                              Width="100" Height="30"
                              Margin="5,1,5,11" Padding="5,0"
                              HorizontalAlignment="Right"
@@ -188,30 +191,30 @@
                              PreviewTextInput="Tbx1_PreviewTextInput"
                              Style="{StaticResource MaterialDesignOutlinedTextBox}"
                              Text="{Binding FileExtension}" />
-                    <Button x:Name="btnAdd"
+                        <Button x:Name="btnAdd"
                             Width="100" Margin="0,11"
                             Click="BtnAdd_Click" Content="Add"
                             IsEnabled="{Binding ElementName=tbx1,
                                                 Path=Text.Length}"
                             Style="{StaticResource MaterialDesignPaperButton}" />
-                    <Button x:Name="btnDel"
+                        <Button x:Name="btnDel"
                             Width="100" Margin="0,10"
                             Click="BtnDel_Click" Content="Remove"
                             IsEnabled="{Binding ElementName=lbxExtensions,
                                                 Path=SelectedItems.Count}"
                             Style="{StaticResource MaterialDesignPaperButton}" />
+                    </StackPanel>
                 </StackPanel>
             </StackPanel>
-        </StackPanel>
-        <!--#endregion-->
+            <!--#endregion-->
 
-        <!--#region Retries and delay-->
-        <StackPanel Grid.Row="1" Margin="290,6,0,0"
+            <!--#region Retries and delay-->
+            <StackPanel Grid.Row="1" Margin="290,6,0,0"
                     Orientation="Horizontal">
-            <StackPanel Orientation="Vertical">
-                <TextBlock Margin="5,0" FontWeight="SemiBold"
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Margin="5,0" FontWeight="SemiBold"
                            Text="# of Retries" />
-                <nud:IntegerUpDown x:Name="numRetries"
+                    <nud:IntegerUpDown x:Name="numRetries"
                                    Width="120" Height="30"
                                    Margin="5" HorizontalAlignment="Left"
                                    HorizontalContentAlignment="Stretch"
@@ -220,11 +223,11 @@
                                    Value="{Binding NumRetries,
                                                    Source={x:Static dfw:UserSettings.Setting},
                                                    Mode=TwoWay}" />
-            </StackPanel>
-            <StackPanel Margin="20,0" Orientation="Vertical">
-                <TextBlock Margin="5,0" FontWeight="SemiBold"
+                </StackPanel>
+                <StackPanel Margin="20,0" Orientation="Vertical">
+                    <TextBlock Margin="5,0" FontWeight="SemiBold"
                            Text="Initial Delay (ms)" />
-                <nud:IntegerUpDown x:Name="initialDelay"
+                    <nud:IntegerUpDown x:Name="initialDelay"
                                    Width="120" Height="30"
                                    Margin="5" HorizontalAlignment="Left"
                                    HorizontalContentAlignment="Stretch"
@@ -233,37 +236,38 @@
                                    Value="{Binding InitialDelay,
                                                    Source={x:Static dfw:UserSettings.Setting},
                                                    Mode=TwoWay}" />
+                </StackPanel>
             </StackPanel>
-        </StackPanel>
-        <!--#endregion-->
+            <!--#endregion-->
 
-        <!--#region Toggle buttons-->
-        <StackPanel Grid.Row="1" Margin="290,85,0,0"
+            <!--#region Toggle buttons-->
+            <StackPanel Grid.Row="1" Margin="290,85,0,0"
                     Orientation="Vertical">
 
-            <StackPanel Margin="0,0,0,5"
+                <StackPanel Margin="0,0,0,5"
                         Orientation="Horizontal">
-                <ToggleButton HorizontalAlignment="Left"
+                    <ToggleButton HorizontalAlignment="Left"
                               md:ToggleButtonAssist.OnContent="{md:PackIcon Kind=CheckBold,
                                                                             Size=20}"
                               IsChecked="{Binding WatchOnStart,
                                                   Source={x:Static dfw:UserSettings.Setting}}"
                               Style="{StaticResource MaterialDesignSwitchToggleButton}" />
-                <Label Margin="10,0,0,0"
+                    <Label Margin="10,0,0,0"
                        Content="Start watching on application start" />
-            </StackPanel>
-            <StackPanel Margin="0,20,0,5"
+                </StackPanel>
+                <StackPanel Margin="0,20,0,5"
                         Orientation="Horizontal">
-                <ToggleButton HorizontalAlignment="Left"
+                    <ToggleButton HorizontalAlignment="Left"
                               md:ToggleButtonAssist.OnContent="{md:PackIcon Kind=CheckBold,
                                                                             Size=20}"
                               IsChecked="{Binding CheckOnStartup,
                                                   Source={x:Static dfw:UserSettings.Setting}}"
                               Style="{StaticResource MaterialDesignSwitchToggleButton}" />
-                <Label Margin="10,0,0,0"
+                    <Label Margin="10,0,0,0"
                        Content="Check monitored folder on start" />
+                </StackPanel>
             </StackPanel>
-        </StackPanel>
-        <!--#endregion-->
-    </Grid>
+            <!--#endregion-->
+        </Grid>
+    </ScrollViewer>
 </Page>

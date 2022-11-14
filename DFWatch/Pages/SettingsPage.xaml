@@ -15,262 +15,265 @@
       TextOptions.TextFormattingMode="Ideal"
       TextOptions.TextRenderingMode="Auto">
 
-    <Grid>
-
-        <Grid Margin="10">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="160" />
-                <RowDefinition />
-            </Grid.RowDefinitions>
-
-            <!--#region Top Section - Combo boxes and log stuff-->
-            <Grid Grid.Row="0">
-                <!--#region Row & Column definitions-->
+    <ScrollViewer CanContentScroll="True"
+                  HorizontalScrollBarVisibility="Auto"
+                  VerticalScrollBarVisibility="Auto">
+        <Grid>
+            <Grid Margin="10">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="45" />
-                    <RowDefinition Height="45" />
-                    <RowDefinition Height="45" />
+                    <RowDefinition Height="160" />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="250" />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
+
+                <!--#region Top Section - Combo boxes and log stuff-->
+                <Grid Grid.Row="0">
+                    <!--#region Row & Column definitions-->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="45" />
+                        <RowDefinition Height="45" />
+                        <RowDefinition Height="45" />
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="250" />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <!--#endregion-->
+
+                    <StackPanel Grid.Row="0" Grid.Column="0"
+                                Orientation="Horizontal">
+                        <Label Width="70" Margin="0,7"
+                               Content="Theme" />
+                        <ComboBox x:Name="cbxMode"
+                                  Width="110" Margin="0"
+                                  HorizontalAlignment="Left"
+                                  SelectedIndex="{Binding DarkMode,
+                                                          Source={x:Static dfw:UserSettings.Setting}}"
+                                  Style="{StaticResource MaterialDesignComboBox}"
+                                  TabIndex="0">
+                            <ComboBox.Items>
+                                <ComboBoxItem Content="{x:Static dfw:ThemeType.Light}" />
+                                <ComboBoxItem Content="{x:Static dfw:ThemeType.Dark}" />
+                                <ComboBoxItem Content="{x:Static dfw:ThemeType.Darker}" />
+                                <ComboBoxItem Content="{x:Static dfw:ThemeType.System}" />
+                            </ComboBox.Items>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Grid.Column="0"
+                                Orientation="Horizontal">
+                        <Label Width="70" Margin="0,7"
+                               Content="Accent" />
+                        <ComboBox x:Name="cbxColor"
+                                  Width="110" Margin="0"
+                                  HorizontalAlignment="Left"
+                                  MaxDropDownHeight="170"
+                                  SelectedIndex="{Binding PrimaryColor,
+                                                          Source={x:Static dfw:UserSettings.Setting}}"
+                                  Style="{StaticResource MaterialDesignComboBox}"
+                                  TabIndex="1">
+                            <ComboBox.Items>
+                                <ComboBoxItem Content="Red" />
+                                <ComboBoxItem Content="Pink" />
+                                <ComboBoxItem Content="Purple" />
+                                <ComboBoxItem Content="Deep Purple" />
+                                <ComboBoxItem Content="Indigo" />
+                                <ComboBoxItem Content="Blue" />
+                                <ComboBoxItem Content="Light Blue" />
+                                <ComboBoxItem Content="Cyan" />
+                                <ComboBoxItem Content="Teal" />
+                                <ComboBoxItem Content="Green" />
+                                <ComboBoxItem Content="Light Green" />
+                                <ComboBoxItem Content="Lime" />
+                                <ComboBoxItem Content="Yellow" />
+                                <ComboBoxItem Content="Amber" />
+                                <ComboBoxItem Content="Orange" />
+                                <ComboBoxItem Content="Deep Orange" />
+                                <ComboBoxItem Content="Brown" />
+                                <ComboBoxItem Content="Grey" />
+                                <ComboBoxItem Content="Blue Grey" />
+                            </ComboBox.Items>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="2" Grid.Column="0"
+                                Orientation="Horizontal">
+                        <Label Width="70" Margin="0,7"
+                               Content="UI Size" />
+                        <ComboBox x:Name="cbxSize"
+                                  Width="110" Margin="0"
+                                  HorizontalAlignment="Left"
+                                  SelectedIndex="{Binding UISize,
+                                                          Source={x:Static dfw:UserSettings.Setting}}"
+                                  Style="{StaticResource MaterialDesignComboBox}"
+                                  TabIndex="3">
+                            <ComboBox.Items>
+                                <ComboBoxItem Content="{x:Static dfw:MySize.Smallest}" />
+                                <ComboBoxItem Content="{x:Static dfw:MySize.Smaller}" />
+                                <ComboBoxItem Content="{x:Static dfw:MySize.Small}" />
+                                <ComboBoxItem Content="{x:Static dfw:MySize.Default}" />
+                                <ComboBoxItem Content="{x:Static dfw:MySize.Large}" />
+                                <ComboBoxItem Content="{x:Static dfw:MySize.Larger}" />
+                                <ComboBoxItem Content="{x:Static dfw:MySize.Largest}" />
+                            </ComboBox.Items>
+                        </ComboBox>
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="0" Grid.Column="1"
+                                Orientation="Horizontal">
+                        <Label Width="140" Margin="0,7"
+                               Content="Log File Size (KB)" />
+                        <nud:IntegerUpDown Width="120" Height="30"
+                                           Margin="5" HorizontalAlignment="Left"
+                                           HorizontalContentAlignment="Stretch"
+                                           Increment="10" Maximum="1000"
+                                           Minimum="10" TabIndex="4"
+                                           Value="{Binding LogFileSize,
+                                                           Source={x:Static dfw:UserSettings.Setting},
+                                                           Mode=TwoWay}" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="1" Grid.Column="1"
+                                Orientation="Horizontal">
+                        <Label Width="140" Margin="0,7"
+                               Content="Log Archive Versions" />
+                        <nud:IntegerUpDown Width="120" Height="30"
+                                           Margin="5" HorizontalAlignment="Left"
+                                           HorizontalContentAlignment="Stretch"
+                                           Increment="1" Maximum="100"
+                                           Minimum="1" TabIndex="5"
+                                           Value="{Binding LogFileVersions,
+                                                           Source={x:Static dfw:UserSettings.Setting},
+                                                           Mode=TwoWay}" />
+                    </StackPanel>
+                </Grid>
                 <!--#endregion-->
 
-                <StackPanel Grid.Row="0" Grid.Column="0"
-                            Orientation="Horizontal">
-                    <Label Width="70" Margin="0,7"
-                           Content="Theme" />
-                    <ComboBox x:Name="cbxMode"
-                              Width="110" Margin="0"
-                              HorizontalAlignment="Left"
-                              SelectedIndex="{Binding DarkMode,
-                                                      Source={x:Static dfw:UserSettings.Setting}}"
-                              Style="{StaticResource MaterialDesignComboBox}"
-                              TabIndex="0">
-                        <ComboBox.Items>
-                            <ComboBoxItem Content="{x:Static dfw:ThemeType.Light}" />
-                            <ComboBoxItem Content="{x:Static dfw:ThemeType.Dark}" />
-                            <ComboBoxItem Content="{x:Static dfw:ThemeType.Darker}" />
-                            <ComboBoxItem Content="{x:Static dfw:ThemeType.System}" />
-                        </ComboBox.Items>
-                    </ComboBox>
-                </StackPanel>
+                <!--#region Bottom Section - Toggle buttons-->
+                <Grid Grid.Row="1">
+                    <!--#region Row definitions-->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                        <RowDefinition Height="30" />
+                    </Grid.RowDefinitions>
+                    <!--#endregion-->
 
-                <StackPanel Grid.Row="1" Grid.Column="0"
-                            Orientation="Horizontal">
-                    <Label Width="70" Margin="0,7"
-                           Content="Accent" />
-                    <ComboBox x:Name="cbxColor"
-                              Width="110" Margin="0"
-                              HorizontalAlignment="Left"
-                              MaxDropDownHeight="170"
-                              SelectedIndex="{Binding PrimaryColor,
-                                                      Source={x:Static dfw:UserSettings.Setting}}"
-                              Style="{StaticResource MaterialDesignComboBox}"
-                              TabIndex="1">
-                        <ComboBox.Items>
-                            <ComboBoxItem Content="Red" />
-                            <ComboBoxItem Content="Pink" />
-                            <ComboBoxItem Content="Purple" />
-                            <ComboBoxItem Content="Deep Purple" />
-                            <ComboBoxItem Content="Indigo" />
-                            <ComboBoxItem Content="Blue" />
-                            <ComboBoxItem Content="Light Blue" />
-                            <ComboBoxItem Content="Cyan" />
-                            <ComboBoxItem Content="Teal" />
-                            <ComboBoxItem Content="Green" />
-                            <ComboBoxItem Content="Light Green" />
-                            <ComboBoxItem Content="Lime" />
-                            <ComboBoxItem Content="Yellow" />
-                            <ComboBoxItem Content="Amber" />
-                            <ComboBoxItem Content="Orange" />
-                            <ComboBoxItem Content="Deep Orange" />
-                            <ComboBoxItem Content="Brown" />
-                            <ComboBoxItem Content="Grey" />
-                            <ComboBoxItem Content="Blue Grey" />
-                        </ComboBox.Items>
-                    </ComboBox>
-                </StackPanel>
+                    <StackPanel Grid.Row="0" Margin="10,0"
+                                Orientation="Horizontal">
+                        <ToggleButton HorizontalAlignment="Left"
+                                      md:ToggleButtonAssist.OnContent="{md:PackIcon Kind=CheckBold,
+                                                                                    Size=20}"
+                                      IsChecked="{Binding StartWithWindows,
+                                                          Source={x:Static dfw:UserSettings.Setting}}"
+                                      Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                      TabIndex="6" />
+                        <Label Margin="10,0,0,0"
+                               Content="Start with Windows" />
+                    </StackPanel>
 
-                <StackPanel Grid.Row="2" Grid.Column="0"
-                            Orientation="Horizontal">
-                    <Label Width="70" Margin="0,7"
-                           Content="UI Size" />
-                    <ComboBox x:Name="cbxSize"
-                              Width="110" Margin="0"
-                              HorizontalAlignment="Left"
-                              SelectedIndex="{Binding UISize,
-                                                      Source={x:Static dfw:UserSettings.Setting}}"
-                              Style="{StaticResource MaterialDesignComboBox}"
-                              TabIndex="3">
-                        <ComboBox.Items>
-                            <ComboBoxItem Content="{x:Static dfw:MySize.Smallest}" />
-                            <ComboBoxItem Content="{x:Static dfw:MySize.Smaller}" />
-                            <ComboBoxItem Content="{x:Static dfw:MySize.Small}" />
-                            <ComboBoxItem Content="{x:Static dfw:MySize.Default}" />
-                            <ComboBoxItem Content="{x:Static dfw:MySize.Large}" />
-                            <ComboBoxItem Content="{x:Static dfw:MySize.Larger}" />
-                            <ComboBoxItem Content="{x:Static dfw:MySize.Largest}" />
-                        </ComboBox.Items>
-                    </ComboBox>
-                </StackPanel>
+                    <StackPanel Grid.Row="1" Grid.Column="0"
+                                Margin="10,0" Orientation="Horizontal">
+                        <ToggleButton HorizontalAlignment="Left"
+                                      md:ToggleButtonAssist.OnContent="{md:PackIcon Kind=CheckBold,
+                                                                                    Size=20}"
+                                      IsChecked="{Binding StartMinimized,
+                                                          Source={x:Static dfw:UserSettings.Setting}}"
+                                      Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                      TabIndex="7" />
+                        <Label Margin="10,-1,0,0"
+                               Content="Start minimized" />
+                    </StackPanel>
 
-                <StackPanel Grid.Row="0" Grid.Column="1"
-                            Orientation="Horizontal">
-                    <Label Width="140" Margin="0,7"
-                           Content="Log File Size (KB)" />
-                    <nud:IntegerUpDown Width="120" Height="30"
-                                       Margin="5" HorizontalAlignment="Left"
-                                       HorizontalContentAlignment="Stretch"
-                                       Increment="10" Maximum="1000"
-                                       Minimum="10" TabIndex="4"
-                                       Value="{Binding LogFileSize,
-                                                       Source={x:Static dfw:UserSettings.Setting},
-                                                       Mode=TwoWay}" />
-                </StackPanel>
+                    <StackPanel Grid.Row="2" Grid.Column="0"
+                                Grid.ColumnSpan="2" Margin="10,0"
+                                Orientation="Horizontal">
+                        <ToggleButton HorizontalAlignment="Left"
+                                      md:ToggleButtonAssist.OnContent="{md:PackIcon Kind=CheckBold,
+                                                                                    Size=20}"
+                                      IsChecked="{Binding MinimizeToTray,
+                                                          Source={x:Static dfw:UserSettings.Setting}}"
+                                      Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                      TabIndex="8" />
+                        <Label Margin="10,-1,0,0"
+                               Content="Minimize to tray" />
+                    </StackPanel>
 
-                <StackPanel Grid.Row="1" Grid.Column="1"
-                            Orientation="Horizontal">
-                    <Label Width="140" Margin="0,7"
-                           Content="Log Archive Versions" />
-                    <nud:IntegerUpDown Width="120" Height="30"
-                                       Margin="5" HorizontalAlignment="Left"
-                                       HorizontalContentAlignment="Stretch"
-                                       Increment="1" Maximum="100"
-                                       Minimum="1" TabIndex="5"
-                                       Value="{Binding LogFileVersions,
-                                                       Source={x:Static dfw:UserSettings.Setting},
-                                                       Mode=TwoWay}" />
-                </StackPanel>
-            </Grid>
-            <!--#endregion-->
+                    <StackPanel Grid.Row="3" Grid.Column="0"
+                                Grid.ColumnSpan="2" Margin="10,0"
+                                Orientation="Horizontal">
+                        <ToggleButton HorizontalAlignment="Left"
+                                      md:ToggleButtonAssist.OnContent="{md:PackIcon Kind=CheckBold,
+                                                                                    Size=20}"
+                                      IsChecked="{Binding ColoredMessages,
+                                                          Source={x:Static dfw:UserSettings.Setting}}"
+                                      Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                      TabIndex="9" />
+                        <Label Margin="10,-1,0,0"
+                               Content="Color messages in Watcher Log according to severity" />
+                    </StackPanel>
 
-            <!--#region Bottom Section - Toggle buttons-->
-            <Grid Grid.Row="1">
-                <!--#region Row definitions-->
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="30" />
-                    <RowDefinition Height="30" />
-                    <RowDefinition Height="30" />
-                    <RowDefinition Height="30" />
-                    <RowDefinition Height="30" />
-                    <RowDefinition Height="30" />
-                    <RowDefinition Height="30" />
-                    <RowDefinition Height="30" />
-                </Grid.RowDefinitions>
+                    <StackPanel Grid.Row="4" Grid.Column="0"
+                                Grid.ColumnSpan="2" Margin="10,0"
+                                Orientation="Horizontal">
+                        <ToggleButton HorizontalAlignment="Left"
+                                      md:ToggleButtonAssist.OnContent="{md:PackIcon Kind=CheckBold,
+                                                                                    Size=20}"
+                                      IsChecked="{Binding KeepOnTop,
+                                                          Source={x:Static dfw:UserSettings.Setting}}"
+                                      Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                      TabIndex="10" />
+                        <Label Margin="10,-1,0,0"
+                               Content="Keep on top of other windows" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="5" Grid.Column="0"
+                                Grid.ColumnSpan="2" Margin="10,0"
+                                Orientation="Horizontal">
+                        <ToggleButton HorizontalAlignment="Left"
+                                      md:ToggleButtonAssist.OnContent="{md:PackIcon Kind=CheckBold,
+                                                                                    Size=20}"
+                                      IsChecked="{Binding IncludeDebugInFile,
+                                                          Source={x:Static dfw:UserSettings.Setting}}"
+                                      Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                      TabIndex="11" />
+                        <Label Margin="10,-1,0,0"
+                               Content="Include debug level messages in log file" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="6" Grid.Column="0"
+                                Grid.ColumnSpan="2" Margin="10,0"
+                                Orientation="Horizontal">
+                        <ToggleButton HorizontalAlignment="Left"
+                                      md:ToggleButtonAssist.OnContent="{md:PackIcon Kind=CheckBold,
+                                                                                    Size=20}"
+                                      IsChecked="{Binding IncludeDebugInGui,
+                                                          Source={x:Static dfw:UserSettings.Setting}}"
+                                      Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                      TabIndex="12" />
+                        <Label Margin="10,-1,0,0"
+                               Content="Include debug level messages in Watcher Log" />
+                    </StackPanel>
+
+                    <StackPanel Grid.Row="7" Grid.Column="0"
+                                Margin="10,0" Orientation="Horizontal">
+                        <ToggleButton HorizontalAlignment="Left"
+                                      md:ToggleButtonAssist.OnContent="{md:PackIcon Kind=CheckBold,
+                                                                                    Size=20}"
+                                      IsChecked="{Binding Heartbeat,
+                                                          Source={x:Static dfw:UserSettings.Setting}}"
+                                      Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                                      TabIndex="13" />
+                        <Label Margin="10,-1,0,0"
+                               Content="Show Heartbeat message in log" />
+                    </StackPanel>
+                </Grid>
                 <!--#endregion-->
-
-                <StackPanel Grid.Row="0" Margin="10,0"
-                            Orientation="Horizontal">
-                    <ToggleButton HorizontalAlignment="Left"
-                                  md:ToggleButtonAssist.OnContent="{md:PackIcon Kind=CheckBold,
-                                                                                Size=20}"
-                                  IsChecked="{Binding StartWithWindows,
-                                                      Source={x:Static dfw:UserSettings.Setting}}"
-                                  Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                                  TabIndex="6" />
-                    <Label Margin="10,0,0,0"
-                           Content="Start with Windows" />
-                </StackPanel>
-
-                <StackPanel Grid.Row="1" Grid.Column="0"
-                            Margin="10,0" Orientation="Horizontal">
-                    <ToggleButton HorizontalAlignment="Left"
-                                  md:ToggleButtonAssist.OnContent="{md:PackIcon Kind=CheckBold,
-                                                                                Size=20}"
-                                  IsChecked="{Binding StartMinimized,
-                                                      Source={x:Static dfw:UserSettings.Setting}}"
-                                  Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                                  TabIndex="7" />
-                    <Label Margin="10,-1,0,0"
-                           Content="Start minimized" />
-                </StackPanel>
-
-                <StackPanel Grid.Row="2" Grid.Column="0"
-                            Grid.ColumnSpan="2" Margin="10,0"
-                            Orientation="Horizontal">
-                    <ToggleButton HorizontalAlignment="Left"
-                                  md:ToggleButtonAssist.OnContent="{md:PackIcon Kind=CheckBold,
-                                                                                Size=20}"
-                                  IsChecked="{Binding MinimizeToTray,
-                                                      Source={x:Static dfw:UserSettings.Setting}}"
-                                  Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                                  TabIndex="8" />
-                    <Label Margin="10,-1,0,0"
-                           Content="Minimize to tray" />
-                </StackPanel>
-
-                <StackPanel Grid.Row="3" Grid.Column="0"
-                            Grid.ColumnSpan="2" Margin="10,0"
-                            Orientation="Horizontal">
-                    <ToggleButton HorizontalAlignment="Left"
-                                  md:ToggleButtonAssist.OnContent="{md:PackIcon Kind=CheckBold,
-                                                                                Size=20}"
-                                  IsChecked="{Binding ColoredMessages,
-                                                      Source={x:Static dfw:UserSettings.Setting}}"
-                                  Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                                  TabIndex="9" />
-                    <Label Margin="10,-1,0,0"
-                           Content="Color messages in Watcher Log according to severity" />
-                </StackPanel>
-
-                <StackPanel Grid.Row="4" Grid.Column="0"
-                            Grid.ColumnSpan="2" Margin="10,0"
-                            Orientation="Horizontal">
-                    <ToggleButton HorizontalAlignment="Left"
-                                  md:ToggleButtonAssist.OnContent="{md:PackIcon Kind=CheckBold,
-                                                                                Size=20}"
-                                  IsChecked="{Binding KeepOnTop,
-                                                      Source={x:Static dfw:UserSettings.Setting}}"
-                                  Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                                  TabIndex="10" />
-                    <Label Margin="10,-1,0,0"
-                           Content="Keep on top of other windows" />
-                </StackPanel>
-
-                <StackPanel Grid.Row="5" Grid.Column="0"
-                            Grid.ColumnSpan="2" Margin="10,0"
-                            Orientation="Horizontal">
-                    <ToggleButton HorizontalAlignment="Left"
-                                  md:ToggleButtonAssist.OnContent="{md:PackIcon Kind=CheckBold,
-                                                                                Size=20}"
-                                  IsChecked="{Binding IncludeDebugInFile,
-                                                      Source={x:Static dfw:UserSettings.Setting}}"
-                                  Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                                  TabIndex="11" />
-                    <Label Margin="10,-1,0,0"
-                           Content="Include debug level messages in log file" />
-                </StackPanel>
-
-                <StackPanel Grid.Row="6" Grid.Column="0"
-                            Grid.ColumnSpan="2" Margin="10,0"
-                            Orientation="Horizontal">
-                    <ToggleButton HorizontalAlignment="Left"
-                                  md:ToggleButtonAssist.OnContent="{md:PackIcon Kind=CheckBold,
-                                                                                Size=20}"
-                                  IsChecked="{Binding IncludeDebugInGui,
-                                                      Source={x:Static dfw:UserSettings.Setting}}"
-                                  Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                                  TabIndex="12" />
-                    <Label Margin="10,-1,0,0"
-                           Content="Include debug level messages in Watcher Log" />
-                </StackPanel>
-
-                <StackPanel Grid.Row="7" Grid.Column="0"
-                            Margin="10,0" Orientation="Horizontal">
-                    <ToggleButton HorizontalAlignment="Left"
-                                  md:ToggleButtonAssist.OnContent="{md:PackIcon Kind=CheckBold,
-                                                                                Size=20}"
-                                  IsChecked="{Binding Heartbeat,
-                                                      Source={x:Static dfw:UserSettings.Setting}}"
-                                  Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                                  TabIndex="13" />
-                    <Label Margin="10,-1,0,0"
-                           Content="Show Heartbeat message in log" />
-                </StackPanel>
             </Grid>
-            <!--#endregion-->
         </Grid>
-    </Grid>
+    </ScrollViewer>
 </Page>
