@@ -19,6 +19,12 @@
                     StateChanged="Window_StateChanged"
                     WindowStartupLocation="CenterScreen">
 
+    <mde:MaterialWindow.CommandBindings>
+        <CommandBinding CanExecute="Command_CanExecute"
+                        Command="local:CustomCommands.ShowMainWindow"
+                        Executed="ShowCommand_Executed" />
+    </mde:MaterialWindow.CommandBindings>
+
     <md:DialogHost CloseOnClickAway="False"
                    DialogTheme="Inherit" Focusable="False"
                    Identifier="MainDialogHost">
@@ -37,10 +43,10 @@
 
             <!--#region Icon with Context menu in system tray-->
             <tb:TaskbarIcon x:Name="tbIcon"
+                            DoubleClickCommand="{x:Static local:CustomCommands.ShowMainWindow}"
                             IconSource="/Images/W.ico"
-                            MenuActivation="RightClick"
-                            TrayLeftMouseDown="TbIconShowMainWindow_Click"
-                            TrayMouseDoubleClick="TbIconShowMainWindow_Click">
+                            LeftClickCommand="{x:Static local:CustomCommands.ShowMainWindow}"
+                            MenuActivation="RightClick">
                 <tb:TaskbarIcon.ContextMenu>
                     <ContextMenu Name="trayMenu" FontSize="13"
                                  Style="{StaticResource MaterialDesignContextMenu}"
@@ -207,8 +213,8 @@
                            Foreground="{DynamicResource MaterialDesignBody}">
                     <StatusBarItem x:Name="sbStatus"
                                    Padding="20,2"
-                                   Content="Status: Stopped"
-                                   HorizontalAlignment="Left" />
+                                   HorizontalAlignment="Left"
+                                   Content="Status: Stopped" />
                     <StatusBarItem x:Name="sbMessage"
                                    Padding="25,2"
                                    HorizontalAlignment="Right"
