@@ -21,36 +21,13 @@ public partial class MainWindow : MaterialWindow
 
     public MainWindow()
     {
+        SingleInstance.Create(AppInfo.AppName);
+
         InitializeSettings();
 
         InitializeComponent();
 
         ReadSettings();
-    }
-
-    private void StartUp()
-    {
-        if (CheckFoldersAndExt())
-        {
-            if (UserSettings.Setting.CheckOnStartup)
-            {
-                Watch.CheckOnStart();
-            }
-
-            if (UserSettings.Setting.WatchOnStart)
-            {
-                Watch.StartWatcher();
-            }
-            else
-            {
-                UpdateStartStopMenu(false);
-            }
-        }
-
-        if (UserSettings.Setting.Heartbeat)
-        {
-            Heartbeat.StartHeartbeat();
-        }
     }
 
     #region Settings
@@ -374,7 +351,7 @@ public partial class MainWindow : MaterialWindow
     #region Window Events
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-        StartUp();
+        StartUpChecks();
     }
 
     private void Window_StateChanged(object sender, EventArgs e)
@@ -402,6 +379,34 @@ public partial class MainWindow : MaterialWindow
         UserSettings.SaveSettings();
     }
     #endregion Window Events
+
+    #region Startup Checks
+    /// <summary>Check some settings before starting</summary>
+    private void StartUpChecks()
+    {
+        if (CheckFoldersAndExt())
+        {
+            if (UserSettings.Setting.CheckOnStartup)
+            {
+                Watch.CheckOnStart();
+            }
+
+            if (UserSettings.Setting.WatchOnStart)
+            {
+                Watch.StartWatcher();
+            }
+            else
+            {
+                UpdateStartStopMenu(false);
+            }
+        }
+
+        if (UserSettings.Setting.Heartbeat)
+        {
+            Heartbeat.StartHeartbeat();
+        }
+    }
+    #endregion Startup Checks
 
     #region Window Title
     /// <summary>
@@ -478,27 +483,9 @@ public partial class MainWindow : MaterialWindow
     #endregion Log watcher error
 
     #region Show Main window
-    /// <summary>
-    /// Show the main window and set it's state to normal
-    /// </summary>
-    public static void ShowMainWindow()
-    {
-        Application.Current.MainWindow.Show();
-        Application.Current.MainWindow.Visibility = Visibility.Visible;
-        Application.Current.MainWindow.WindowState = WindowState.Normal;
-        _ = Application.Current.MainWindow.Activate();
-    }
-
     private void TbIconShowMainWindow_Click(object sender, RoutedEventArgs e)
     {
-        ShowMainWindow();
-    }
-
-#pragma warning disable CA1822 // Mark members as static
-    public void BringToForeground()
-#pragma warning restore CA1822 // Mark members as static
-    {
-        ShowMainWindow();
+        MainWindowHelpers.ShowMainWindow();
     }
     #endregion Show Main window
 
@@ -530,7 +517,7 @@ public partial class MainWindow : MaterialWindow
 
     private void ShowCommand_Executed(object sender, ExecutedRoutedEventArgs e)
     {
-        ShowMainWindow();
+        MainWindowHelpers.ShowMainWindow();
     }
 
     private void StopWatching_Executed(object sender, ExecutedRoutedEventArgs e)
