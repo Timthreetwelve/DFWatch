@@ -1,6 +1,9 @@
 ﻿// Copyright (c) Tim Kennedy. All Rights Reserved. Licensed under the MIT License.
 
 namespace DFWatch;
+
+/// <summary>Routed UI Commands</summary>
+/// <remarks>Commands for Show, Start, Stop, and Exit</remarks>
 public static class CustomCommands
 {
     public static RoutedUICommand Exit { get; } =
