@@ -482,13 +482,6 @@ public partial class MainWindow : MaterialWindow
     }
     #endregion Log watcher error
 
-    #region Show Main window
-    private void TbIconShowMainWindow_Click(object sender, RoutedEventArgs e)
-    {
-        MainWindowHelpers.ShowMainWindow();
-    }
-    #endregion Show Main window
-
     #region RoutedUICommand methods
     private void Command_CanExecute(object sender, CanExecuteRoutedEventArgs e)
     {
