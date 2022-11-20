@@ -8,6 +8,9 @@ internal static class Files
     #endregion NLog Instance
 
     #region Check for locks on file to be moved
+    /// <summary>Checks for locks on the file.</summary>
+    /// <param name="file">The file.</param>
+    /// <returns>true if file isn't locked, otherwise false</returns>
     private static async Task<bool> CheckForLocksAsync(FileInfo file)
     {
         log.Debug($"Checking for locks on {file.Name}.");
@@ -31,9 +34,23 @@ internal static class Files
             }
             catch (IOException ex)
             {
+                if (ex.Message.Contains("being used by another process"))
+                {
+                    log.Warn($"{file.Name} cannot be moved. It is being used by another process.");
+                    log.Debug($"Waiting {UserSettings.Setting.RetryDelay} milliseconds before trying again.");
+                    await Task.Delay(UserSettings.Setting.RetryDelay);
+                }
+                else
+                {
+                    log.Warn($"{ex.Message}");
+                    log.Debug($"Waiting {UserSettings.Setting.RetryDelay} milliseconds before trying again.");
+                    await Task.Delay(UserSettings.Setting.RetryDelay);
+                }
+            }
+            catch (Exception ex)
+            {
                 log.Warn($"{ex.Message}");
-                log.Debug("Sleeping 1000 milliseconds.");
-                await Task.Delay(1000);
+                return false;
             }
         }
         log.Warn($"Failed to get exclusive lock on {file} after {UserSettings.Setting.NumRetries} attempts.");
@@ -42,6 +59,8 @@ internal static class Files
     #endregion Check for locks on file to be moved
 
     #region Move the file
+    /// <summary>Moves the file.</summary>
+    /// <param name="file">The file.</param>
     public static async void MoveFile(FileInfo file)
     {
         if (!File.Exists(file.FullName))
@@ -77,6 +96,10 @@ internal static class Files
     #endregion Move the file
 
     #region Is newly created file's extension in the list?
+    /// <summary>Checks to see if the extension is in the list</summary>
+    /// <param name="extlist">The extension list.</param>
+    /// <param name="extension">The extension.</param>
+    /// <returns>true if the extension is in the list.</returns>
     public static bool CheckExtension(ObservableCollection<string> extlist, string extension)
     {
         foreach (string ext in extlist)
