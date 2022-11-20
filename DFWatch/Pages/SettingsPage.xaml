@@ -33,6 +33,7 @@
 
             <Button Width="40" Margin="0,0,70,0"
                     Padding="0" HorizontalAlignment="Right"
+                    Click="BtnSave_Click"
                     Foreground="{Binding ElementName=lblHeader,
                                          Path=Foreground}"
                     IsDefault="False" IsTabStop="False"
@@ -44,6 +45,7 @@
 
             <Button Width="40" Margin="0,0,25,0"
                     Padding="0" HorizontalAlignment="Right"
+                    Click="BtnOpen_Click"
                     Foreground="{Binding ElementName=lblHeader,
                                          Path=Foreground}"
                     IsDefault="False" IsTabStop="False"
