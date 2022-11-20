@@ -10,13 +10,29 @@ public partial class LogPage : Page
     {
         InitializeComponent();
 
+        // Settings change event
+        UserSettings.Setting.PropertyChanged += UserSettingChanged;
+
         MsgQueue.MessageQueue.CollectionChanged += MessageQueue_CollectionChanged;
     }
 
+    private void UserSettingChanged(object sender, PropertyChangedEventArgs e)
+    {
+        //PropertyInfo prop = sender.GetType().GetProperty(e.PropertyName);
+        //object newValue = prop?.GetValue(sender, null);
+        switch (e.PropertyName)
+        {
+            case nameof(UserSettings.Setting.DarkMode):
+                RefreshListbox();
+                Debug.WriteLine("xxxxxxxxxx");
+                break;
+        }
+    }
+
     #region Scroll to bottom when message queue changes
-    /// <summary>Handles the CollectionChanged event of the MessageQueue control.</summary>
-    /// <param name="sender">The source of the event.</param>
-    /// <param name="e">The <see cref="NotifyCollectionChangedEventArgs" /> instance containing the event data.</param>
+            /// <summary>Handles the CollectionChanged event of the MessageQueue control.</summary>
+            /// <param name="sender">The source of the event.</param>
+            /// <param name="e">The <see cref="NotifyCollectionChangedEventArgs" /> instance containing the event data.</param>
     private void MessageQueue_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
         ScrollToBottom(lb1);
@@ -82,4 +98,9 @@ public partial class LogPage : Page
         (Application.Current.MainWindow as MainWindow)?.DisappearingMessage("Log display cleared");
     }
     #endregion Button click events
+
+    public void RefreshListbox()
+    {
+        lb1.Items.Refresh();
+    }
 }
