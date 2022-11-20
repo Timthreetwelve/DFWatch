@@ -76,8 +76,9 @@
                   Margin="10" HorizontalAlignment="Center"
                   VerticalAlignment="Center">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="140" />
+                    <ColumnDefinition Width="100" />
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="10" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="26" />
@@ -128,9 +129,9 @@
                 <TextBlock Grid.Row="6" Grid.Column="0"
                            Text="GitHub" />
                 <TextBlock Grid.Row="6" Grid.Column="1">
-                    <Hyperlink NavigateUri="https://github.com/Timthreetwelve/"
+                    <Hyperlink NavigateUri="https://github.com/Timthreetwelve/DFWatch"
                                RequestNavigate="OnNavigate">
-                        <TextBlock Text="https://github.com/Timthreetwelve/" />
+                        <TextBlock Text="https://github.com/Timthreetwelve/DFWatch" />
                     </Hyperlink>
                 </TextBlock>
 
