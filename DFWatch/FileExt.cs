@@ -5,6 +5,8 @@ namespace DFWatch;
 public class FileExt : INotifyPropertyChanged
 {
     #region Observable collection
+    /// <summary>Gets or sets the extension list.</summary>
+    /// <value>The extension list.</value>
     public static ObservableCollection<string> ExtensionList { get; set; }
     #endregion Observable collection
 
