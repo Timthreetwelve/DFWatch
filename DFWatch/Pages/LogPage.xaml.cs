@@ -3,6 +3,7 @@
 namespace DFWatch.Pages;
 
 /// <summary>The Log Page contains the most recent log messages</summary>
+/// <remarks>Size of message queue is set in the LogMethod method in MainWindow.xaml.cs</remarks>
 public partial class LogPage : Page
 {
     public LogPage()

@@ -26,24 +26,39 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="30" />
             <RowDefinition Height="*" />
-            <RowDefinition Height="55" />
+            <RowDefinition Height="5" />
         </Grid.RowDefinitions>
         <!--#endregion-->
 
+        <!--#region Header -->
         <TextBlock x:Name="tbHeader"
                    Margin="21,5" FontWeight="DemiBold"
                    Text="Recent Log Messages:" />
+        <!--#endregion-->
 
-        <Button Width="40" Margin="0,0,55,0"
+        <!--#region Buttons above ListBox -->
+        <Button Width="40" Margin="0,0,190,0"
                 Padding="0" HorizontalAlignment="Right"
-                Click="BtnClear_Click"
+                Click="BtnLogFile_Click"
                 Foreground="{Binding ElementName=tbHeader,
                                      Path=Foreground}"
                 IsDefault="False" IsTabStop="False"
                 Style="{StaticResource MaterialDesignFlatButton}"
-                ToolTip="Clear Messages">
+                ToolTip="Open Log File">
             <md:PackIcon Width="24" Height="24"
-                         Kind="PlaylistRemove" />
+                         Kind="FileCodeOutline" />
+        </Button>
+
+        <Button Width="40" Margin="0,0,145,0"
+                Padding="0" HorizontalAlignment="Right"
+                Click="BtnLogFolder_Click"
+                Foreground="{Binding ElementName=tbHeader,
+                                     Path=Foreground}"
+                IsDefault="False" IsTabStop="False"
+                Style="{StaticResource MaterialDesignFlatButton}"
+                ToolTip="Open Logs Folder">
+            <md:PackIcon Width="24" Height="24"
+                         Kind="FolderOutline" />
         </Button>
 
         <Button Width="40" Margin="0,0,100,0"
@@ -58,12 +73,27 @@
                          Kind="EyeCheckOutline" />
         </Button>
 
+        <Button Width="40" Margin="0,0,55,0"
+                Padding="0" HorizontalAlignment="Right"
+                Click="BtnClear_Click"
+                Foreground="{Binding ElementName=tbHeader,
+                                     Path=Foreground}"
+                IsDefault="False" IsTabStop="False"
+                Style="{StaticResource MaterialDesignFlatButton}"
+                ToolTip="Clear Messages">
+            <md:PackIcon Width="24" Height="24"
+                         Kind="PlaylistRemove" />
+        </Button>
+        <!--#endregion-->
+
+        <!--#region Message count -->
         <TextBlock Margin="25,6"
                    HorizontalAlignment="Right"
                    FontSize="15" FontWeight="DemiBold"
-                   ToolTip="Message Count"
                    Text="{Binding Count,
-                                  Source={x:Static local:MsgQueue.MessageQueue}}" />
+                                  Source={x:Static local:MsgQueue.MessageQueue}}"
+                   ToolTip="Message Count" />
+        <!--#endregion-->
 
         <!--#region ListBox for messages-->
         <ListBox x:Name="lb1"
@@ -90,24 +120,6 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <!--#endregion-->
-
-        <!--#region Buttons at the bottom-->
-        <StackPanel Grid.Row="2" Margin="21,0"
-                    HorizontalAlignment="Center"
-                    Orientation="Horizontal">
-
-            <Button Width="150" Margin="0,0,20,0"
-                    Click="BtnLogFile_Click"
-                    Content="View Log File"
-                    Style="{StaticResource MaterialDesignPaperButton}" />
-
-            <Button Width="150" Margin="0,0,20,0"
-                    Click="BtnLogFolder_Click"
-                    Content="Open Logs Folder"
-                    Style="{StaticResource MaterialDesignPaperButton}" />
-
-        </StackPanel>
         <!--#endregion-->
     </Grid>
 </Page>
