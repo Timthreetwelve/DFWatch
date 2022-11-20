@@ -323,6 +323,7 @@ public partial class MainWindow : MaterialWindow
                 break;
 
             case NavPage.Exit:
+                App.ExplicitClose = true;
                 Close();
                 break;
 
@@ -362,6 +363,9 @@ public partial class MainWindow : MaterialWindow
     {
         // Stop the file system Watcher
         Watch.DisposeWatcher();
+
+        //clean up notify icon (would otherwise stay after application ends)
+        tbIcon.Dispose();
 
         // Stop the stopwatch and record elapsed time
         stopwatch.Stop();
@@ -463,14 +467,49 @@ public partial class MainWindow : MaterialWindow
 
     #region Session ending
     /// <summary>
-    /// Save settings and Log reason for shutdown
+    /// Save settings and Log reason for shutdown.
     /// </summary>
     private void Current_SessionEnding(object sender, SessionEndingCancelEventArgs e)
     {
+        App.ExplicitClose = true;
         UserSettings.SaveSettings();
         log.Info($"{AppInfo.AppName} is stopping due to {e.ReasonSessionEnding}");
     }
     #endregion Session ending
+
+    #region On Closing
+    /// <summary>Overrides the Closing event.</summary>
+    /// <param name="e">CancelEventArgs that contains the event data.</param>
+    protected override void OnClosing(CancelEventArgs e)
+    {
+        if (App.ExplicitClose || !UserSettings.Setting.ConfirmExit)
+        {
+            e.Cancel = false;
+            base.OnClosing(e);
+        }
+        else
+        {
+            MDCustMsgBox mbox = new("Do you want to exit Download Folder Watcher?",
+                    "Confirm Closing",
+                    ButtonType.YesNo,
+                    true,
+                    true,
+                    this,
+                    false);
+            _ = mbox.ShowDialog();
+
+            if (MDCustMsgBox.CustResult == CustResultType.No)
+            {
+                e.Cancel = true;
+            }
+            else
+            {
+                e.Cancel = false;
+                base.OnClosing(e);
+            }
+        }
+    }
+    #endregion On Closing
 
     #region Log watcher error
     /// <summary>

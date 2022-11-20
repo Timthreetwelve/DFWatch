@@ -58,6 +58,17 @@ public class UserSettings : SettingsManager<UserSettings>, INotifyPropertyChange
         }
     }
 
+    public bool ConfirmExit
+    {
+        get => confirmExit;
+        set
+        {
+            confirmExit = value;
+            OnPropertyChanged();
+        }
+    }
+
+
     public int DarkMode
     {
         get => darkmode;
@@ -325,6 +336,7 @@ public class UserSettings : SettingsManager<UserSettings>, INotifyPropertyChange
     #region Private backing fields
     private bool checkOnStartup = true;
     private bool coloredMessages = true;
+    private bool confirmExit = true;
     private int darkmode = 0;
     private string destinationFolder = string.Empty;
     private bool heartbeat = true;

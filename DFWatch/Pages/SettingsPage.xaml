@@ -17,445 +17,473 @@
       TextOptions.TextFormattingMode="Ideal"
       TextOptions.TextRenderingMode="Auto">
 
-    <ScrollViewer CanContentScroll="True"
-                  HorizontalScrollBarVisibility="Auto"
-                  IsTabStop="False"
-                  VerticalScrollBarVisibility="Auto">
-        <Grid>
-            <Grid Margin="10">
-                <!--#region Row definitions-->
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-                <!--#endregion-->
+    <Grid>
+        <!--#region Row definitions-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <!--#endregion-->
 
-                <!--#region Source and destination boxes-->
-                <md:Card Grid.Row="0" Margin="0,0,0,15"
-                         Padding="10"
-                         md:ElevationAssist.Elevation="Dp8">
-                    <StackPanel Grid.Row="0" HorizontalAlignment="Left"
-                                Orientation="Vertical">
-                        <TextBlock Margin="5,0,0,4">
-                            <Span FontWeight="SemiBold">Source Folder</Span>
-                            <Span FontWeight="Normal">(folder to watch)</Span>
-                        </TextBlock>
-                        <StackPanel Margin="0,0,0,10"
-                                    Orientation="Horizontal">
-                            <TextBox x:Name="tbxSource"
-                                     Width="550" Height="35"
-                                     Margin="5,0" Padding="5,5"
-                                     VerticalContentAlignment="Center"
-                                     md:ValidationAssist.FontSize="14"
-                                     md:ValidationAssist.OnlyShowOnFocus="False"
-                                     md:ValidationAssist.PopupPlacement="Center"
-                                     md:ValidationAssist.UsePopup="True"
-                                     KeyDown="TextBox_KeyDown"
-                                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                     TabIndex="0">
-                                <TextBox.Text>
-                                    <Binding Path="SourceFolder"
-                                             Source="{x:Static dfw:UserSettings.Setting}"
-                                             UpdateSourceTrigger="Default"
-                                             ValidatesOnDataErrors="True">
-                                        <Binding.ValidationRules>
-                                            <dfw:DirectoryValidationRule ValidatesOnTargetUpdated="True" />
-                                        </Binding.ValidationRules>
-                                    </Binding>
-                                </TextBox.Text>
-                            </TextBox>
-                            <Button x:Name="btnDestSourcePicker"
-                                    Margin="5,0" Padding="5,2"
-                                    HorizontalAlignment="Right"
-                                    Click="BtnDestSourcePicker_Click"
-                                    Style="{StaticResource MaterialDesignFlatButton}"
-                                    TabIndex="1"
-                                    ToolTip="Click to browse for a folder">
-                                <md:PackIcon Width="30" Height="30"
-                                             Kind="FolderOutline" />
-                            </Button>
-                        </StackPanel>
+        <!--#region Header and Icon buttons at top-->
+        <Grid Grid.Row="0">
+            <Label x:Name="lblHeader"
+                   Margin="10,8,0,0"
+                   Content="Scroll to see additional Settings" />
 
-                        <TextBlock Margin="5,0,0,4" FontWeight="SemiBold"
-                                   Text="Destination Folder" />
-                        <StackPanel Orientation="Horizontal">
-                            <TextBox x:Name="tbxDestination"
-                                     Width="550" Height="35"
-                                     Margin="5,0,5,5" Padding="5,5"
-                                     VerticalContentAlignment="Center"
-                                     md:ValidationAssist.FontSize="14"
-                                     md:ValidationAssist.OnlyShowOnFocus="False"
-                                     md:ValidationAssist.PopupPlacement="Center"
-                                     md:ValidationAssist.UsePopup="True"
-                                     KeyDown="TextBox_KeyDown"
-                                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                     TabIndex="2">
-                                <TextBox.Text>
-                                    <Binding Path="DesitinationFolder"
-                                             Source="{x:Static dfw:UserSettings.Setting}"
-                                             UpdateSourceTrigger="Default"
-                                             ValidatesOnDataErrors="True">
-                                        <Binding.ValidationRules>
-                                            <dfw:DirectoryValidationRule ValidatesOnTargetUpdated="True" />
-                                        </Binding.ValidationRules>
-                                    </Binding>
-                                </TextBox.Text>
-                            </TextBox>
-                            <Button x:Name="btnDestFolderPicker"
-                                    Margin="5,0" Padding="5,2"
-                                    HorizontalAlignment="Right"
-                                    Click="BtnDestFolderPicker_Click"
-                                    Style="{StaticResource MaterialDesignFlatButton}"
-                                    TabIndex="3"
-                                    ToolTip="Click to browse for a file">
-                                <md:PackIcon Width="30" Height="30"
-                                             Kind="FolderOutline" />
-                            </Button>
-                        </StackPanel>
-                    </StackPanel>
-                </md:Card>
-                <!--#endregion-->
+            <Button Width="40" Margin="0,0,70,0"
+                    Padding="0" HorizontalAlignment="Right"
+                    Foreground="{Binding ElementName=lblHeader,
+                                         Path=Foreground}"
+                    IsDefault="False" IsTabStop="False"
+                    Style="{StaticResource MaterialDesignFlatButton}"
+                    ToolTip="Save Settings">
+                <md:PackIcon Width="24" Height="24"
+                             Kind="ContentSaveCogOutline" />
+            </Button>
 
-                <!--#region File extensions-->
-                <md:Card Grid.Row="1" Margin="0,0,0,15"
-                         Padding="10"
-                         md:ElevationAssist.Elevation="Dp8">
-                    <StackPanel Orientation="Vertical">
-                        <TextBlock Margin="5,3,0,7"
-                                   HorizontalAlignment="Left"
-                                   FontWeight="SemiBold"
-                                   Text="File Extensions" />
+            <Grid Grid.Row="0">
+                <Button Width="40" Margin="0,0,25,0"
+                        Padding="0" HorizontalAlignment="Right"
+                        Foreground="{Binding ElementName=lblHeader,
+                                             Path=Foreground}"
+                        IsDefault="False" IsTabStop="False"
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        ToolTip="Open Setting File">
+                    <md:PackIcon Width="23" Height="23"
+                                 Kind="FileCogOutline" />
+                </Button>
+            </Grid>
+            <!--#endregion-->
 
-                        <StackPanel VerticalAlignment="Stretch"
-                                    Orientation="Horizontal">
-                            <StackPanel Orientation="Vertical">
-                                <Border x:Name="bdrLbxExt"
-                                        Height="220" Margin="5,1,15,7"
-                                        Padding="0" VerticalAlignment="Top"
-                                        CornerRadius="4">
-                                    <Border.Style>
-                                        <Style TargetType="Border">
-                                            <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesignTextAreaBorder}" />
-                                            <Setter Property="BorderThickness" Value="1" />
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding ElementName=lbxExtensions, Path=Items.Count}"
-                                                             Value="0">
-                                                    <Setter Property="BorderBrush" Value="#b00020" />
-                                                    <Setter Property="BorderThickness" Value="2" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </Border.Style>
-
-                                    <ListBox x:Name="lbxExtensions"
-                                             Width="Auto" MinWidth="90"
-                                             HorizontalAlignment="Left"
-                                             VerticalAlignment="Top"
-                                             SelectionMode="Extended"
-                                             Style="{StaticResource MaterialDesignListBox}"
-                                             TabIndex="4">
-                                        <ListBox.ItemContainerStyle>
-                                            <Style TargetType="ListBoxItem"
-                                                   BasedOn="{StaticResource {x:Type ListBoxItem}}">
-                                                <Setter Property="Height" Value="30" />
-                                                <Setter Property="Padding" Value="10,5,10,5" />
-                                            </Style>
-                                        </ListBox.ItemContainerStyle>
-                                    </ListBox>
-                                </Border>
-
-                                <TextBlock x:Name="extCount"
-                                           Margin="5,0" HorizontalAlignment="Left"
-                                           Opacity=".75"
-                                           Text="{Binding ElementName=lbxExtensions,
-                                                          Path=Items.Count,
-                                                          StringFormat='{}{0} Extensions'}">
-                                    <TextBlock.Style>
-                                        <Style TargetType="TextBlock">
-                                            <Setter Property="FontWeight" Value="Normal" />
-                                            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding ElementName=lbxExtensions, Path=Items.Count}"
-                                                             Value="0">
-                                                    <Setter Property="FontWeight" Value="SemiBold" />
-                                                    <Setter Property="Foreground" Value="#b00020" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </TextBlock.Style>
-                                </TextBlock>
-                            </StackPanel>
-
-                            <StackPanel Orientation="Vertical">
-                                <TextBox x:Name="tbx1"
-                                         Width="100" Height="32"
-                                         Margin="5,1,5,11" Padding="5,0"
-                                         HorizontalAlignment="Right"
-                                         HorizontalContentAlignment="Center"
-                                         VerticalContentAlignment="Center"
-                                         md:ElevationAssist.Elevation="Dp24"
-                                         md:HintAssist.FloatingOffset="-5,-25"
-                                         md:HintAssist.FloatingScale="1.1"
-                                         md:HintAssist.Hint="Add Here"
-                                         md:HintAssist.IsFloating="True"
-                                         md:ShadowAssist.Darken="True"
-                                         PreviewKeyDown="Tbx1_PreviewKeyDown"
-                                         PreviewTextInput="Tbx1_PreviewTextInput"
-                                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
-                                         TabIndex="5"
-                                         Text="{Binding FileExtension}" />
-                                <Button x:Name="btnAdd"
-                                        Width="100" Margin="0,11"
-                                        Click="BtnAdd_Click" Content="Add"
-                                        IsEnabled="{Binding ElementName=tbx1,
-                                                            Path=Text.Length}"
-                                        Style="{StaticResource MaterialDesignPaperButton}"
-                                        TabIndex="6" />
-                                <Button x:Name="btnDel"
-                                        Width="100" Margin="0,10"
-                                        Click="BtnDel_Click" Content="Remove"
-                                        IsEnabled="{Binding ElementName=lbxExtensions,
-                                                            Path=SelectedItems.Count}"
-                                        Style="{StaticResource MaterialDesignPaperButton}"
-                                        TabIndex="7" />
-                            </StackPanel>
-                        </StackPanel>
-                    </StackPanel>
-                </md:Card>
-                <!--#endregion-->
-
-                <!--#region Retries, delay and log number boxes-->
-                <StackPanel Grid.Row="1" Margin="320,30,0,0"
-                            Orientation="Vertical">
-                    <StackPanel Margin="0,0,0,11"
-                                Orientation="Horizontal">
-                        <Label Width="150" Margin="0"
-                               VerticalAlignment="Center"
-                               Content="Number of Retries" />
-                        <nud:IntegerUpDown x:Name="numRetries"
-                                           Width="120" Height="32"
-                                           Margin="10,0" HorizontalAlignment="Left"
-                                           HorizontalContentAlignment="Stretch"
-                                           Increment="1" Maximum="100"
-                                           Minimum="1" TabIndex="8"
-                                           Value="{Binding NumRetries,
-                                                           Source={x:Static dfw:UserSettings.Setting},
-                                                           Mode=TwoWay}" />
-                    </StackPanel>
-
-                    <StackPanel Margin="0,10" Orientation="Horizontal">
-                        <Label Width="150" Margin="0"
-                               VerticalAlignment="Center"
-                               Content="Initial Delay (ms)" />
-                        <nud:IntegerUpDown x:Name="initialDelay"
-                                           Width="120" Height="32"
-                                           Margin="10,0" HorizontalAlignment="Left"
-                                           HorizontalContentAlignment="Stretch"
-                                           Increment="250" Maximum="10000"
-                                           Minimum="250" TabIndex="9"
-                                           Value="{Binding InitialDelay,
-                                                           Source={x:Static dfw:UserSettings.Setting},
-                                                           Mode=TwoWay}" />
-                    </StackPanel>
-
-                    <StackPanel Margin="0,11" Orientation="Horizontal">
-                        <Label Width="150" Margin="0"
-                               VerticalAlignment="Center"
-                               Content="Retry Delay (ms)" />
-                        <nud:IntegerUpDown x:Name="retryDelay"
-                                           Width="120" Height="32"
-                                           Margin="10,0" HorizontalAlignment="Left"
-                                           HorizontalContentAlignment="Stretch"
-                                           Increment="250" Maximum="10000"
-                                           Minimum="250" TabIndex="10"
-                                           Value="{Binding RetryDelay,
-                                                           Source={x:Static dfw:UserSettings.Setting},
-                                                           Mode=TwoWay}" />
-                    </StackPanel>
-
-                    <StackPanel Margin="0,11" Orientation="Horizontal">
-                        <Label Width="150" Margin="0"
-                               VerticalAlignment="Center"
-                               Content="Log File Size (KB)" />
-                        <nud:IntegerUpDown Width="120" Height="30"
-                                           Margin="10,0" HorizontalAlignment="Left"
-                                           HorizontalContentAlignment="Stretch"
-                                           Increment="10" Maximum="1000"
-                                           Minimum="10" TabIndex="11"
-                                           Value="{Binding LogFileSize,
-                                                           Source={x:Static dfw:UserSettings.Setting},
-                                                           Mode=TwoWay}" />
-                    </StackPanel>
-
-                    <StackPanel Grid.Row="1" Margin="0,11"
-                                Orientation="Horizontal">
-                        <Label Width="150" Margin="0"
-                               VerticalAlignment="Center"
-                               Content="Log Archive Versions" />
-                        <nud:IntegerUpDown Width="120" Height="30"
-                                           Margin="10,0" HorizontalAlignment="Left"
-                                           HorizontalContentAlignment="Stretch"
-                                           Increment="1" Maximum="100"
-                                           Minimum="1" TabIndex="12"
-                                           Value="{Binding LogFileVersions,
-                                                           Source={x:Static dfw:UserSettings.Setting},
-                                                           Mode=TwoWay}" />
-                    </StackPanel>
-                </StackPanel>
-                <!--#endregion-->
-
-                <!--#region UI Combo boxes-->
-                <md:Card Grid.Row="2" Margin="0,0,0,15"
-                         Padding="10"
-                         md:ElevationAssist.Elevation="Dp8">
-                    <Grid>
-                        <!--#region Row & Column definitions-->
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="212" />
-                            <ColumnDefinition Width="212" />
-                            <ColumnDefinition Width="212" />
-                        </Grid.ColumnDefinitions>
-                        <!--#endregion-->
-
-                        <StackPanel Grid.Column="0" Orientation="Horizontal">
-                            <Label Width="70" Margin="0,6"
-                                   Content="Theme" />
-                            <ComboBox x:Name="cbxMode"
-                                      Width="100" Margin="0,1,0,0"
-                                      HorizontalAlignment="Left"
-                                      ItemsSource="{Binding Source={StaticResource enumThemeType}}"
-                                      SelectedIndex="{Binding DarkMode,
-                                                              Source={x:Static dfw:UserSettings.Setting}}"
-                                      Style="{StaticResource MaterialDesignComboBox}"
-                                      TabIndex="13">
-                            </ComboBox>
-                        </StackPanel>
-
-                        <StackPanel Grid.Column="1" Orientation="Horizontal">
-                            <Label Width="70" Margin="0,6"
-                                   Content="Accent" />
-                            <ComboBox x:Name="cbxColor"
-                                      Width="100" Margin="0,1,0,0"
-                                      HorizontalAlignment="Left"
-                                      ItemsSource="{Binding Source={StaticResource enumAccentColors}}"
-                                      MaxDropDownHeight="170"
-                                      SelectedIndex="{Binding PrimaryColor,
-                                                              Source={x:Static dfw:UserSettings.Setting}}"
-                                      Style="{StaticResource MaterialDesignComboBox}"
-                                      TabIndex="14" />
-                        </StackPanel>
-
-                        <StackPanel Grid.Column="2" Orientation="Horizontal">
-                            <Label Width="70" VerticalAlignment="Center"
-                                   Content="UI Size" />
-                            <ComboBox x:Name="cbxSize"
-                                      Width="100" Margin="0,1,0,0"
-                                      HorizontalAlignment="Left"
-                                      ItemsSource="{Binding Source={StaticResource enumUISize}}"
-                                      SelectedIndex="{Binding UISize,
-                                                              Source={x:Static dfw:UserSettings.Setting}}"
-                                      Style="{StaticResource MaterialDesignComboBox}"
-                                      TabIndex="15">
-                            </ComboBox>
-                        </StackPanel>
-                    </Grid>
-                </md:Card>
-                <!--#endregion-->
-
-                <!--#region CheckBoxes-->
-                <md:Card Grid.Row="3" Margin="0,0,0,15"
-                         Padding="10"
-                         md:ElevationAssist.Elevation="Dp8">
-                    <Grid>
+            <ScrollViewer Grid.Row="1" CanContentScroll="True"
+                          HorizontalScrollBarVisibility="Auto"
+                          IsTabStop="False"
+                          VerticalScrollBarVisibility="Auto">
+                <Grid>
+                    <Grid Margin="10">
                         <!--#region Row definitions-->
                         <Grid.RowDefinitions>
-                            <RowDefinition Height="30" />
-                            <RowDefinition Height="35" />
-                            <RowDefinition Height="30" />
-                            <RowDefinition Height="30" />
-                            <RowDefinition Height="30" />
-                            <RowDefinition Height="30" />
-                            <RowDefinition Height="30" />
-                            <RowDefinition Height="30" />
-                            <RowDefinition Height="30" />
-                            <RowDefinition Height="30" />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
+                            <RowDefinition />
                         </Grid.RowDefinitions>
                         <!--#endregion-->
 
-                        <CheckBox Grid.Row="0"
-                                  Content="Start Download Folder Watcher with Windows"
-                                  IsChecked="{Binding StartWithWindows,
-                                                      Source={x:Static dfw:UserSettings.Setting}}" />
+                        <!--#region Source and destination boxes-->
+                        <md:Card Grid.Row="0" Margin="0,0,0,15"
+                                 Padding="10"
+                                 md:ElevationAssist.Elevation="Dp8">
+                            <StackPanel Grid.Row="0" HorizontalAlignment="Left"
+                                        Orientation="Vertical">
+                                <TextBlock Margin="5,0,0,4">
+                                    <Span FontWeight="SemiBold">Source Folder</Span>
+                                    <Span FontWeight="Normal">(folder to watch)</Span>
+                                </TextBlock>
+                                <StackPanel Margin="0,0,0,10"
+                                            Orientation="Horizontal">
+                                    <TextBox x:Name="tbxSource"
+                                             Width="550" Height="35"
+                                             Margin="5,0" Padding="5,5"
+                                             VerticalContentAlignment="Center"
+                                             md:ValidationAssist.FontSize="14"
+                                             md:ValidationAssist.OnlyShowOnFocus="False"
+                                             md:ValidationAssist.PopupPlacement="Center"
+                                             md:ValidationAssist.UsePopup="True"
+                                             KeyDown="TextBox_KeyDown"
+                                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                             TabIndex="0">
+                                        <TextBox.Text>
+                                            <Binding Path="SourceFolder"
+                                                     Source="{x:Static dfw:UserSettings.Setting}"
+                                                     UpdateSourceTrigger="Default"
+                                                     ValidatesOnDataErrors="True">
+                                                <Binding.ValidationRules>
+                                                    <dfw:DirectoryValidationRule ValidatesOnTargetUpdated="True" />
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </TextBox.Text>
+                                    </TextBox>
+                                    <Button x:Name="btnDestSourcePicker"
+                                            Margin="5,0" Padding="5,2"
+                                            HorizontalAlignment="Right"
+                                            Click="BtnDestSourcePicker_Click"
+                                            Style="{StaticResource MaterialDesignFlatButton}"
+                                            TabIndex="1"
+                                            ToolTip="Click to browse for a folder">
+                                        <md:PackIcon Width="30" Height="30"
+                                                     Kind="FolderOutline" />
+                                    </Button>
+                                </StackPanel>
 
-                        <CheckBox Grid.Row="1" Content="Start minimized"
-                                  IsChecked="{Binding StartMinimized,
-                                                      Source={x:Static dfw:UserSettings.Setting}}" />
+                                <TextBlock Margin="5,0,0,4" FontWeight="SemiBold"
+                                           Text="Destination Folder" />
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBox x:Name="tbxDestination"
+                                             Width="550" Height="35"
+                                             Margin="5,0,5,5" Padding="5,5"
+                                             VerticalContentAlignment="Center"
+                                             md:ValidationAssist.FontSize="14"
+                                             md:ValidationAssist.OnlyShowOnFocus="False"
+                                             md:ValidationAssist.PopupPlacement="Center"
+                                             md:ValidationAssist.UsePopup="True"
+                                             KeyDown="TextBox_KeyDown"
+                                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                             TabIndex="2">
+                                        <TextBox.Text>
+                                            <Binding Path="DesitinationFolder"
+                                                     Source="{x:Static dfw:UserSettings.Setting}"
+                                                     UpdateSourceTrigger="Default"
+                                                     ValidatesOnDataErrors="True">
+                                                <Binding.ValidationRules>
+                                                    <dfw:DirectoryValidationRule ValidatesOnTargetUpdated="True" />
+                                                </Binding.ValidationRules>
+                                            </Binding>
+                                        </TextBox.Text>
+                                    </TextBox>
+                                    <Button x:Name="btnDestFolderPicker"
+                                            Margin="5,0" Padding="5,2"
+                                            HorizontalAlignment="Right"
+                                            Click="BtnDestFolderPicker_Click"
+                                            Style="{StaticResource MaterialDesignFlatButton}"
+                                            TabIndex="3"
+                                            ToolTip="Click to browse for a file">
+                                        <md:PackIcon Width="30" Height="30"
+                                                     Kind="FolderOutline" />
+                                    </Button>
+                                </StackPanel>
+                            </StackPanel>
+                        </md:Card>
+                        <!--#endregion-->
+
+                        <!--#region File extensions-->
+                        <md:Card Grid.Row="1" Margin="0,0,0,15"
+                                 Padding="10"
+                                 md:ElevationAssist.Elevation="Dp8">
+                            <StackPanel Orientation="Vertical">
+                                <TextBlock Margin="5,3,0,7"
+                                           HorizontalAlignment="Left"
+                                           FontWeight="SemiBold"
+                                           Text="File Extensions" />
+
+                                <StackPanel VerticalAlignment="Stretch"
+                                            Orientation="Horizontal">
+                                    <StackPanel Orientation="Vertical">
+                                        <Border x:Name="bdrLbxExt"
+                                                Height="220" Margin="5,1,15,7"
+                                                Padding="0" VerticalAlignment="Top"
+                                                CornerRadius="4">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="BorderBrush" Value="{DynamicResource MaterialDesignTextAreaBorder}" />
+                                                    <Setter Property="BorderThickness" Value="1" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding ElementName=lbxExtensions, Path=Items.Count}"
+                                                                     Value="0">
+                                                            <Setter Property="BorderBrush" Value="#b00020" />
+                                                            <Setter Property="BorderThickness" Value="2" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+
+                                            <ListBox x:Name="lbxExtensions"
+                                                     Width="Auto" MinWidth="90"
+                                                     HorizontalAlignment="Left"
+                                                     VerticalAlignment="Top"
+                                                     SelectionMode="Extended"
+                                                     Style="{StaticResource MaterialDesignListBox}"
+                                                     TabIndex="4">
+                                                <ListBox.ItemContainerStyle>
+                                                    <Style TargetType="ListBoxItem"
+                                                           BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                                                        <Setter Property="Height" Value="30" />
+                                                        <Setter Property="Padding" Value="10,5,10,5" />
+                                                    </Style>
+                                                </ListBox.ItemContainerStyle>
+                                            </ListBox>
+                                        </Border>
+
+                                        <TextBlock x:Name="extCount"
+                                                   Margin="5,0" HorizontalAlignment="Left"
+                                                   Opacity=".75"
+                                                   Text="{Binding ElementName=lbxExtensions,
+                                                                  Path=Items.Count,
+                                                                  StringFormat='{}{0} Extensions'}">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="FontWeight" Value="Normal" />
+                                                    <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding ElementName=lbxExtensions, Path=Items.Count}"
+                                                                     Value="0">
+                                                            <Setter Property="FontWeight" Value="SemiBold" />
+                                                            <Setter Property="Foreground" Value="#b00020" />
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </StackPanel>
+
+                                    <StackPanel Orientation="Vertical">
+                                        <TextBox x:Name="tbx1"
+                                                 Width="100" Height="32"
+                                                 Margin="5,1,5,11" Padding="5,0"
+                                                 HorizontalAlignment="Right"
+                                                 HorizontalContentAlignment="Center"
+                                                 VerticalContentAlignment="Center"
+                                                 md:ElevationAssist.Elevation="Dp24"
+                                                 md:HintAssist.FloatingOffset="-5,-25"
+                                                 md:HintAssist.FloatingScale="1.1"
+                                                 md:HintAssist.Hint="Add Here"
+                                                 md:HintAssist.IsFloating="True"
+                                                 md:ShadowAssist.Darken="True"
+                                                 PreviewKeyDown="Tbx1_PreviewKeyDown"
+                                                 PreviewTextInput="Tbx1_PreviewTextInput"
+                                                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                                 TabIndex="5"
+                                                 Text="{Binding FileExtension}" />
+                                        <Button x:Name="btnAdd"
+                                                Width="100" Margin="0,11"
+                                                Click="BtnAdd_Click" Content="Add"
+                                                IsEnabled="{Binding ElementName=tbx1,
+                                                                    Path=Text.Length}"
+                                                Style="{StaticResource MaterialDesignPaperButton}"
+                                                TabIndex="6" />
+                                        <Button x:Name="btnDel"
+                                                Width="100" Margin="0,10"
+                                                Click="BtnDel_Click" Content="Remove"
+                                                IsEnabled="{Binding ElementName=lbxExtensions,
+                                                                    Path=SelectedItems.Count}"
+                                                Style="{StaticResource MaterialDesignPaperButton}"
+                                                TabIndex="7" />
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+                        </md:Card>
+                        <!--#endregion-->
+
+                        <!--#region Retries, delay and log number boxes-->
+                        <StackPanel Grid.Row="1" Margin="320,30,0,0"
+                                    Orientation="Vertical">
+                            <StackPanel Margin="0,0,0,11"
+                                        Orientation="Horizontal">
+                                <Label Width="150" Margin="0"
+                                       VerticalAlignment="Center"
+                                       Content="Number of Retries" />
+                                <nud:IntegerUpDown x:Name="numRetries"
+                                                   Width="120" Height="32"
+                                                   Margin="10,0" HorizontalAlignment="Left"
+                                                   HorizontalContentAlignment="Stretch"
+                                                   Increment="1" Maximum="100"
+                                                   Minimum="1" TabIndex="8"
+                                                   Value="{Binding NumRetries,
+                                                                   Source={x:Static dfw:UserSettings.Setting},
+                                                                   Mode=TwoWay}" />
+                            </StackPanel>
+
+                            <StackPanel Margin="0,10" Orientation="Horizontal">
+                                <Label Width="150" Margin="0"
+                                       VerticalAlignment="Center"
+                                       Content="Initial Delay (ms)" />
+                                <nud:IntegerUpDown x:Name="initialDelay"
+                                                   Width="120" Height="32"
+                                                   Margin="10,0" HorizontalAlignment="Left"
+                                                   HorizontalContentAlignment="Stretch"
+                                                   Increment="250" Maximum="10000"
+                                                   Minimum="250" TabIndex="9"
+                                                   Value="{Binding InitialDelay,
+                                                                   Source={x:Static dfw:UserSettings.Setting},
+                                                                   Mode=TwoWay}" />
+                            </StackPanel>
+
+                            <StackPanel Margin="0,11" Orientation="Horizontal">
+                                <Label Width="150" Margin="0"
+                                       VerticalAlignment="Center"
+                                       Content="Retry Delay (ms)" />
+                                <nud:IntegerUpDown x:Name="retryDelay"
+                                                   Width="120" Height="32"
+                                                   Margin="10,0" HorizontalAlignment="Left"
+                                                   HorizontalContentAlignment="Stretch"
+                                                   Increment="250" Maximum="10000"
+                                                   Minimum="250" TabIndex="10"
+                                                   Value="{Binding RetryDelay,
+                                                                   Source={x:Static dfw:UserSettings.Setting},
+                                                                   Mode=TwoWay}" />
+                            </StackPanel>
+
+                            <StackPanel Margin="0,11" Orientation="Horizontal">
+                                <Label Width="150" Margin="0"
+                                       VerticalAlignment="Center"
+                                       Content="Log File Size (KB)" />
+                                <nud:IntegerUpDown Width="120" Height="30"
+                                                   Margin="10,0" HorizontalAlignment="Left"
+                                                   HorizontalContentAlignment="Stretch"
+                                                   Increment="10" Maximum="1000"
+                                                   Minimum="10" TabIndex="11"
+                                                   Value="{Binding LogFileSize,
+                                                                   Source={x:Static dfw:UserSettings.Setting},
+                                                                   Mode=TwoWay}" />
+                            </StackPanel>
+
+                            <StackPanel Grid.Row="1" Margin="0,11"
+                                        Orientation="Horizontal">
+                                <Label Width="150" Margin="0"
+                                       VerticalAlignment="Center"
+                                       Content="Log Archive Versions" />
+                                <nud:IntegerUpDown Width="120" Height="30"
+                                                   Margin="10,0" HorizontalAlignment="Left"
+                                                   HorizontalContentAlignment="Stretch"
+                                                   Increment="1" Maximum="100"
+                                                   Minimum="1" TabIndex="12"
+                                                   Value="{Binding LogFileVersions,
+                                                                   Source={x:Static dfw:UserSettings.Setting},
+                                                                   Mode=TwoWay}" />
+                            </StackPanel>
+                        </StackPanel>
+                        <!--#endregion-->
+
+                        <!--#region UI Combo boxes-->
+                        <md:Card Grid.Row="2" Margin="0,0,0,15"
+                                 Padding="10"
+                                 md:ElevationAssist.Elevation="Dp8">
+                            <Grid>
+                                <!--#region Row & Column definitions-->
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="212" />
+                                    <ColumnDefinition Width="212" />
+                                    <ColumnDefinition Width="212" />
+                                </Grid.ColumnDefinitions>
+                                <!--#endregion-->
+
+                                <StackPanel Grid.Column="0" Orientation="Horizontal">
+                                    <Label Width="70" Margin="0,6"
+                                           Content="Theme" />
+                                    <ComboBox x:Name="cbxMode"
+                                              Width="100" Margin="0,1,0,0"
+                                              HorizontalAlignment="Left"
+                                              ItemsSource="{Binding Source={StaticResource enumThemeType}}"
+                                              SelectedIndex="{Binding DarkMode,
+                                                                      Source={x:Static dfw:UserSettings.Setting}}"
+                                              Style="{StaticResource MaterialDesignComboBox}"
+                                              TabIndex="13" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                                    <Label Width="70" Margin="0,6"
+                                           Content="Accent" />
+                                    <ComboBox x:Name="cbxColor"
+                                              Width="100" Margin="0,1,0,0"
+                                              HorizontalAlignment="Left"
+                                              ItemsSource="{Binding Source={StaticResource enumAccentColors}}"
+                                              MaxDropDownHeight="170"
+                                              SelectedIndex="{Binding PrimaryColor,
+                                                                      Source={x:Static dfw:UserSettings.Setting}}"
+                                              Style="{StaticResource MaterialDesignComboBox}"
+                                              TabIndex="14" />
+                                </StackPanel>
+
+                                <StackPanel Grid.Column="2" Orientation="Horizontal">
+                                    <Label Width="70" VerticalAlignment="Center"
+                                           Content="UI Size" />
+                                    <ComboBox x:Name="cbxSize"
+                                              Width="100" Margin="0,1,0,0"
+                                              HorizontalAlignment="Left"
+                                              ItemsSource="{Binding Source={StaticResource enumUISize}}"
+                                              SelectedIndex="{Binding UISize,
+                                                                      Source={x:Static dfw:UserSettings.Setting}}"
+                                              Style="{StaticResource MaterialDesignComboBox}"
+                                              TabIndex="15" />
+                                </StackPanel>
+                            </Grid>
+                        </md:Card>
+                        <!--#endregion-->
+
+                        <!--#region CheckBoxes-->
+                        <md:Card Grid.Row="3" Margin="0,0,0,15"
+                                 Padding="10"
+                                 md:ElevationAssist.Elevation="Dp8">
+                            <Grid>
+                                <!--#region Row definitions-->
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="35" />
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="30" />
+                                    <RowDefinition Height="30" />
+                                </Grid.RowDefinitions>
+                                <!--#endregion-->
+
+                                <CheckBox Grid.Row="0"
+                                          Content="Start Download Folder Watcher with Windows"
+                                          IsChecked="{Binding StartWithWindows,
+                                                              Source={x:Static dfw:UserSettings.Setting}}" />
+
+                                <CheckBox Grid.Row="1" Content="Start minimized"
+                                          IsChecked="{Binding StartMinimized,
+                                                              Source={x:Static dfw:UserSettings.Setting}}" />
 
 
-                        <CheckBox Grid.Row="2"
-                                  Content="Start watching on application start"
-                                  IsChecked="{Binding WatchOnStart,
-                                                      Source={x:Static dfw:UserSettings.Setting}}" />
+                                <CheckBox Grid.Row="2"
+                                          Content="Start watching on application start"
+                                          IsChecked="{Binding WatchOnStart,
+                                                              Source={x:Static dfw:UserSettings.Setting}}" />
 
-                        <CheckBox Grid.Row="3"
-                                  Content="Check monitored folder on start"
-                                  IsChecked="{Binding CheckOnStartup,
-                                                      Source={x:Static dfw:UserSettings.Setting}}" />
+                                <CheckBox Grid.Row="3"
+                                          Content="Check monitored folder on start"
+                                          IsChecked="{Binding CheckOnStartup,
+                                                              Source={x:Static dfw:UserSettings.Setting}}" />
 
-                        <CheckBox Grid.Row="4" Content="Minimize to tray"
-                                  IsChecked="{Binding MinimizeToTray,
-                                                      Source={x:Static dfw:UserSettings.Setting}}" />
+                                <CheckBox Grid.Row="4" Content="Minimize to tray"
+                                          IsChecked="{Binding MinimizeToTray,
+                                                              Source={x:Static dfw:UserSettings.Setting}}" />
 
-                        <CheckBox Grid.Row="5"
-                                  Content="Color messages in Watcher Log"
-                                  IsChecked="{Binding ColoredMessages,
-                                                      Source={x:Static dfw:UserSettings.Setting}}" />
+                                <CheckBox Grid.Row="5"
+                                          Content="Color messages in Watcher Log"
+                                          IsChecked="{Binding ColoredMessages,
+                                                              Source={x:Static dfw:UserSettings.Setting}}" />
 
 
-                        <CheckBox Grid.Row="6"
-                                  Content="Keep on top of other windows"
-                                  IsChecked="{Binding KeepOnTop,
-                                                      Source={x:Static dfw:UserSettings.Setting}}" />
+                                <CheckBox Grid.Row="6"
+                                          Content="Keep on top of other windows"
+                                          IsChecked="{Binding KeepOnTop,
+                                                              Source={x:Static dfw:UserSettings.Setting}}" />
 
-                        <CheckBox Grid.Row="7"
-                                  Content="Include debug level messages in log file"
-                                  IsChecked="{Binding IncludeDebugInFile,
-                                                      Source={x:Static dfw:UserSettings.Setting}}" />
+                                <CheckBox Grid.Row="7"
+                                          Content="Include debug level messages in log file"
+                                          IsChecked="{Binding IncludeDebugInFile,
+                                                              Source={x:Static dfw:UserSettings.Setting}}" />
 
-                        <CheckBox Grid.Row="8"
-                                  Content="Include debug level messages in Watcher Log"
-                                  IsChecked="{Binding IncludeDebugInGui,
-                                                      Source={x:Static dfw:UserSettings.Setting}}" />
+                                <CheckBox Grid.Row="8"
+                                          Content="Include debug level messages in Watcher Log"
+                                          IsChecked="{Binding IncludeDebugInGui,
+                                                              Source={x:Static dfw:UserSettings.Setting}}" />
 
-                        <CheckBox Grid.Row="9"
-                                  Content="Show Heartbeat message in log"
-                                  IsChecked="{Binding Heartbeat,
-                                                      Source={x:Static dfw:UserSettings.Setting}}" />
+                                <CheckBox Grid.Row="9"
+                                          Content="Show Heartbeat message in log"
+                                          IsChecked="{Binding Heartbeat,
+                                                              Source={x:Static dfw:UserSettings.Setting}}" />
+
+                                <CheckBox Grid.Row="10" Content="Confirm shutdown"
+                                          IsChecked="{Binding ConfirmExit,
+                                                              Source={x:Static dfw:UserSettings.Setting}}" />
+                            </Grid>
+                        </md:Card>
+                        <!--#endregion-->
+
                     </Grid>
-                </md:Card>
-                <!--#endregion-->
-
-                <!--#region Buttons at bottom-->
-                <Grid Grid.Row="4">
-                    <StackPanel Grid.Row="10" Margin="10"
-                                HorizontalAlignment="Center"
-                                Orientation="Horizontal">
-                        <Button x:Name="BtnSave"
-                                Width="155" Click="BtnSave_Click"
-                                Content="Save Settings"
-                                Style="{StaticResource MaterialDesignPaperButton}" />
-                        <Button x:Name="BtnOpen"
-                                Width="155" Margin="20,0,0,0"
-                                Click="BtnOpen_Click"
-                                Content="Open Settings File"
-                                Style="{StaticResource MaterialDesignPaperButton}" />
-                    </StackPanel>
                 </Grid>
-                <!--#endregion-->
-            </Grid>
+            </ScrollViewer>
+
+
         </Grid>
-    </ScrollViewer>
+    </Grid>
 </Page>

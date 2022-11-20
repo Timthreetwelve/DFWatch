@@ -6,6 +6,8 @@ namespace DFWatch;
 /// </summary>
 public partial class App : Application
 {
+    internal static bool ExplicitClose { get; set; }
+
     /// <summary>Override the Startup Event</summary>
     protected override void OnStartup(StartupEventArgs e)
     {
