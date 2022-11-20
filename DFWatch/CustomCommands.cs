@@ -10,7 +10,7 @@ public static class CustomCommands
         new("E_xit", "Exit", typeof(CustomCommands));
 
     public static RoutedUICommand ShowMainWindow { get; } =
-        new("_Show Window", "Show", typeof(CustomCommands));
+        new("_Show Main Window", "Show", typeof(CustomCommands));
 
     public static RoutedUICommand StopWatching { get; } =
     new("Sto_p Watcher", "StopWatching", typeof(CustomCommands));
