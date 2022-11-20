@@ -572,7 +572,7 @@ public partial class MainWindow : MaterialWindow
     {
         if (IsLoaded && !RegRun.RegRunEntry("DFWatch"))
         {
-            string result = RegRun.AddRegEntry("DFWatch", AppInfo.AppPath);
+            string result = RegRun.AddRegEntry("DFWatch", AppInfo.AppProcessPath);
             if (result == "OK")
             {
                 log.Info(@"DFWatch added to HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run");

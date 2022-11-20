@@ -175,6 +175,12 @@ public static class AppInfo
     }
 
     /// <summary>
+    /// Returns the Process path. Use in .net 6 and above.
+    /// </summary>
+    public static string AppProcessPath =>
+            Environment.ProcessPath;
+
+    /// <summary>
     /// Returns the Process Name
     /// </summary>
     public static string AppProcessName =>
