@@ -7,8 +7,8 @@
                     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
                     xmlns:mde="https://spiegelp.github.io/MaterialDesignExtensions/winfx/xaml"
                     xmlns:tb="http://www.hardcodet.net/taskbar"
-                    mc:Ignorable="d" MinWidth="575"
-                    MinHeight="375"
+                    mc:Ignorable="d" MinWidth="600"
+                    MinHeight="460"
                     Background="{DynamicResource MaterialDesignPaper}"
                     Closing="Window_Closing"
                     FadeContentIfInactive="False"
@@ -19,11 +19,13 @@
                     StateChanged="Window_StateChanged"
                     WindowStartupLocation="CenterScreen">
 
+    <!--#region Command bindings -->
     <mde:MaterialWindow.CommandBindings>
         <CommandBinding CanExecute="Command_CanExecute"
                         Command="local:CustomCommands.ShowMainWindow"
                         Executed="ShowCommand_Executed" />
     </mde:MaterialWindow.CommandBindings>
+    <!--#endregion-->
 
     <md:DialogHost CloseOnClickAway="False"
                    DialogTheme="Inherit" Focusable="False"
@@ -89,11 +91,11 @@
             <!--#endregion-->
 
             <!--#region Navigation menu-->
-            <md:Card Grid.Row="0" Grid.Column="0"
-                     md:ElevationAssist.Elevation="Dp0"
-                     UniformCornerRadius="0">
+            <md:Card Grid.Row="0" Grid.Column="0" Margin="0,10" 
+                     md:ElevationAssist.Elevation="Dp8"
+                     UniformCornerRadius="4">
                 <Grid>
-                    <ListBox x:Name="LbxNavigation"
+                    <ListBox x:Name="LbxNavigation" 
                              SelectionChanged="LbxNavigation_SelectionChanged"
                              Style="{StaticResource NavListBox}">
 
@@ -106,19 +108,6 @@
                                                  Kind="DocumentSign" />
                                     <TextBlock Margin="10,0" VerticalAlignment="Center"
                                                Text="Watcher Log" />
-                                </StackPanel>
-                            </ListBoxItem.Content>
-                        </ListBoxItem>
-
-                        <ListBoxItem Style="{StaticResource NavPaneListBoxItem}">
-                            <ListBoxItem.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <md:PackIcon Width="24" Height="24"
-                                                 VerticalAlignment="Center"
-                                                 Foreground="{DynamicResource PrimaryHueMidBrush}"
-                                                 Kind="Cog" />
-                                    <TextBlock Margin="10,0" VerticalAlignment="Center"
-                                               Text="Watcher Settings" />
                                 </StackPanel>
                             </ListBoxItem.Content>
                         </ListBoxItem>
@@ -163,7 +152,7 @@
                                                  Foreground="{DynamicResource PrimaryHueMidBrush}"
                                                  Kind="CogOutline" />
                                     <TextBlock Margin="10,0" VerticalAlignment="Center"
-                                               Text="App Settings" />
+                                               Text="Settings" />
                                 </StackPanel>
                             </ListBoxItem.Content>
                         </ListBoxItem>

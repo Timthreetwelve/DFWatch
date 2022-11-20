@@ -73,7 +73,7 @@ public partial class MainWindow : MaterialWindow
         log.Debug($".NET version: {AppInfo.RuntimeVersion.Replace(".NET", "")}  ({version})");
         log.Debug(AppInfo.Framework);
         log.Debug(AppInfo.OsPlatform);
-        tbIcon.ToolTipText = $"DFWatch {AppInfo.TitleVersion}";
+        tbIcon.ToolTipText = $"DFWatch {AppInfo.TitleVersion} - Stopped";
 
         // Window position
         UserSettings.Setting.SetWindowPos();
@@ -95,11 +95,11 @@ public partial class MainWindow : MaterialWindow
             }
         }
 
-        // ASettings change event
+        // Settings change event
         UserSettings.Setting.PropertyChanged += UserSettingChanged;
 
         // Watch for errors
-        Watch.watcher.Error += Watcher_Error;
+        Watch.Watcher.Error += Watcher_Error;
 
         // Session ending
         Application.Current.SessionEnding += Current_SessionEnding;
@@ -309,15 +309,11 @@ public partial class MainWindow : MaterialWindow
     {
         switch (selectedIndex)
         {
-            case NavPage.WSettings:
-                _ = MainFrame.Navigate(new MainPage());
-                break;
-
             case NavPage.Logs:
                 _ = MainFrame.Navigate(new LogPage());
                 break;
 
-            case NavPage.ASettings:
+            case NavPage.Settings:
                 _ = MainFrame.Navigate(new SettingsPage());
                 break;
 
@@ -364,7 +360,7 @@ public partial class MainWindow : MaterialWindow
 
     private void Window_Closing(object sender, CancelEventArgs e)
     {
-        // Stop the file system watcher
+        // Stop the file system Watcher
         Watch.DisposeWatcher();
 
         // Stop the stopwatch and record elapsed time
@@ -374,8 +370,12 @@ public partial class MainWindow : MaterialWindow
         // Shut down NLog
         LogManager.Shutdown();
 
+        UserSettings.Setting.WindowLeft = Math.Floor(Left);
+        UserSettings.Setting.WindowTop = Math.Floor(Top);
+        UserSettings.Setting.WindowWidth = Math.Floor(ActualWidth);
+        UserSettings.Setting.WindowHeight = Math.Floor(ActualHeight);
+
         // Save settings
-        UserSettings.Setting.SaveWindowPos();
         UserSettings.SaveSettings();
     }
     #endregion Window Events
@@ -388,7 +388,7 @@ public partial class MainWindow : MaterialWindow
         {
             if (UserSettings.Setting.CheckOnStartup)
             {
-                Watch.CheckOnStart();
+                Watch.CheckOnDemand();
             }
 
             if (UserSettings.Setting.WatchOnStart)
@@ -417,11 +417,11 @@ public partial class MainWindow : MaterialWindow
         // Set the windows title
         if (IsAdministrator())
         {
-            Title = AppInfo.AppName + " - " + AppInfo.TitleVersion + " - (Administrator)";
+            Title = AppInfo.AppProduct + " - " + AppInfo.TitleVersion + " - (Administrator)";
         }
         else
         {
-            Title = AppInfo.AppName + " - " + AppInfo.TitleVersion;
+            Title = AppInfo.AppProduct + " - " + AppInfo.TitleVersion;
         }
     }
     #endregion Window Title
@@ -463,10 +463,11 @@ public partial class MainWindow : MaterialWindow
 
     #region Session ending
     /// <summary>
-    /// Log reason for shutdown
+    /// Save settings and Log reason for shutdown
     /// </summary>
     private void Current_SessionEnding(object sender, SessionEndingCancelEventArgs e)
     {
+        UserSettings.SaveSettings();
         log.Info($"{AppInfo.AppName} is stopping due to {e.ReasonSessionEnding}");
     }
     #endregion Session ending
@@ -490,12 +491,12 @@ public partial class MainWindow : MaterialWindow
 
     private void StopCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
     {
-        e.CanExecute = Watch.watcher.EnableRaisingEvents;
+        e.CanExecute = Watch.Watcher.EnableRaisingEvents;
     }
 
     private void StartCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
     {
-        e.CanExecute = !Watch.watcher.EnableRaisingEvents;
+        e.CanExecute = !Watch.Watcher.EnableRaisingEvents;
     }
 
     private void ExitCommand_Executed(object sender, ExecutedRoutedEventArgs e)
@@ -638,6 +639,17 @@ public partial class MainWindow : MaterialWindow
     }
     #endregion Status message
 
+    #region Update the tray icon tooltip to show Running or Stopped
+    /// <summary>
+    /// Sets the text of the tray icon tooltip.
+    /// </summary>
+    /// <param name="message">The message.</param>
+    public void SetIcon(string message)
+    {
+        tbIcon.ToolTipText = $"DFWatch {AppInfo.TitleVersion} - {message}";
+    }
+    #endregion Update the tray icon tooltip to show Running or Stopped
+
     #region Enable/Disable start and stop in navigation menu
     /// <summary>Updates Start and Stop in the navigation menu.</summary>
     /// <param name="value">if set to <c>true</c> [value].</param>
@@ -697,7 +709,7 @@ public partial class MainWindow : MaterialWindow
     /// </summary>
     private void Sbar_MouseDoubleClick(object sender, MouseButtonEventArgs e)
     {
-        SizeToContent = SizeToContent.WidthAndHeight;
+        SizeToContent = SizeToContent.Width;
         double width = ActualWidth;
         Thread.Sleep(50);
         SizeToContent = SizeToContent.Manual;
@@ -714,10 +726,6 @@ public partial class MainWindow : MaterialWindow
         if (e.Key == Key.L && Keyboard.Modifiers == ModifierKeys.Control)
         {
             NavigateToPage(NavPage.Logs);
-        }
-        if (e.Key == Key.W && Keyboard.Modifiers == ModifierKeys.Control)
-        {
-            NavigateToPage(NavPage.WSettings);
         }
         if (e.Key == Key.S && Keyboard.Modifiers == ModifierKeys.Control)
         {
@@ -755,7 +763,7 @@ public partial class MainWindow : MaterialWindow
 
         if (e.Key == Key.OemComma && Keyboard.Modifiers == ModifierKeys.Control)
         {
-            NavigateToPage(NavPage.ASettings);
+            NavigateToPage(NavPage.Settings);
         }
 
         if (e.Key == Key.M && Keyboard.Modifiers == ModifierKeys.Control)
