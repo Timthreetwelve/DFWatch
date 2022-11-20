@@ -75,6 +75,8 @@
                   Width="Auto" Height="Auto"
                   Margin="10" HorizontalAlignment="Center"
                   VerticalAlignment="Center">
+
+                <!--#region Row and column definitions -->
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="100" />
                     <ColumnDefinition Width="*" />
@@ -90,6 +92,7 @@
                     <RowDefinition Height="26" />
                     <RowDefinition Height="26" />
                 </Grid.RowDefinitions>
+                <!--#endregion-->
 
                 <TextBlock Grid.Row="0" Grid.Column="0"
                            Text="{x:Static dfw:AppInfo.AppName}" />

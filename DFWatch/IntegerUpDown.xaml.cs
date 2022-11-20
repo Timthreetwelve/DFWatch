@@ -1,4 +1,4 @@
-﻿// Copyright (c) Tim Kennedy. All Rights Reserved. Licensed under the MIT License.
+﻿// See the acknowledgment below
 
 using System.Media;
 

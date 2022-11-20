@@ -2,8 +2,13 @@
 
 namespace DFWatch;
 
+/// <summary>
+/// Converter used to change colors of messages according to current theme.
+/// </summary>
+/// <seealso cref="System.Windows.Data.IValueConverter" />
 internal class ColorConverter : IValueConverter
 {
+    #region Convert
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
         PaletteHelper paletteHelper = new();
@@ -12,6 +17,7 @@ internal class ColorConverter : IValueConverter
 
         if (value != null)
         {
+            #region If theme is light
             if (baseTheme == BaseTheme.Light)
             {
                 if (UserSettings.Setting.ColoredMessages)
@@ -46,6 +52,9 @@ internal class ColorConverter : IValueConverter
                     return Brushes.Black;
                 }
             }
+            #endregion If theme is light
+
+            #region If theme is dark
             else if (baseTheme == BaseTheme.Dark)
             {
                 if (UserSettings.Setting.ColoredMessages)
@@ -80,12 +89,16 @@ internal class ColorConverter : IValueConverter
                     return Brushes.WhiteSmoke;
                 }
             }
+            #endregion If theme is dark
         }
         return Brushes.Black;
     }
+    #endregion Convert
 
+    #region ConvertBack
     public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
     {
         throw new NotImplementedException();
     }
+    #endregion ConvertBack
 }

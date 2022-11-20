@@ -10,29 +10,31 @@ public partial class LogPage : Page
     {
         InitializeComponent();
 
-        // Settings change event
         UserSettings.Setting.PropertyChanged += UserSettingChanged;
 
         MsgQueue.MessageQueue.CollectionChanged += MessageQueue_CollectionChanged;
     }
 
+    #region Listen for setting change
+    /// <summary>Setting changed event.</summary>
+    /// <param name="sender">The sender.</param>
+    /// <param name="e">The <see cref="PropertyChangedEventArgs" /> instance containing the event data.</param>
     private void UserSettingChanged(object sender, PropertyChangedEventArgs e)
     {
-        //PropertyInfo prop = sender.GetType().GetProperty(e.PropertyName);
-        //object newValue = prop?.GetValue(sender, null);
         switch (e.PropertyName)
         {
+            // Refresh listbox if theme has changed so that messages will update to correct color
             case nameof(UserSettings.Setting.DarkMode):
                 RefreshListbox();
-                Debug.WriteLine("xxxxxxxxxx");
                 break;
         }
     }
+    #endregion Listen for setting change
 
     #region Scroll to bottom when message queue changes
-            /// <summary>Handles the CollectionChanged event of the MessageQueue control.</summary>
-            /// <param name="sender">The source of the event.</param>
-            /// <param name="e">The <see cref="NotifyCollectionChangedEventArgs" /> instance containing the event data.</param>
+    /// <summary>Handles the CollectionChanged event of the MessageQueue control.</summary>
+    /// <param name="sender">The source of the event.</param>
+    /// <param name="e">The <see cref="NotifyCollectionChangedEventArgs" /> instance containing the event data.</param>
     private void MessageQueue_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
     {
         ScrollToBottom(lb1);
@@ -51,7 +53,6 @@ public partial class LogPage : Page
     #endregion Scroll to bottom when message queue changes
 
     #region Page events
-
     /// <summary>Handles the Loaded event of the Page control.</summary>
     /// <param name="sender">The source of the event.</param>
     /// <param name="e">The <see cref="RoutedEventArgs" /> instance containing the event data.</param>
@@ -99,8 +100,11 @@ public partial class LogPage : Page
     }
     #endregion Button click events
 
+    #region Refresh ListBox lb1
+    /// <summary>Refreshes the listbox.</summary>
     public void RefreshListbox()
     {
         lb1.Items.Refresh();
     }
+    #endregion Refresh ListBox lb1
 }

@@ -17,6 +17,9 @@ namespace DFWatch.Pages
         }
 
         #region Page Loaded event
+        /// <summary>Handles the Loaded event of the Page control.</summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs" /> instance containing the event data.</param>
         private void Page_Loaded(object sender, RoutedEventArgs e)
         {
             FileExt.ExtensionList = UserSettings.Setting.ExtensionList;
@@ -25,22 +28,34 @@ namespace DFWatch.Pages
         #endregion Page Loaded event
 
         #region Button events
+        /// <summary>Handles the Click event of the BtnAdd control.</summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs" /> instance containing the event data.</param>
         private void BtnAdd_Click(object sender, RoutedEventArgs e)
         {
             AddToList();
         }
 
+        /// <summary>Handles the Click event of the BtnDel control. </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs" /> instance containing the event data.</param>
         private void BtnDel_Click(object sender, RoutedEventArgs e)
         {
             DeleteFromList();
         }
 
+        /// <summary>Handles the Click event of the BtnSave control.</summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs" /> instance containing the event data.</param>
         private void BtnSave_Click(object sender, RoutedEventArgs e)
         {
             UserSettings.SaveSettings();
             (Application.Current.MainWindow as MainWindow)?.DisappearingMessage("Settings Saved");
         }
 
+        /// <summary>Handles the Click event of the BtnOpen control.</summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs" /> instance containing the event data.</param>
         private void BtnOpen_Click(object sender, RoutedEventArgs e)
         {
             string settingsFile = UserSettings.GetSettingsFilename();
@@ -49,6 +64,9 @@ namespace DFWatch.Pages
         #endregion Button events
 
         #region Folder pickers
+        /// <summary>Handles the Click event of the BtnDestSourcePicker control.</summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs" /> instance containing the event data.</param>
         private void BtnDestSourcePicker_Click(object sender, RoutedEventArgs e)
         {
             using System.Windows.Forms.FolderBrowserDialog dialog = new();
@@ -63,6 +81,10 @@ namespace DFWatch.Pages
                 UserSettings.Setting.SourceFolder = dialog.SelectedPath;
             }
         }
+
+        /// <summary>Handles the Click event of the BtnDestFolderPicker control.</summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="RoutedEventArgs" /> instance containing the event data.</param>
         private void BtnDestFolderPicker_Click(object sender, RoutedEventArgs e)
         {
             using System.Windows.Forms.FolderBrowserDialog dialog = new();
@@ -80,6 +102,9 @@ namespace DFWatch.Pages
         #endregion Folder pickers
 
         #region TextBox events
+        /// <summary>Handles the PreviewKeyDown event of the Tbx1 control.</summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="KeyEventArgs" /> instance containing the event data.</param>
         private void Tbx1_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -92,6 +117,9 @@ namespace DFWatch.Pages
             }
         }
 
+        /// <summary>Handles the PreviewTextInput event of the Tbx1 control.</summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="TextCompositionEventArgs" /> instance containing the event data.</param>
         private void Tbx1_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
             string invalid = new string(Path.GetInvalidFileNameChars()) + ",;";
@@ -106,6 +134,9 @@ namespace DFWatch.Pages
             }
         }
 
+        /// <summary>Handles the KeyDown event of the TextBox control.</summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="KeyEventArgs" /> instance containing the event data.</param>
         private void TextBox_KeyDown(object sender, KeyEventArgs e)
         {
             // Update property when enter is pressed
@@ -121,6 +152,7 @@ namespace DFWatch.Pages
         #endregion TextBox events
 
         #region Add extensions to the list
+        /// <summary>Adds to the extension list.</summary>
         private void AddToList()
         {
             if (!string.IsNullOrWhiteSpace(tbx1.Text))
@@ -140,6 +172,7 @@ namespace DFWatch.Pages
         #endregion Add extensions to the list
 
         #region Delete extensions from the list
+        /// <summary>Deletes from the extension list.</summary>
         private void DeleteFromList()
         {
             System.Collections.IList tempCollection = lbxExtensions.SelectedItems;
@@ -153,6 +186,7 @@ namespace DFWatch.Pages
         #endregion Delete extensions from the list
 
         #region Remove duplicates and sort the extension list
+        /// <summary>Removes duplicate entries and sorts the extension list.</summary>
         private static void SortExtList()
         {
             List<string> x = FileExt.ExtensionList.Distinct().ToList();

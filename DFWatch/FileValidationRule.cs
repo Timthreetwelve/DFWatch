@@ -4,6 +4,9 @@ namespace DFWatch;
 
 public class FileValidationRule : ValidationRule
 {
+    /// <summary>
+    /// Validation rule for files.
+    /// </summary>
     public override ValidationResult Validate(object value, CultureInfo cultureInfo)
     {
         if (string.IsNullOrWhiteSpace(value.ToString()))
