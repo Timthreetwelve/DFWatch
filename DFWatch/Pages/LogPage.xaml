@@ -6,7 +6,7 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
       mc:Ignorable="d" d:DesignHeight="450"
-      d:DesignWidth="800"
+      d:DesignWidth="500"
       Background="{DynamicResource MaterialDesignPaper}"
       Loaded="Page_Loaded"
       TextElement.FontSize="14"
@@ -30,14 +30,42 @@
         </Grid.RowDefinitions>
         <!--#endregion-->
 
-        <!--#region ListBox for messages-->
-        <TextBlock Margin="21,5" FontWeight="DemiBold"
-                   Text="Last 100 Log Messages:" />
-        <TextBlock Margin="22,5"
+        <TextBlock x:Name="tbHeader"
+                   Margin="21,5" FontWeight="DemiBold"
+                   Text="Recent Log Messages:" />
+
+        <Button Width="40" Margin="0,0,55,0"
+                Padding="0" HorizontalAlignment="Right"
+                Click="BtnClear_Click"
+                Foreground="{Binding ElementName=tbHeader,
+                                     Path=Foreground}"
+                IsDefault="False" IsTabStop="False"
+                Style="{StaticResource MaterialDesignFlatButton}"
+                ToolTip="Clear Messages">
+            <md:PackIcon Width="24" Height="24"
+                         Kind="PlaylistRemove" />
+        </Button>
+
+        <Button Width="40" Margin="0,0,100,0"
+                Padding="0" HorizontalAlignment="Right"
+                Click="BtnCheckNow_Click"
+                Foreground="{Binding ElementName=tbHeader,
+                                     Path=Foreground}"
+                IsDefault="False" IsTabStop="False"
+                Style="{StaticResource MaterialDesignFlatButton}"
+                ToolTip="Check Now">
+            <md:PackIcon Width="24" Height="24"
+                         Kind="EyeCheckOutline" />
+        </Button>
+
+        <TextBlock Margin="25,6"
                    HorizontalAlignment="Right"
-                   FontWeight="DemiBold"
+                   FontSize="15" FontWeight="DemiBold"
+                   ToolTip="Message Count"
                    Text="{Binding Count,
                                   Source={x:Static local:MsgQueue.MessageQueue}}" />
+
+        <!--#region ListBox for messages-->
         <ListBox x:Name="lb1"
                  Grid.Row="1" Margin="20,5"
                  BorderBrush="{DynamicResource MaterialDesignDivider}"
@@ -68,11 +96,6 @@
         <StackPanel Grid.Row="2" Margin="21,0"
                     HorizontalAlignment="Center"
                     Orientation="Horizontal">
-
-            <Button Width="150" Margin="0,0,20,0"
-                    Click="BtnCheckNow_Click"
-                    Content="Check Now"
-                    Style="{StaticResource MaterialDesignPaperButton}" />
 
             <Button Width="150" Margin="0,0,20,0"
                     Click="BtnLogFile_Click"
