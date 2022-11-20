@@ -68,7 +68,6 @@ public class UserSettings : SettingsManager<UserSettings>, INotifyPropertyChange
         }
     }
 
-
     public int DarkMode
     {
         get => darkmode;
