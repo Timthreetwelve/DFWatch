@@ -202,6 +202,23 @@ public class UserSettings : SettingsManager<UserSettings>, INotifyPropertyChange
         }
     }
 
+    public int RetryDelay
+    {
+        get
+        {
+            if (retryDelay < 250)
+            {
+                retryDelay = 250;
+            }
+            return retryDelay;
+        }
+        set
+        {
+            retryDelay = value;
+            OnPropertyChanged();
+        }
+    }
+
     public string SourceFolder
     {
         get => sourceFolder;
@@ -321,6 +338,7 @@ public class UserSettings : SettingsManager<UserSettings>, INotifyPropertyChange
     private bool minimizeToTrayOnClose = false;
     private int numRetries = 5;
     private int primaryColor = (int)AccentColor.Blue;
+    private int retryDelay = 1000;
     private string sourceFolder = string.Empty;
     private bool startMinimized = false;
     private bool startWithWindows = false;
