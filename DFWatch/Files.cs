@@ -40,6 +40,11 @@ internal static class Files
                     log.Debug($"Waiting {UserSettings.Setting.RetryDelay} milliseconds before trying again.");
                     await Task.Delay(UserSettings.Setting.RetryDelay);
                 }
+                else if (ex.Message.Contains("Could not find file"))
+                {
+                    log.Warn($"{file.Name} was not found.");
+                    return false;
+                }
                 else
                 {
                     log.Warn($"{ex.Message}");
