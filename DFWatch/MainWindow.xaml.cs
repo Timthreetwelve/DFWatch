@@ -28,6 +28,8 @@ public partial class MainWindow : MaterialWindow
         InitializeComponent();
 
         ReadSettings();
+
+        StartUpChecks();
     }
 
     #region Settings
@@ -348,7 +350,7 @@ public partial class MainWindow : MaterialWindow
     #region Window Events
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-        StartUpChecks();
+        log.ConditionalDebug("Window Loaded");
     }
 
     private void Window_StateChanged(object sender, EventArgs e)
