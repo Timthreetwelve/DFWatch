@@ -419,6 +419,7 @@
                             <RowDefinition Height="30" />
                             <RowDefinition Height="30" />
                             <RowDefinition Height="30" />
+                            <RowDefinition Height="30" />
                         </Grid.RowDefinitions>
                         <!--#endregion-->
 
@@ -431,7 +432,6 @@
                                   IsChecked="{Binding StartMinimized,
                                                       Source={x:Static dfw:UserSettings.Setting}}" />
 
-
                         <CheckBox Grid.Row="2"
                                   Content="Start watching on application start"
                                   IsChecked="{Binding WatchOnStart,
@@ -442,37 +442,40 @@
                                   IsChecked="{Binding CheckOnStartup,
                                                       Source={x:Static dfw:UserSettings.Setting}}" />
 
-                        <CheckBox Grid.Row="4" Content="Minimize to tray"
+                        <CheckBox Grid.Row="4" Content="Rename if destination file exists"
+                                  IsChecked="{Binding RenameIfDuplicate,
+                                                      Source={x:Static dfw:UserSettings.Setting}}" />
+
+                        <CheckBox Grid.Row="5" Content="Minimize to tray"
                                   IsChecked="{Binding MinimizeToTray,
                                                       Source={x:Static dfw:UserSettings.Setting}}" />
 
-                        <CheckBox Grid.Row="5"
+                        <CheckBox Grid.Row="6"
                                   Content="Color messages in Watcher Log"
                                   IsChecked="{Binding ColoredMessages,
                                                       Source={x:Static dfw:UserSettings.Setting}}" />
 
-
-                        <CheckBox Grid.Row="6"
+                        <CheckBox Grid.Row="7"
                                   Content="Keep on top of other windows"
                                   IsChecked="{Binding KeepOnTop,
                                                       Source={x:Static dfw:UserSettings.Setting}}" />
 
-                        <CheckBox Grid.Row="7"
+                        <CheckBox Grid.Row="8"
                                   Content="Include debug level messages in log file"
                                   IsChecked="{Binding IncludeDebugInFile,
                                                       Source={x:Static dfw:UserSettings.Setting}}" />
 
-                        <CheckBox Grid.Row="8"
+                        <CheckBox Grid.Row="9"
                                   Content="Include debug level messages in Watcher Log"
                                   IsChecked="{Binding IncludeDebugInGui,
                                                       Source={x:Static dfw:UserSettings.Setting}}" />
 
-                        <CheckBox Grid.Row="9"
+                        <CheckBox Grid.Row="10"
                                   Content="Show Heartbeat message in log"
                                   IsChecked="{Binding Heartbeat,
                                                       Source={x:Static dfw:UserSettings.Setting}}" />
 
-                        <CheckBox Grid.Row="10" Content="Confirm shutdown"
+                        <CheckBox Grid.Row="11" Content="Confirm shutdown"
                                   IsChecked="{Binding ConfirmExit,
                                                       Source={x:Static dfw:UserSettings.Setting}}" />
                     </Grid>

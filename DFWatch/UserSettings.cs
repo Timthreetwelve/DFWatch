@@ -212,6 +212,16 @@ public class UserSettings : SettingsManager<UserSettings>, INotifyPropertyChange
         }
     }
 
+    public bool RenameIfDuplicate
+    {
+        get => renameIfDuplicate;
+        set
+        {
+            renameIfDuplicate = value;
+            OnPropertyChanged();
+        }
+    }
+
     public int RetryDelay
     {
         get
@@ -349,6 +359,7 @@ public class UserSettings : SettingsManager<UserSettings>, INotifyPropertyChange
     private bool minimizeToTrayOnClose = false;
     private int numRetries = 5;
     private int primaryColor = (int)AccentColor.Blue;
+    private bool renameIfDuplicate = true;
     private int retryDelay = 1000;
     private string sourceFolder = string.Empty;
     private bool startMinimized = false;

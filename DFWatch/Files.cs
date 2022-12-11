@@ -7,6 +7,28 @@ internal static class Files
     private static readonly Logger log = LogManager.GetLogger("logTemp");
     #endregion NLog Instance
 
+    #region Regex Instance
+    private static readonly Regex regex = new(@"^(.+) \((\d+)\)$");
+    #endregion Regex Instance
+
+    #region Is newly created file's extension in the list?
+    /// <summary>Checks to see if the extension is in the list</summary>
+    /// <param name="extlist">The extension list.</param>
+    /// <param name="extension">The extension.</param>
+    /// <returns>true if the extension is in the list.</returns>
+    public static bool CheckExtension(ObservableCollection<string> extlist, string extension)
+    {
+        foreach (string ext in extlist)
+        {
+            if (LikeOperator.LikeString(extension, ext, CompareMethod.Text))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    #endregion Is newly created file's extension in the list?
+
     #region Check for locks on file to be moved
     /// <summary>Checks for locks on the file.</summary>
     /// <param name="file">The file.</param>
@@ -14,7 +36,7 @@ internal static class Files
     private static async Task<bool> CheckForLocksAsync(FileInfo file)
     {
         log.Debug($"Checking for locks on {file.Name}.");
-        // Sleep a bit before checking to avoid file not found message
+        // Delay a bit before checking to avoid file not found message
         await Task.Delay(UserSettings.Setting.InitialDelay);
         for (int i = 0; i < UserSettings.Setting.NumRetries; i++)
         {
@@ -75,12 +97,20 @@ internal static class Files
 
         string destinationFile = Path.Combine(UserSettings.Setting.DesitinationFolder, file.Name);
 
-        if (File.Exists(destinationFile))
+        // Rename if destination file already exists
+        if (File.Exists(destinationFile) && UserSettings.Setting.RenameIfDuplicate)
         {
-            log.Error($"Failed to move {file.Name} because {destinationFile} already exists.");
+            log.Debug($"{destinationFile} already exists. Will attempt to rename.");
+            destinationFile = CreateUniqueFileName(destinationFile);
+        }
+        // If rename option is false write a log message and return
+        else if(File.Exists(destinationFile) && !UserSettings.Setting.RenameIfDuplicate)
+        {
+            log.Warn($"{destinationFile} already exists. Option to rename is false.");
             return;
         }
 
+        // Check for locks on the file and if there are none attempt to move the file to the destination folder
         if (await CheckForLocksAsync(file))
         {
             try
@@ -100,21 +130,40 @@ internal static class Files
     }
     #endregion Move the file
 
-    #region Is newly created file's extension in the list?
-    /// <summary>Checks to see if the extension is in the list</summary>
-    /// <param name="extlist">The extension list.</param>
-    /// <param name="extension">The extension.</param>
-    /// <returns>true if the extension is in the list.</returns>
-    public static bool CheckExtension(ObservableCollection<string> extlist, string extension)
+    #region Create unique file name
+    /// <summary>If file exists, create a new filename by appending an integer inside parenthesis.</summary>
+    /// <remarks>Adapted from: https://stackoverflow.com/a/22373595/15237757</remarks>
+    /// <param name="filePath">Path of destination file.</param>
+    /// <returns>A unique filename including path.</returns>
+    public static string CreateUniqueFileName(string filePath)
     {
-        foreach (string ext in extlist)
+        if (File.Exists(filePath))
         {
-            if (LikeOperator.LikeString(extension, ext, CompareMethod.Text))
+            string folderPath = Path.GetDirectoryName(filePath);
+            string fileName = Path.GetFileNameWithoutExtension(filePath);
+            string fileExtension = Path.GetExtension(filePath);
+            string newFileName;
+            int number = 0;
+
+            // If the original filename already has a number in parenthesis (in the same position)
+            // grab that number which will be incremented in the next step.
+            if (regex.Match(fileName).Success)
             {
-                return true;
+                number = int.Parse(regex.Match(fileName).Groups[2].Value);
+                fileName = regex.Match(fileName).Groups[1].Value;
             }
+
+            // Increment the number and insert it (with a leading space) in front of the extension.
+            do
+            {
+                number++;
+                newFileName = $"{fileName} ({number}){fileExtension}";
+                filePath = Path.Combine(folderPath, newFileName);
+            }
+            while (File.Exists(filePath));
+            log.Debug($"{fileName}{fileExtension} will be renamed to {newFileName}");
         }
-        return false;
+        return filePath;
     }
-    #endregion Is newly created file's extension in the list?
+    #endregion Create unique file name
 }
