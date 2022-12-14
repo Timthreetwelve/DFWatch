@@ -25,13 +25,13 @@ public class UserSettings : SettingsManager<UserSettings>, INotifyPropertyChange
     #endregion Methods
 
     #region Observable collection
-    private ObservableCollection<string> extensionList = new() {".txt"};
+    private ObservableCollection<string> _extensionList = new() { ".txt" };
     public ObservableCollection<string> ExtensionList
     {
-        get => extensionList;
+        get => _extensionList;
         set
         {
-            extensionList = value;
+            _extensionList = value;
             OnPropertyChanged();
         }
     }
@@ -40,80 +40,80 @@ public class UserSettings : SettingsManager<UserSettings>, INotifyPropertyChange
     #region Properties
     public bool CheckOnStartup
     {
-        get => checkOnStartup;
+        get => _checkOnStartup;
         set
         {
-            checkOnStartup = value;
+            _checkOnStartup = value;
             OnPropertyChanged();
         }
     }
 
     public bool ColoredMessages
     {
-        get => coloredMessages;
+        get => _coloredMessages;
         set
         {
-            coloredMessages = value;
+            _coloredMessages = value;
             OnPropertyChanged();
         }
     }
 
     public bool ConfirmExit
     {
-        get => confirmExit;
+        get => _confirmExit;
         set
         {
-            confirmExit = value;
+            _confirmExit = value;
             OnPropertyChanged();
         }
     }
 
     public int DarkMode
     {
-        get => darkmode;
+        get => _darkmode;
         set
         {
-            darkmode = value;
+            _darkmode = value;
             OnPropertyChanged();
         }
     }
 
     public string DesitinationFolder
     {
-        get => destinationFolder;
+        get => _destinationFolder;
         set
         {
-            destinationFolder = value;
+            _destinationFolder = value;
             OnPropertyChanged();
         }
     }
 
     public bool Heartbeat
     {
-        get => heartbeat;
+        get => _heartbeat;
         set
         {
-            heartbeat = value;
+            _heartbeat = value;
             OnPropertyChanged();
         }
     }
 
     public bool IncludeDebugInFile
     {
-        get => includeDebugInFile;
+        get => _includeDebugInFile;
         set
         {
-            includeDebugInFile = value;
+            _includeDebugInFile = value;
             OnPropertyChanged();
         }
     }
 
     public bool IncludeDebugInGui
     {
-        get => includeDebugInGui;
+        get => _includeDebugInGui;
         set
         {
-            includeDebugInGui = value;
+            _includeDebugInGui = value;
             OnPropertyChanged();
         }
     }
@@ -122,65 +122,65 @@ public class UserSettings : SettingsManager<UserSettings>, INotifyPropertyChange
     {
         get
         {
-            if (initialDelay < 100)
+            if (_initialDelay < 100)
             {
-                initialDelay = 100;
+                _initialDelay = 100;
             }
-            return initialDelay;
+            return _initialDelay;
         }
         set
         {
-            initialDelay = value;
+            _initialDelay = value;
             OnPropertyChanged();
         }
     }
 
     public bool KeepOnTop
     {
-        get => keepOnTop;
+        get => _keepOnTop;
         set
         {
-            keepOnTop = value;
+            _keepOnTop = value;
             OnPropertyChanged();
         }
     }
 
     public int LogFileSize
     {
-        get => logFileSize;
+        get => _logFileSize;
         set
         {
-            logFileSize = value;
+            _logFileSize = value;
             OnPropertyChanged();
         }
     }
 
     public int LogFileVersions
     {
-        get => logFileVersions;
+        get => _logFileVersions;
         set
         {
-            logFileVersions = value;
+            _logFileVersions = value;
             OnPropertyChanged();
         }
     }
 
     public bool MinimizeToTray
     {
-        get => minimizeToTray;
+        get => _minimizeToTray;
         set
         {
-            minimizeToTray = value;
+            _minimizeToTray = value;
             OnPropertyChanged();
         }
     }
 
     public bool MinimizeToTrayOnClose
     {
-        get => minimizeToTrayOnClose;
+        get => _minimizeToTrayOnClose;
         set
         {
-            minimizeToTrayOnClose = value;
+            _minimizeToTrayOnClose = value;
             OnPropertyChanged();
         }
     }
@@ -189,35 +189,35 @@ public class UserSettings : SettingsManager<UserSettings>, INotifyPropertyChange
     {
         get
         {
-            if (numRetries < 0)
+            if (_numRetries < 0)
             {
                 return 0;
             }
-            return numRetries;
+            return _numRetries;
         }
         set
         {
-            numRetries = value;
+            _numRetries = value;
             OnPropertyChanged();
         }
     }
 
     public int PrimaryColor
     {
-        get => primaryColor;
+        get => _primaryColor;
         set
         {
-            primaryColor = value;
+            _primaryColor = value;
             OnPropertyChanged();
         }
     }
 
     public bool RenameIfDuplicate
     {
-        get => renameIfDuplicate;
+        get => _renameIfDuplicate;
         set
         {
-            renameIfDuplicate = value;
+            _renameIfDuplicate = value;
             OnPropertyChanged();
         }
     }
@@ -226,65 +226,65 @@ public class UserSettings : SettingsManager<UserSettings>, INotifyPropertyChange
     {
         get
         {
-            if (retryDelay < 250)
+            if (_retryDelay < 250)
             {
-                retryDelay = 250;
+                _retryDelay = 250;
             }
-            return retryDelay;
+            return _retryDelay;
         }
         set
         {
-            retryDelay = value;
+            _retryDelay = value;
             OnPropertyChanged();
         }
     }
 
     public string SourceFolder
     {
-        get => sourceFolder;
+        get => _sourceFolder;
         set
         {
-            sourceFolder = value;
+            _sourceFolder = value;
             OnPropertyChanged();
         }
     }
 
     public bool StartMinimized
     {
-        get => startMinimized;
+        get => _startMinimized;
         set
         {
-            startMinimized = value;
+            _startMinimized = value;
             OnPropertyChanged();
         }
     }
 
     public bool StartWithWindows
     {
-        get => startWithWindows;
+        get => _startWithWindows;
         set
         {
-            startWithWindows = value;
+            _startWithWindows = value;
             OnPropertyChanged();
         }
     }
 
     public int UISize
     {
-        get => uiSize;
+        get => _uiSize;
         set
         {
-            uiSize = value;
+            _uiSize = value;
             OnPropertyChanged();
         }
     }
 
     public bool WatchOnStart
     {
-        get => watchOnStart;
+        get => _watchOnStart;
         set
         {
-            watchOnStart = value;
+            _watchOnStart = value;
             OnPropertyChanged();
         }
     }
@@ -293,83 +293,83 @@ public class UserSettings : SettingsManager<UserSettings>, INotifyPropertyChange
     {
         get
         {
-            if (windowHeight < 100)
+            if (_windowHeight < 100)
             {
-                windowHeight = 100;
+                _windowHeight = 100;
             }
-            return windowHeight;
+            return _windowHeight;
         }
-        set => windowHeight = value;
+        set => _windowHeight = value;
     }
 
     public double WindowLeft
     {
         get
         {
-            if (windowLeft < 0)
+            if (_windowLeft < 0)
             {
-                windowLeft = 100;
+                _windowLeft = 100;
             }
-            return windowLeft;
+            return _windowLeft;
         }
-        set => windowLeft = value;
+        set => _windowLeft = value;
     }
 
     public double WindowTop
     {
         get
         {
-            if (windowTop < 0)
+            if (_windowTop < 0)
             {
-                windowTop = 100;
+                _windowTop = 100;
             }
-            return windowTop;
+            return _windowTop;
         }
-        set => windowTop = value;
+        set => _windowTop = value;
     }
 
     public double WindowWidth
     {
         get
         {
-            if (windowWidth < 100)
+            if (_windowWidth < 100)
             {
-                windowWidth = 100;
+                _windowWidth = 100;
             }
-            return windowWidth;
+            return _windowWidth;
         }
-        set => windowWidth = value;
+        set => _windowWidth = value;
     }
     #endregion Properties
 
     #region Private backing fields
-    private bool checkOnStartup = true;
-    private bool coloredMessages = true;
-    private bool confirmExit = true;
-    private int darkmode = 0;
-    private string destinationFolder = string.Empty;
-    private bool heartbeat = true;
-    private bool includeDebugInFile = true;
-    private bool includeDebugInGui = true;
-    private int initialDelay = 1000;
-    private bool keepOnTop = false;
-    private int logFileSize = 20;
-    private int logFileVersions = 10;
-    private bool minimizeToTray = false;
-    private bool minimizeToTrayOnClose = false;
-    private int numRetries = 5;
-    private int primaryColor = (int)AccentColor.Blue;
-    private bool renameIfDuplicate = true;
-    private int retryDelay = 1000;
-    private string sourceFolder = string.Empty;
-    private bool startMinimized = false;
-    private bool startWithWindows = false;
-    private int uiSize = (int)MySize.Default;
-    private bool watchOnStart = false;
-    private double windowHeight = 500;
-    private double windowLeft = 200;
-    private double windowTop = 200;
-    private double windowWidth = 800;
+    private bool _checkOnStartup = true;
+    private bool _coloredMessages = true;
+    private bool _confirmExit = true;
+    private int _darkmode = 0;
+    private string _destinationFolder = string.Empty;
+    private bool _heartbeat = true;
+    private bool _includeDebugInFile = true;
+    private bool _includeDebugInGui = true;
+    private int _initialDelay = 1000;
+    private bool _keepOnTop = false;
+    private int _logFileSize = 20;
+    private int _logFileVersions = 10;
+    private bool _minimizeToTray = false;
+    private bool _minimizeToTrayOnClose = false;
+    private int _numRetries = 5;
+    private int _primaryColor = (int)AccentColor.Blue;
+    private bool _renameIfDuplicate = true;
+    private int _retryDelay = 1000;
+    private string _sourceFolder = string.Empty;
+    private bool _startMinimized = false;
+    private bool _startWithWindows = false;
+    private int _uiSize = (int)MySize.Default;
+    private bool _watchOnStart = false;
+    private double _windowHeight = 500;
+    private double _windowLeft = 200;
+    private double _windowTop = 200;
+    private double _windowWidth = 800;
     #endregion Private backing fields
 
     #region Handle property change event

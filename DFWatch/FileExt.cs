@@ -13,7 +13,7 @@ public class FileExt : INotifyPropertyChanged
     #region Properties
     public string FileExtension
     {
-        get { return fileExtension; }
+        get { return _fileExtension; }
         set
         {
             if (value != null)
@@ -22,12 +22,12 @@ public class FileExt : INotifyPropertyChanged
                 {
                     value = string.Concat(".", value);
                 }
-                fileExtension = value;
+                _fileExtension = value;
                 OnPropertyChanged();
             }
         }
     }
-    private string fileExtension;
+    private string _fileExtension;
     #endregion Properties
 
     #region Property changed

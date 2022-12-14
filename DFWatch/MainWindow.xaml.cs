@@ -7,16 +7,16 @@ namespace DFWatch;
 public partial class MainWindow : MaterialWindow
 {
     #region Stopwatch
-    private readonly Stopwatch stopwatch = new();
+    private readonly Stopwatch _stopwatch = new();
     #endregion Stopwatch
 
     #region NLog Instance
-    private static readonly Logger log = LogManager.GetLogger("logTemp");
+    private static readonly Logger _log = LogManager.GetLogger("logTemp");
     #endregion NLog Instance
 
     #region Private fields
-    private static SolidColorBrush TitleBrush;
-    private readonly DispatcherTimer msgTimer = new();
+    private static SolidColorBrush _titleBrush;
+    private readonly DispatcherTimer _msgTimer = new();
     #endregion Private fields
 
     public MainWindow()
@@ -38,9 +38,9 @@ public partial class MainWindow : MaterialWindow
     /// </summary>
     private void InitializeSettings()
     {
-        stopwatch.Start();
+        _stopwatch.Start();
 
-        UserSettings.Init(UserSettings.AppFolder, UserSettings.DefaultFilename, true);
+        UserSettings.Init(UserSettings._appFolder, UserSettings._defaultFilename, true);
     }
 
     public void ReadSettings()
@@ -65,16 +65,16 @@ public partial class MainWindow : MaterialWindow
         WindowTitleVersionAdmin();
 
         // Log the version, build date and commit id
-        log.Info($"{AppInfo.AppName} ({AppInfo.AppProduct}) {AppInfo.AppVersion} is starting up");
-        log.Info($"{AppInfo.AppName} {AppInfo.AppCopyright}");
-        log.Debug($"{AppInfo.AppName} Build date: {BuildInfo.BuildDateUtc.ToUniversalTime():g} (UTC)");
-        log.Debug($"{AppInfo.AppName} Commit ID: {BuildInfo.CommitIDString} ");
+        _log.Info($"{AppInfo.AppName} ({AppInfo.AppProduct}) {AppInfo.AppVersion} is starting up");
+        _log.Info($"{AppInfo.AppName} {AppInfo.AppCopyright}");
+        _log.Debug($"{AppInfo.AppName} Build date: {BuildInfo.BuildDateUtc.ToUniversalTime():g} (UTC)");
+        _log.Debug($"{AppInfo.AppName} Commit ID: {BuildInfo.CommitIDString} ");
 
         // Log the .NET version, app framework and OS platform
         string version = Environment.Version.ToString();
-        log.Debug($".NET version: {AppInfo.RuntimeVersion.Replace(".NET", "")}  ({version})");
-        log.Debug(AppInfo.Framework);
-        log.Debug(AppInfo.OsPlatform);
+        _log.Debug($".NET version: {AppInfo.RuntimeVersion.Replace(".NET", "")}  ({version})");
+        _log.Debug(AppInfo.Framework);
+        _log.Debug(AppInfo.OsPlatform);
         tbIcon.ToolTipText = $"DFWatch {AppInfo.TitleVersion} - Stopped";
 
         // Window position
@@ -117,7 +117,7 @@ public partial class MainWindow : MaterialWindow
     {
         PropertyInfo prop = sender.GetType().GetProperty(e.PropertyName);
         object newValue = prop?.GetValue(sender, null);
-        log.Debug($"Setting change: {e.PropertyName} New Value: {newValue}");
+        _log.Debug($"Setting change: {e.PropertyName} New Value: {newValue}");
         switch (e.PropertyName)
         {
             case nameof(UserSettings.Setting.KeepOnTop):
@@ -193,7 +193,7 @@ public partial class MainWindow : MaterialWindow
     internal void SetBaseTheme(ThemeType mode)
     {
         //Get the Windows accent color
-        TitleBrush = (SolidColorBrush)SystemParameters.WindowGlassBrush;
+        _titleBrush = (SolidColorBrush)SystemParameters.WindowGlassBrush;
 
         //Retrieve the app's existing theme
         PaletteHelper paletteHelper = new();
@@ -209,11 +209,11 @@ public partial class MainWindow : MaterialWindow
             case ThemeType.Light:
                 theme.SetBaseTheme(Theme.Light);
                 theme.Paper = Colors.WhiteSmoke;
-                BorderBackgroundBrush = TitleBrush;
+                BorderBackgroundBrush = _titleBrush;
                 break;
             case ThemeType.Dark:
                 theme.SetBaseTheme(Theme.Dark);
-                BorderBackgroundBrush = TitleBrush;
+                BorderBackgroundBrush = _titleBrush;
                 break;
             case ThemeType.Darker:
                 // Set card and paper background colors a bit darker
@@ -350,7 +350,7 @@ public partial class MainWindow : MaterialWindow
     #region Window Events
     private void Window_Loaded(object sender, RoutedEventArgs e)
     {
-        log.ConditionalDebug("Window Loaded");
+        _log.ConditionalDebug("Window Loaded");
     }
 
     private void Window_StateChanged(object sender, EventArgs e)
@@ -370,8 +370,8 @@ public partial class MainWindow : MaterialWindow
         tbIcon.Dispose();
 
         // Stop the stopwatch and record elapsed time
-        stopwatch.Stop();
-        log.Info($"{AppInfo.AppName} is shutting down.  Elapsed time: {stopwatch.Elapsed:h\\:mm\\:ss\\.ff}");
+        _stopwatch.Stop();
+        _log.Info($"{AppInfo.AppName} is shutting down.  Elapsed time: {_stopwatch.Elapsed:h\\:mm\\:ss\\.ff}");
 
         // Shut down NLog
         LogManager.Shutdown();
@@ -451,14 +451,14 @@ public partial class MainWindow : MaterialWindow
     /// <param name="args"></param>
     private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs args)
     {
-        log.Error("Unhandled Exception");
+        _log.Error("Unhandled Exception");
         Exception e = (Exception)args.ExceptionObject;
-        log.Error(e.Message);
+        _log.Error(e.Message);
         if (e.InnerException != null)
         {
-            log.Error(e.InnerException.ToString());
+            _log.Error(e.InnerException.ToString());
         }
-        log.Error(e.StackTrace);
+        _log.Error(e.StackTrace);
 
         _ = System.Windows.MessageBox.Show("An error has occurred. See the log file",
             "ERROR",
@@ -475,7 +475,7 @@ public partial class MainWindow : MaterialWindow
     {
         App.ExplicitClose = true;
         UserSettings.SaveSettings();
-        log.Info($"{AppInfo.AppName} is stopping due to {e.ReasonSessionEnding}");
+        _log.Info($"{AppInfo.AppName} is stopping due to {e.ReasonSessionEnding}");
     }
     #endregion Session ending
 
@@ -520,7 +520,7 @@ public partial class MainWindow : MaterialWindow
     private void Watcher_Error(object sender, ErrorEventArgs e)
     {
         sbStatus.Content = "Error. See the log file.";
-        log.Error($"FileWatcher reports an error {e.GetException()}");
+        _log.Error($"FileWatcher reports an error {e.GetException()}");
     }
     #endregion Log watcher error
 
@@ -577,7 +577,7 @@ public partial class MainWindow : MaterialWindow
             string result = RegRun.AddRegEntry("DFWatch", AppInfo.AppProcessPath);
             if (result == "OK")
             {
-                log.Info(@"DFWatch added to HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
+                _log.Info(@"DFWatch added to HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
                 MDCustMsgBox mbox = new("DFWatch will now start with Windows.",
                                     "DFWatch",
                                     ButtonType.Ok,
@@ -589,7 +589,7 @@ public partial class MainWindow : MaterialWindow
             }
             else
             {
-                log.Error($"DFWatch add to startup failed: {result}");
+                _log.Error($"DFWatch add to startup failed: {result}");
                 MDCustMsgBox mbox = new("An error has occurred. See the log file.",
                                     "DFWatch Error",
                                     ButtonType.Ok,
@@ -612,7 +612,7 @@ public partial class MainWindow : MaterialWindow
             string result = RegRun.RemoveRegEntry("DFWatch");
             if (result == "OK")
             {
-                log.Info(@"DFWatch removed from HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
+                _log.Info(@"DFWatch removed from HKCU\SOFTWARE\Microsoft\Windows\CurrentVersion\Run");
 
                 MDCustMsgBox mbox = new("DFWatch was removed from Windows startup.",
                                     "DFWatch",
@@ -625,7 +625,7 @@ public partial class MainWindow : MaterialWindow
             }
             else
             {
-                log.Error($"DFWatch remove from startup failed: {result}");
+                _log.Error($"DFWatch remove from startup failed: {result}");
                 MDCustMsgBox mbox = new("An error has occurred. See the log file.",
                                     "DFWatch Error",
                                     ButtonType.Ok,
@@ -649,22 +649,22 @@ public partial class MainWindow : MaterialWindow
     /// <param name="msg">The message to be displayed</param>
     public void DisappearingMessage(string msg)
     {
-        if (msgTimer.IsEnabled)
+        if (_msgTimer.IsEnabled)
         {
-            msgTimer.Stop();
+            _msgTimer.Stop();
             sbMessage.Visibility = Visibility.Collapsed;
         }
         sbMessage.Content = msg;
         sbMessage.Visibility = Visibility.Visible;
 
-        msgTimer.Interval = TimeSpan.FromSeconds(5);
-        msgTimer.Tick += MsgTimer_Tick;
-        msgTimer.Start();
+        _msgTimer.Interval = TimeSpan.FromSeconds(5);
+        _msgTimer.Tick += MsgTimer_Tick;
+        _msgTimer.Start();
     }
 
     private void MsgTimer_Tick(object sender, EventArgs e)
     {
-        msgTimer.Stop();
+        _msgTimer.Stop();
         sbMessage.Visibility = Visibility.Collapsed;
     }
     #endregion Disappearing message in status bar
@@ -737,7 +737,7 @@ public partial class MainWindow : MaterialWindow
                 }
                 catch (Exception ex)
                 {
-                    log.Error(ex, "Error while adding message to queue.");
+                    _log.Error(ex, "Error while adding message to queue.");
                 }
             }
         }));
@@ -870,26 +870,26 @@ public partial class MainWindow : MaterialWindow
         if (UserSettings.Setting.ExtensionList is null
             || UserSettings.Setting.ExtensionList.Count == 0)
         {
-            log.Warn("No extensions found in extension list");
+            _log.Warn("No extensions found in extension list");
         }
         else
         {
             int count = 0;
-            log.Info("Extension List:");
+            _log.Info("Extension List:");
             foreach (var extension in UserSettings.Setting.ExtensionList)
             {
-                log.Info($"  [{count}] {extension}");
+                _log.Info($"  [{count}] {extension}");
                 count++;
             }
         }
         if (string.IsNullOrEmpty(UserSettings.Setting.SourceFolder))
         {
-            log.Warn("Source folder not specified");
+            _log.Warn("Source folder not specified");
             return false;
         }
         if (string.IsNullOrEmpty(UserSettings.Setting.DesitinationFolder))
         {
-            log.Warn("Destination folder not specified");
+            _log.Warn("Destination folder not specified");
             return false;
         }
         return true;

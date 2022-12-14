@@ -12,7 +12,7 @@ public static class Watch
     #endregion The Watcher
 
     #region NLog
-    private static readonly Logger log = LogManager.GetLogger("logTemp");
+    private static readonly Logger _log = LogManager.GetLogger("logTemp");
     #endregion NLog
 
     #region Start method
@@ -30,7 +30,7 @@ public static class Watch
         (Application.Current.MainWindow as MainWindow)?.SetStatusMsg("Running");
         (Application.Current.MainWindow as MainWindow)?.SetIcon("Running");
         (Application.Current.MainWindow as MainWindow)?.UpdateStartStopMenu(true);
-        log.Info($"{AppInfo.AppName} has started watching {Watcher.Path}.");
+        _log.Info($"{AppInfo.AppName} has started watching {Watcher.Path}.");
     }
     #endregion Start method
 
@@ -44,7 +44,7 @@ public static class Watch
             (Application.Current.MainWindow as MainWindow)?.SetStatusMsg("Stopped");
             (Application.Current.MainWindow as MainWindow)?.SetIcon("Stopped");
             (Application.Current.MainWindow as MainWindow)?.UpdateStartStopMenu(false);
-            log.Info($"{AppInfo.AppName} has stopped watching {Watcher.Path}.");
+            _log.Info($"{AppInfo.AppName} has stopped watching {Watcher.Path}.");
         }
     }
     #endregion Stop method
@@ -58,7 +58,7 @@ public static class Watch
             Watcher.EnableRaisingEvents = false;
             Watcher.Dispose();
 
-            log.Info($"{AppInfo.AppName} has stopped watching {Watcher.Path}.");
+            _log.Info($"{AppInfo.AppName} has stopped watching {Watcher.Path}.");
         }
     }
     #endregion Dispose method
@@ -67,7 +67,7 @@ public static class Watch
     /// <summary>Check for existing files on demand</summary>
     public static void CheckOnDemand()
     {
-        log.Info($"Checking for existing files in source folder ({UserSettings.Setting.SourceFolder}).");
+        _log.Info($"Checking for existing files in source folder ({UserSettings.Setting.SourceFolder}).");
         string[] files = Directory.GetFiles(UserSettings.Setting.SourceFolder);
         FileExt.ExtensionList = UserSettings.Setting.ExtensionList;
         if (files.Length > 0)
@@ -86,7 +86,7 @@ public static class Watch
                         }
                         else
                         {
-                            log.Debug($"\"{thisFileExt}\" in not in the list of file extensions. No action taken on file {fi.Name}.");
+                            _log.Debug($"\"{thisFileExt}\" in not in the list of file extensions. No action taken on file {fi.Name}.");
                         }
                     }
                 }
@@ -99,7 +99,7 @@ public static class Watch
     /// <summary>Handles the Renamed event</summary>
     private static void File_Renamed(object sender, RenamedEventArgs e)
     {
-        log.Debug($"File renamed: {e.Name} ");
+        _log.Debug($"File renamed: {e.Name} ");
 
         string thisFileExt = (Path.GetExtension(e.Name) ?? string.Empty).ToLower();
 
@@ -110,7 +110,7 @@ public static class Watch
         }
         else
         {
-            log.Debug($"\"{thisFileExt}\" in not in the list of file extensions. No action taken on file {e.Name}.");
+            _log.Debug($"\"{thisFileExt}\" in not in the list of file extensions. No action taken on file {e.Name}.");
         }
     }
     #endregion File renamed event
@@ -119,7 +119,7 @@ public static class Watch
     /// <summary>Handles the Created event.</summary>
     private static void File_Created(object sender, FileSystemEventArgs e)
     {
-        log.Debug($"File created: {e.Name} ");
+        _log.Debug($"File created: {e.Name} ");
 
         string thisFileExt = (Path.GetExtension(e.Name) ?? string.Empty).ToLower();
 
@@ -130,7 +130,7 @@ public static class Watch
         }
         else
         {
-            log.Debug($"\"{thisFileExt}\" in not in the list of file extensions. No action taken on file {e.Name}.");
+            _log.Debug($"\"{thisFileExt}\" in not in the list of file extensions. No action taken on file {e.Name}.");
         }
     }
     #endregion File created event
@@ -140,7 +140,7 @@ public static class Watch
     /// <remarks>Just logging the deletion of a file for now.</remarks>
     private static void File_Deleted(object sender, FileSystemEventArgs e)
     {
-        log.Debug($"File deleted: {e.Name} ");
+        _log.Debug($"File deleted: {e.Name} ");
     }
     #endregion File deleted event
 }

@@ -7,8 +7,8 @@ namespace DFWatch;
 internal static class Heartbeat
 {
     #region Private fields
-    private static System.Timers.Timer heartbeatTimer;
-    private static readonly Logger log = LogManager.GetLogger("logTemp");
+    private static System.Timers.Timer _heartbeatTimer;
+    private static readonly Logger _log = LogManager.GetLogger("logTemp");
     #endregion Private fields
 
     #region Start and stop the heartbeat timer
@@ -18,13 +18,13 @@ internal static class Heartbeat
     public static void StartHeartbeat()
     {
         TimeSpan interval = TimeSpan.FromMinutes(15);
-        heartbeatTimer = new System.Timers.Timer(interval.TotalMilliseconds)
+        _heartbeatTimer = new System.Timers.Timer(interval.TotalMilliseconds)
         {
             AutoReset = true
         };
-        heartbeatTimer.Elapsed += TimerElapsed;
-        heartbeatTimer.Start();
-        log.Info("Heartbeat timer started");
+        _heartbeatTimer.Elapsed += TimerElapsed;
+        _heartbeatTimer.Start();
+        _log.Info("Heartbeat timer started");
         (Application.Current.MainWindow as MainWindow)?.DisappearingMessage("Heartbeat Started");
     }
 
@@ -33,8 +33,8 @@ internal static class Heartbeat
     /// </summary>
     public static void StopHeartbeat()
     {
-        heartbeatTimer.Stop();
-        log.Info("Heartbeat timer stopped");
+        _heartbeatTimer.Stop();
+        _log.Info("Heartbeat timer stopped");
         (Application.Current.MainWindow as MainWindow)?.DisappearingMessage("Heartbeat Stopped");
     }
     #endregion Start and stop the heartbeat timer
@@ -47,7 +47,7 @@ internal static class Heartbeat
     /// <param name="e">The <see cref="ElapsedEventArgs"/> instance containing the event data.</param>
     private static void TimerElapsed(object sender, ElapsedEventArgs e)
     {
-        log.Info("Heartbeat every 15 minutes");
+        _log.Info("Heartbeat every 15 minutes");
     }
     #endregion Log the heartbeat message
 }

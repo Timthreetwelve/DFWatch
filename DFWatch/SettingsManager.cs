@@ -9,10 +9,10 @@ namespace DFWatch;
 public abstract class SettingsManager<T> where T : SettingsManager<T>, new()
 {
     #region Constants
-    internal const string AppData = "APPDATA_FOLDER";
-    internal const string AppFolder = "APPLICATION_FOLDER";
-    internal const string LocalAppData = "LOCAL_APPDATA_FOLDER";
-    internal const string DefaultFilename = "DEFAULT_FILENAME";
+    internal const string _appData = "APPDATA_FOLDER";
+    internal const string _appFolder = "APPLICATION_FOLDER";
+    internal const string _localAppData = "LOCAL_APPDATA_FOLDER";
+    internal const string _defaultFilename = "DEFAULT_FILENAME";
     #endregion Constants
 
     #region Properties

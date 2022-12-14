@@ -7,7 +7,7 @@ namespace DFWatch;
 public static class SingleInstance
 {
     #region Private fields
-    private static bool AlreadyProcessedOnThisInstance;
+    private static bool _alreadyProcessedOnThisInstance;
     #endregion Private fields
 
     #region Create the application or exit if application exists
@@ -16,11 +16,11 @@ public static class SingleInstance
     /// <param name="uniquePerUser">if set to <c>true</c> unique per user.</param>
     internal static void Create(string appName, bool uniquePerUser = true)
     {
-        if (AlreadyProcessedOnThisInstance)
+        if (_alreadyProcessedOnThisInstance)
         {
             return;
         }
-        AlreadyProcessedOnThisInstance = true;
+        _alreadyProcessedOnThisInstance = true;
 
         Application app = Application.Current;
 

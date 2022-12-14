@@ -32,11 +32,11 @@ public partial class IntegerUpDown : UserControl
 #pragma warning disable IDE0090 // Use 'new(...)'
 #pragma warning disable IDE0052 // Remove unread private members
     #region Variables
-    private int value;           // value
-    private int increment;       // increment
-    private int minimum;         // minimum value
-    private int maximum;         // maximum value
-    private string valueFormat;  // string format of the value
+    private int _value;           // value
+    private int _increment;       // increment
+    private int _minimum;         // minimum value
+    private int _maximum;         // maximum value
+    private string _valueFormat;  // string format of the value
     #endregion
 #pragma warning restore IDE0052 // Remove unread private members
 
@@ -59,7 +59,7 @@ public partial class IntegerUpDown : UserControl
     private static void OnMinimumChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         IntegerUpDown numericBoxControl = new IntegerUpDown();
-        numericBoxControl.minimum = (int)args.NewValue;
+        numericBoxControl._minimum = (int)args.NewValue;
     }
     public int Minimum
     {
@@ -73,7 +73,7 @@ public partial class IntegerUpDown : UserControl
     private static void OnMaximumChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         IntegerUpDown numericBoxControl = new IntegerUpDown();
-        numericBoxControl.maximum = (int)args.NewValue;
+        numericBoxControl._maximum = (int)args.NewValue;
     }
     public int Maximum
     {
@@ -87,7 +87,7 @@ public partial class IntegerUpDown : UserControl
     private static void OnIncrementChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         IntegerUpDown numericBoxControl = new IntegerUpDown();
-        numericBoxControl.increment = (int)args.NewValue;
+        numericBoxControl._increment = (int)args.NewValue;
     }
     public int Increment
     {
@@ -101,8 +101,8 @@ public partial class IntegerUpDown : UserControl
     private static void OnValueChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         IntegerUpDown numericBoxControl = (IntegerUpDown)sender;
-        numericBoxControl.value = (int)args.NewValue;
-        numericBoxControl.PART_NumericTextBox.Text = numericBoxControl.value.ToString(numericBoxControl.ValueFormat);
+        numericBoxControl._value = (int)args.NewValue;
+        numericBoxControl.PART_NumericTextBox.Text = numericBoxControl._value.ToString(numericBoxControl.ValueFormat);
         numericBoxControl.OnValueChanged((int)args.OldValue, (int)args.NewValue);
     }
     public int Value
@@ -117,7 +117,7 @@ public partial class IntegerUpDown : UserControl
     private static void OnValueFormatChanged(DependencyObject sender, DependencyPropertyChangedEventArgs args)
     {
         IntegerUpDown numericBoxControl = new IntegerUpDown();
-        numericBoxControl.valueFormat = (string)args.NewValue;
+        numericBoxControl._valueFormat = (string)args.NewValue;
     }
     public string ValueFormat
     {

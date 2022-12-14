@@ -8,7 +8,7 @@ namespace DFWatch.Pages
     public partial class SettingsPage : Page
     {
         #region NLog Instance
-        private static readonly Logger log = LogManager.GetLogger("logTemp");
+        private static readonly Logger _log = LogManager.GetLogger("logTemp");
         #endregion NLog Instance
 
         public SettingsPage()
@@ -158,7 +158,7 @@ namespace DFWatch.Pages
             if (!string.IsNullOrWhiteSpace(tbx1.Text))
             {
                 FileExt newitem = new() { FileExtension = tbx1.Text.ToLower() };
-                log.Debug($"Adding {newitem.FileExtension} to extension list");
+                _log.Debug($"Adding {newitem.FileExtension} to extension list");
                 (Application.Current.MainWindow as MainWindow)?.DisappearingMessage($"{newitem.FileExtension} has been added");
                 FileExt.ExtensionList.Add(newitem.FileExtension);
                 SortExtList();
@@ -178,7 +178,7 @@ namespace DFWatch.Pages
             System.Collections.IList tempCollection = lbxExtensions.SelectedItems;
             for (int i = tempCollection.Count; i > 0; i--)
             {
-                log.Debug($"Deleting {tempCollection[i - 1]} from extension list");
+                _log.Debug($"Deleting {tempCollection[i - 1]} from extension list");
                 (Application.Current.MainWindow as MainWindow)?.DisappearingMessage($"{tempCollection[i - 1]} has been removed");
                 FileExt.ExtensionList.Remove(tempCollection[i - 1].ToString());
             }

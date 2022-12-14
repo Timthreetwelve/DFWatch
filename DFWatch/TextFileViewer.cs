@@ -11,7 +11,7 @@ namespace DFWatch;
 /// </summary>
 public static class TextFileViewer
 {
-    private static readonly Logger log = LogManager.GetCurrentClassLogger();
+    private static readonly Logger _log = LogManager.GetCurrentClassLogger();
 
     #region Text file viewer
     /// <summary>
@@ -41,7 +41,7 @@ public static class TextFileViewer
                     p.StartInfo.UseShellExecute = true;
                     p.StartInfo.ErrorDialog = false;
                     _ = p.Start();
-                    log.Debug($"Opening {txtfile} in Notepad.exe");
+                    _log.Debug($"Opening {txtfile} in Notepad.exe");
                 }
                 else
                 {
@@ -49,8 +49,8 @@ public static class TextFileViewer
                     _ = MessageBox.Show($"Error reading file {txtfile}\n{ex.Message}", "Watcher Error",
                         MessageBoxButton.OK, MessageBoxImage.Error);
 #endif
-                    log.Error($"* Unable to open {txtfile}");
-                    log.Error($"* {ex.Message}");
+                    _log.Error($"* Unable to open {txtfile}");
+                    _log.Error($"* {ex.Message}");
                 }
             }
             catch (Exception ex)
@@ -59,13 +59,13 @@ public static class TextFileViewer
                 _ = MessageBox.Show("Unable to start default application used to open" +
                                     $" {txtfile}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
 #endif
-                log.Error($"* Unable to open {txtfile}");
-                log.Error($"* {ex.Message}");
+                _log.Error($"* Unable to open {txtfile}");
+                _log.Error($"* {ex.Message}");
             }
         }
         else
         {
-            log.Error($">>> File not found: {txtfile}");
+            _log.Error($">>> File not found: {txtfile}");
         }
     }
     #endregion

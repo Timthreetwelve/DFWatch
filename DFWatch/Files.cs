@@ -4,11 +4,11 @@ namespace DFWatch;
 internal static class Files
 {
     #region NLog Instance
-    private static readonly Logger log = LogManager.GetLogger("logTemp");
+    private static readonly Logger _log = LogManager.GetLogger("logTemp");
     #endregion NLog Instance
 
     #region Regex Instance
-    private static readonly Regex regex = new(@"^(.+) \((\d+)\)$");
+    private static readonly Regex _regex = new(@"^(.+) \((\d+)\)$");
     #endregion Regex Instance
 
     #region Is newly created file's extension in the list?
@@ -35,7 +35,7 @@ internal static class Files
     /// <returns>true if file isn't locked, otherwise false</returns>
     private static async Task<bool> CheckForLocksAsync(FileInfo file)
     {
-        log.Debug($"Checking for locks on {file.Name}.");
+        _log.Debug($"Checking for locks on {file.Name}.");
         // Delay a bit before checking to avoid file not found message
         await Task.Delay(UserSettings.Setting.InitialDelay);
         for (int i = 0; i < UserSettings.Setting.NumRetries; i++)
@@ -46,11 +46,11 @@ internal static class Files
                 { }
                 if (i == 0)
                 {
-                    log.Debug($"No locks detected on file {file.Name}.");
+                    _log.Debug($"No locks detected on file {file.Name}.");
                 }
                 else
                 {
-                    log.Info($"Obtained exclusive lock on file {file.Name} on attempt {i + 1}.");
+                    _log.Info($"Obtained exclusive lock on file {file.Name} on attempt {i + 1}.");
                 }
                 return true;
             }
@@ -58,29 +58,29 @@ internal static class Files
             {
                 if (ex.Message.Contains("being used by another process"))
                 {
-                    log.Warn($"{file.Name} cannot be moved. It is being used by another process.");
-                    log.Debug($"Waiting {UserSettings.Setting.RetryDelay} milliseconds before trying again.");
+                    _log.Warn($"{file.Name} cannot be moved. It is being used by another process.");
+                    _log.Debug($"Waiting {UserSettings.Setting.RetryDelay} milliseconds before trying again.");
                     await Task.Delay(UserSettings.Setting.RetryDelay);
                 }
                 else if (ex.Message.Contains("Could not find file"))
                 {
-                    log.Warn($"{file.Name} was not found.");
+                    _log.Warn($"{file.Name} was not found.");
                     return false;
                 }
                 else
                 {
-                    log.Warn($"{ex.Message}");
-                    log.Debug($"Waiting {UserSettings.Setting.RetryDelay} milliseconds before trying again.");
+                    _log.Warn($"{ex.Message}");
+                    _log.Debug($"Waiting {UserSettings.Setting.RetryDelay} milliseconds before trying again.");
                     await Task.Delay(UserSettings.Setting.RetryDelay);
                 }
             }
             catch (Exception ex)
             {
-                log.Warn($"{ex.Message}");
+                _log.Warn($"{ex.Message}");
                 return false;
             }
         }
-        log.Warn($"Failed to get exclusive lock on {file} after {UserSettings.Setting.NumRetries} attempts.");
+        _log.Warn($"Failed to get exclusive lock on {file} after {UserSettings.Setting.NumRetries} attempts.");
         return false;
     }
     #endregion Check for locks on file to be moved
@@ -100,13 +100,13 @@ internal static class Files
         // Rename if destination file already exists
         if (File.Exists(destinationFile) && UserSettings.Setting.RenameIfDuplicate)
         {
-            log.Debug($"{destinationFile} already exists. Will attempt to rename.");
+            _log.Debug($"{destinationFile} already exists. Will attempt to rename.");
             destinationFile = CreateUniqueFileName(destinationFile);
         }
         // If rename option is false write a log message and return
         else if(File.Exists(destinationFile) && !UserSettings.Setting.RenameIfDuplicate)
         {
-            log.Warn($"{destinationFile} already exists. Option to rename is false.");
+            _log.Warn($"{destinationFile} already exists. Option to rename is false.");
             return;
         }
 
@@ -116,15 +116,15 @@ internal static class Files
             try
             {
                 File.Move(file.FullName, destinationFile);
-                log.Info($"Moved {file.Name} to {destinationFile}.");
+                _log.Info($"Moved {file.Name} to {destinationFile}.");
             }
             catch (IOException) when (File.Exists(destinationFile))
             {
-                log.Error($"Failed to move {file.Name} because {destinationFile} already exists.");
+                _log.Error($"Failed to move {file.Name} because {destinationFile} already exists.");
             }
             catch (Exception ex)
             {
-                log.Error(ex, $"Failed to move {file.Name} to {destinationFile}.");
+                _log.Error(ex, $"Failed to move {file.Name} to {destinationFile}.");
             }
         }
     }
@@ -147,10 +147,10 @@ internal static class Files
 
             // If the original filename already has a number in parenthesis (in the same position)
             // grab that number which will be incremented in the next step.
-            if (regex.Match(fileName).Success)
+            if (_regex.Match(fileName).Success)
             {
-                number = int.Parse(regex.Match(fileName).Groups[2].Value);
-                fileName = regex.Match(fileName).Groups[1].Value;
+                number = int.Parse(_regex.Match(fileName).Groups[2].Value);
+                fileName = _regex.Match(fileName).Groups[1].Value;
             }
 
             // Increment the number and insert it (with a leading space) in front of the extension.
@@ -161,7 +161,7 @@ internal static class Files
                 filePath = Path.Combine(folderPath, newFileName);
             }
             while (File.Exists(filePath));
-            log.Debug($"{fileName}{fileExtension} will be renamed to {newFileName}");
+            _log.Debug($"{fileName}{fileExtension} will be renamed to {newFileName}");
         }
         return filePath;
     }
