@@ -46,7 +46,7 @@
             <!--#region Icon with Context menu in system tray-->
             <tb:TaskbarIcon x:Name="tbIcon"
                             DoubleClickCommand="{x:Static local:CustomCommands.ShowMainWindow}"
-                            IconSource="/Images/W.ico"
+                            IconSource="/Images/DW.ico"
                             LeftClickCommand="{x:Static local:CustomCommands.ShowMainWindow}"
                             MenuActivation="RightClick">
                 <tb:TaskbarIcon.ContextMenu>
@@ -91,11 +91,11 @@
             <!--#endregion-->
 
             <!--#region Navigation menu-->
-            <md:Card Grid.Row="0" Grid.Column="0" Margin="0,10" 
+            <md:Card Grid.Row="0" Grid.Column="0" Margin="0,10"
                      md:ElevationAssist.Elevation="Dp8"
                      UniformCornerRadius="4">
                 <Grid>
-                    <ListBox x:Name="LbxNavigation" 
+                    <ListBox x:Name="LbxNavigation"
                              SelectionChanged="LbxNavigation_SelectionChanged"
                              Style="{StaticResource NavListBox}">
 

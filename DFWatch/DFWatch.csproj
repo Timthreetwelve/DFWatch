@@ -10,7 +10,7 @@
     <Authors>Tim Kennedy</Authors>
     <Company>T_K</Company>
     <Product>Download Folder Watcher</Product>
-    <ApplicationIcon>Images\W.ico</ApplicationIcon>
+    <ApplicationIcon>Images\DW.ico</ApplicationIcon>
     <PlatformTarget>x64</PlatformTarget>
     <Platforms>x64</Platforms>
   </PropertyGroup>
@@ -20,8 +20,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Resource Include="Images\W.ico" />
-    <Resource Include="Images\W.png" />
+    <Resource Include="Images\DW.ico" />
+    <Resource Include="Images\DW.png" />
   </ItemGroup>
 
   <ItemGroup>
