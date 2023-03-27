@@ -37,6 +37,14 @@ public static class AppInfo
         }
     }
 
+    public static string ToolTipVersion
+    {
+        get
+        {
+            return $"{AppProduct} - {TitleVersion}";
+        }
+    }
+
     /// <summary>
     /// Returns the file version
     /// </summary>

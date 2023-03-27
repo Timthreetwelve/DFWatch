@@ -1,9 +1,7 @@
 ﻿// Copyright (c) Tim Kennedy. All Rights Reserved. Licensed under the MIT License.
 
 namespace DFWatch;
-/// <summary>
-/// Interaction logic for MainWindow.xaml
-/// </summary>
+
 public partial class MainWindow : MaterialWindow
 {
     #region Stopwatch
@@ -75,7 +73,6 @@ public partial class MainWindow : MaterialWindow
         _log.Debug($".NET version: {AppInfo.RuntimeVersion.Replace(".NET", "")}  ({version})");
         _log.Debug(AppInfo.Framework);
         _log.Debug(AppInfo.OsPlatform);
-        tbIcon.ToolTipText = $"DFWatch {AppInfo.TitleVersion} - Stopped";
 
         // Window position
         UserSettings.Setting.SetWindowPos();
@@ -680,17 +677,6 @@ public partial class MainWindow : MaterialWindow
     }
     #endregion Status message
 
-    #region Update the tray icon tooltip to show Running or Stopped
-    /// <summary>
-    /// Sets the text of the tray icon tooltip.
-    /// </summary>
-    /// <param name="message">The message.</param>
-    public void SetIcon(string message)
-    {
-        tbIcon.ToolTipText = $"DFWatch {AppInfo.TitleVersion} - {message}";
-    }
-    #endregion Update the tray icon tooltip to show Running or Stopped
-
     #region Enable/Disable start and stop in navigation menu
     /// <summary>Updates Start and Stop in the navigation menu.</summary>
     /// <param name="value">if set to <c>true</c> [value].</param>
@@ -895,4 +881,9 @@ public partial class MainWindow : MaterialWindow
         return true;
     }
     #endregion Check folders and extension list
+
+    private void TbIcon_LeftClick(NotifyIcon sender, RoutedEventArgs e)
+    {
+        MainWindowHelpers.ShowMainWindow();
+    }
 }

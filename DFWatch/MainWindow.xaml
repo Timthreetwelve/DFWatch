@@ -7,8 +7,9 @@
                     xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
                     xmlns:mde="https://spiegelp.github.io/MaterialDesignExtensions/winfx/xaml"
                     xmlns:tb="http://www.hardcodet.net/taskbar"
-                    mc:Ignorable="d" MinWidth="600"
-                    MinHeight="460"
+                    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+                    mc:Ignorable="d"
+                    MinWidth="600" MinHeight="460"
                     Background="{DynamicResource MaterialDesignPaper}"
                     Closing="Window_Closing"
                     FadeContentIfInactive="False"
@@ -18,8 +19,8 @@
                     Loaded="Window_Loaded"
                     StateChanged="Window_StateChanged"
                     WindowStartupLocation="CenterScreen">
-
-    <!--#region Command bindings -->
+    
+    <!--#region Command bindings-->
     <mde:MaterialWindow.CommandBindings>
         <CommandBinding CanExecute="Command_CanExecute"
                         Command="local:CustomCommands.ShowMainWindow"
@@ -44,13 +45,14 @@
             <!--#endregion-->
 
             <!--#region Icon with Context menu in system tray-->
-            <tb:TaskbarIcon x:Name="tbIcon"
-                            DoubleClickCommand="{x:Static local:CustomCommands.ShowMainWindow}"
-                            IconSource="/Images/DW.ico"
-                            LeftClickCommand="{x:Static local:CustomCommands.ShowMainWindow}"
-                            MenuActivation="RightClick">
-                <tb:TaskbarIcon.ContextMenu>
-                    <ContextMenu Name="trayMenu" FontSize="13"
+            <ui:NotifyIcon x:Name="tbIcon"
+                           Icon="/Images/DW.ico"
+                           LeftClick="TbIcon_LeftClick"
+                           MenuOnRightClick="True"
+                           TooltipText="{x:Static local:AppInfo.ToolTipVersion}">
+                <ui:NotifyIcon.Menu>
+                    <ContextMenu Name="trayMenu"
+                                 FontSize="13"
                                  Style="{StaticResource MaterialDesignContextMenu}"
                                  UsesItemContainerTemplate="True">
                         <MenuItem Command="{x:Static local:CustomCommands.ShowMainWindow}"
@@ -86,12 +88,13 @@
                                             Executed="StartWatching_Executed" />
                         </ContextMenu.CommandBindings>
                     </ContextMenu>
-                </tb:TaskbarIcon.ContextMenu>
-            </tb:TaskbarIcon>
+                </ui:NotifyIcon.Menu>
+            </ui:NotifyIcon>
             <!--#endregion-->
 
             <!--#region Navigation menu-->
-            <md:Card Grid.Row="0" Grid.Column="0" Margin="0,10"
+            <md:Card Grid.Row="0" Grid.Column="0"
+                     Margin="0,10"
                      md:ElevationAssist.Elevation="Dp8"
                      UniformCornerRadius="4">
                 <Grid>
@@ -193,7 +196,8 @@
 
             <!--#region Status bar-->
             <md:Card Grid.Row="3" Grid.Column="0"
-                     Grid.ColumnSpan="2" Height="35"
+                     Grid.ColumnSpan="2"
+                     Height="35"
                      md:ElevationAssist.Elevation="Dp4"
                      MouseDoubleClick="Sbar_MouseDoubleClick">
                 <StatusBar Name="sbar"
