@@ -69,14 +69,18 @@ namespace DFWatch.Pages
         /// <param name="e">The <see cref="RoutedEventArgs" /> instance containing the event data.</param>
         private void BtnDestSourcePicker_Click(object sender, RoutedEventArgs e)
         {
-            using System.Windows.Forms.FolderBrowserDialog dialog = new();
-            dialog.ShowNewFolderButton = true;
+            VistaFolderBrowserDialog dialog = new()
+            {
+                ShowNewFolderButton = true,
+                Description = "Select a folder",
+                UseDescriptionForTitle = true
+            };
+
             if (!string.IsNullOrEmpty(tbxSource.Text))
             {
                 dialog.SelectedPath = Path.GetDirectoryName(tbxSource.Text);
             }
-            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK)
+            if (dialog.ShowDialog() == true)
             {
                 UserSettings.Setting.SourceFolder = dialog.SelectedPath;
             }
@@ -87,14 +91,17 @@ namespace DFWatch.Pages
         /// <param name="e">The <see cref="RoutedEventArgs" /> instance containing the event data.</param>
         private void BtnDestFolderPicker_Click(object sender, RoutedEventArgs e)
         {
-            using System.Windows.Forms.FolderBrowserDialog dialog = new();
-            dialog.ShowNewFolderButton = false;
+            VistaFolderBrowserDialog dialog = new()
+            {
+                ShowNewFolderButton = false,
+                Description = "Select a folder",
+                UseDescriptionForTitle = true
+            };
             if (!string.IsNullOrEmpty(tbxDestination.Text))
             {
                 dialog.SelectedPath = Path.GetDirectoryName(tbxDestination.Text);
             }
-            System.Windows.Forms.DialogResult result = dialog.ShowDialog();
-            if (result == System.Windows.Forms.DialogResult.OK)
+            if (dialog.ShowDialog() == true)
             {
                 UserSettings.Setting.DesitinationFolder = dialog.SelectedPath;
             }

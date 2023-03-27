@@ -1,4 +1,4 @@
-// Copyright (c) Tim Kennedy. All Rights Reserved. Licensed under the MIT License.
+﻿// Copyright (c) Tim Kennedy. All Rights Reserved. Licensed under the MIT License.
 
 // Like it says on the tin, this is a global using file
 
@@ -45,4 +45,9 @@ global using NLog;
 global using NLog.Config;
 global using NLog.Targets;
 
+global using Ookii.Dialogs.Wpf;
+
 global using Wpf.Ui.Controls;
+
+global using MessageBox = System.Windows.MessageBox;
+global using TextBox = System.Windows.Controls.TextBox;
