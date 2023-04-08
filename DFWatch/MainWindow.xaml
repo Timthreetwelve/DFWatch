@@ -1,243 +1,294 @@
-﻿<mde:MaterialWindow x:Class="DFWatch.MainWindow"
-                    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-                    xmlns:local="clr-namespace:DFWatch"
-                    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                    xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
-                    xmlns:mde="https://spiegelp.github.io/MaterialDesignExtensions/winfx/xaml"
-                    xmlns:tb="http://www.hardcodet.net/taskbar"
-                    xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
-                    mc:Ignorable="d"
-                    MinWidth="600" MinHeight="460"
-                    Background="{DynamicResource MaterialDesignPaper}"
-                    Closing="Window_Closing"
-                    FadeContentIfInactive="False"
-                    FontSize="12"
-                    Foreground="{DynamicResource MaterialDesignBody}"
-                    KeyDown="Window_KeyDown"
-                    Loaded="Window_Loaded"
-                    StateChanged="Window_StateChanged"
-                    WindowStartupLocation="CenterScreen">
-    
-    <!--#region Command bindings-->
-    <mde:MaterialWindow.CommandBindings>
-        <CommandBinding CanExecute="Command_CanExecute"
-                        Command="local:CustomCommands.ShowMainWindow"
-                        Executed="ShowCommand_Executed" />
-    </mde:MaterialWindow.CommandBindings>
+﻿<Window x:Class="DFWatch.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:bh="http://schemas.microsoft.com/xaml/behaviors"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:helper="clr-namespace:DFWatch.Helpers"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:styles="clr-namespace:DFWatch.Styles"
+        xmlns:tb="clr-namespace:H.NotifyIcon;assembly=H.NotifyIcon.Wpf"
+        xmlns:viewmodels="clr-namespace:DFWatch.ViewModels"
+        mc:Ignorable="d"
+        Title="{x:Static helper:AppInfo.AppName}"
+        Width="400" Height="400"
+        MinHeight="365"
+        Background="{DynamicResource MaterialDesignPaper}"
+        Closing="Window_Closing"
+        FontFamily="Segoe UI" FontSize="12"
+        Style="{StaticResource MaterialDesignWindow}"
+        TextElement.FontWeight="Regular"
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto">
+
+    <!--#region Interaction Triggers-->
+    <bh:Interaction.Triggers>
+        <bh:EventTrigger EventName="KeyDown">
+            <bh:CallMethodAction MethodName="KeyDown"
+                                 TargetObject="{Binding}" />
+        </bh:EventTrigger>
+    </bh:Interaction.Triggers>
     <!--#endregion-->
 
-    <md:DialogHost CloseOnClickAway="False"
-                   DialogTheme="Inherit" Focusable="False"
-                   Identifier="MainDialogHost">
+    <!--#region DataContext-->
+    <Window.DataContext>
+        <viewmodels:NavigationViewModel />
+    </Window.DataContext>
+    <!--#endregion-->
 
-        <Grid x:Name="MainGrid">
-            <!--#region Row definitions-->
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="Auto" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="Auto" />
-            </Grid.RowDefinitions>
+    <Grid x:Name="MainGrid">
+
+        <!--#region Row definitions-->
+        <Grid.RowDefinitions>
+            <RowDefinition Height="50" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="180" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <!--#endregion-->
+
+        <!--#region Icon with Context menu in system tray-->
+        <tb:TaskbarIcon x:Name="tbIcon"
+                        IconSource="/Images/DW.ico"
+                        LeftClickCommand="{Binding ShowMainWindowCommand}"
+                        MenuActivation="RightClick">
+            <tb:TaskbarIcon.TrayToolTip>
+                <styles:ToolTip />
+            </tb:TaskbarIcon.TrayToolTip>
+            <tb:TaskbarIcon.DataContext>
+                <viewmodels:Commands />
+            </tb:TaskbarIcon.DataContext>
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu FontSize="13"
+                             Style="{StaticResource MaterialDesignContextMenu}">
+                    <ContextMenu.DataContext>
+                        <viewmodels:Commands />
+                    </ContextMenu.DataContext>
+                    <MenuItem Command="{Binding ShowMainWindowCommand}"
+                              Header="Show Main Window" />
+                    <Separator />
+                    <MenuItem Command="{Binding StartWatching}"
+                              Header="Start Watcher" />
+                    <MenuItem Command="{Binding StopWatching}"
+                              Header="Stop Watcher" />
+                    <Separator />
+                    <MenuItem Command="{Binding ExitApplicationCommand}"
+                              Header="Exit" />
+                    <ContextMenu.CommandBindings>
+                        <CommandBinding CanExecute="StartCommand_CanExecute"
+                                        Command="viewmodels:Commands.StartWatching"
+                                        Executed="StartWatching_Executed" />
+
+                        <CommandBinding CanExecute="StopCommand_CanExecute"
+                                        Command="viewmodels:Commands.StopWatching"
+                                        Executed="StopWatching_Executed" />
+                    </ContextMenu.CommandBindings>
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+
+        </tb:TaskbarIcon>
+        <!--#endregion-->
+
+        <!--#region Title Row-->
+        <Grid Grid.Column="1">
+            <Label x:Name="PageTitle"
+                   Margin="10,0" HorizontalAlignment="Left"
+                   VerticalAlignment="Center"
+                   Content="{Binding PageTitle}"
+                   FontSize="22" />
+            <StackPanel Margin="0,0,5,0"
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal">
+                <!--#region Button with pop-up box-->
+                <Button Width="45"
+                        Padding="0"
+                        Foreground="{DynamicResource MaterialDesignBody}"
+                        IsDefault="False" IsTabStop="False"
+                        Style="{StaticResource MaterialDesignFlatButton}">
+                    <materialDesign:PopupBox Padding="0" HorizontalAlignment="Right"
+                                             Focusable="False"
+                                             PlacementMode="LeftAndAlignTopEdges"
+                                             Style="{DynamicResource MaterialDesignPopupBox}"
+                                             ToolTip="Additional Actions">
+                        <materialDesign:PopupBox.ToggleContent>
+                            <materialDesign:PackIcon Width="45" Height="28"
+                                                     Foreground="{DynamicResource MaterialDesignBody}"
+                                                     Kind="DotsHorizontal" />
+                        </materialDesign:PopupBox.ToggleContent>
+                        <Border Padding="3"
+                                BorderBrush="{DynamicResource MaterialDesignDivider}"
+                                BorderThickness="2">
+                            <Grid Width="150"
+                                  Margin="0">
+                                <Grid.DataContext>
+                                    <viewmodels:Commands />
+                                </Grid.DataContext>
+                                <StackPanel Orientation="Vertical">
+                                    <Button Height="35"
+                                            Padding="15,1,0,22"
+                                            Command="{Binding ViewLogFileCommand}"
+                                            Content="View Log File"
+                                            ToolTip="Open the application log file in the default application." />
+                                    <Button Height="35"
+                                            Padding="15,1,0,22"
+                                            Command="{Binding ViewReadMeFileCommand}"
+                                            Content="View ReadMe File"
+                                            ToolTip="Open the ReadMe file in the default application." />
+                                    <Separator Margin="0" Padding="1"
+                                               Background="{DynamicResource MaterialDesignDivider}" />
+                                    <Button Height="35"
+                                            Padding="15,1,0,22"
+                                            Content="Cancel" />
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </materialDesign:PopupBox>
+                </Button>
+                <!--#endregion-->
+            </StackPanel>
+        </Grid>
+        <!--#endregion-->
+
+        <Grid Grid.Row="0" Grid.RowSpan="2"
+              Grid.Column="0">
+            <!--#region Navigation Listbox-->
+            <ListBox x:Name="NavigationListBox"
+                     MinWidth="100"
+                     Margin="0,5"
+                     ItemsSource="{Binding NavigationViewModelTypes}"
+                     Style="{StaticResource MaterialDesignNavigationListBox}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Border Style="{StaticResource NavItemIndicator}" />
+                            <materialDesign:PackIcon Width="auto" Height="auto"
+                                                     VerticalAlignment="Center"
+                                                     Kind="{Binding IconKind}" />
+                            <TextBlock Margin="15,0" VerticalAlignment="Center"
+                                       FontSize="14"
+                                       Text="{Binding Name}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+                <bh:Interaction.Triggers>
+                    <bh:EventTrigger EventName="SelectionChanged">
+                        <bh:InvokeCommandAction Command="{Binding NavigateCommand}"
+                                                CommandParameter="{Binding Path=SelectedItem,
+                                                                           RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}" />
+                    </bh:EventTrigger>
+                </bh:Interaction.Triggers>
+            </ListBox>
             <!--#endregion-->
 
-            <!--#region Icon with Context menu in system tray-->
-            <ui:NotifyIcon x:Name="tbIcon"
-                           Icon="/Images/DW.ico"
-                           LeftClick="TbIcon_LeftClick"
-                           MenuOnRightClick="True"
-                           TooltipText="{x:Static local:AppInfo.ToolTipVersion}">
-                <ui:NotifyIcon.Menu>
-                    <ContextMenu Name="trayMenu"
-                                 FontSize="13"
-                                 Style="{StaticResource MaterialDesignContextMenu}"
-                                 UsesItemContainerTemplate="True">
-                        <MenuItem Command="{x:Static local:CustomCommands.ShowMainWindow}"
-                                  CommandTarget="{Binding Path=PlacementTarget,
-                                                          RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
-                        <Separator />
-                        <MenuItem Command="local:CustomCommands.StartWatching"
-                                  CommandTarget="{Binding Path=PlacementTarget,
-                                                          RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
-                        <MenuItem Command="local:CustomCommands.StopWatching"
-                                  CommandTarget="{Binding Path=PlacementTarget,
-                                                          RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
-                        <Separator />
-                        <MenuItem Command="local:CustomCommands.Exit"
-                                  CommandTarget="{Binding Path=PlacementTarget,
-                                                          RelativeSource={RelativeSource AncestorType=ContextMenu}}" />
+            <!--#region Start & Stop buttons-->
+            <Grid VerticalAlignment="Bottom">
+                <!--#region DataContext-->
+                <Grid.DataContext>
+                    <viewmodels:Commands />
+                </Grid.DataContext>
+                <!--#endregion-->
 
-                        <ContextMenu.CommandBindings>
-                            <CommandBinding CanExecute="Command_CanExecute"
-                                            Command="local:CustomCommands.Exit"
-                                            Executed="ExitCommand_Executed" />
+                <!--#region Row definitions-->
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <!--#endregion-->
+                <Button x:Name="btnStartWatcher"
+                        Grid.Row="0"
+                        Command="{Binding StartWatching}"
+                        Style="{StaticResource NavButton}">
+                    <Button.Content>
+                        <Grid HorizontalAlignment="Left">
+                            <materialDesign:PackIcon Kind="Play"
+                                                     Style="{StaticResource NavIcon}" />
+                            <TextBlock Margin="35,0,0,0"
+                                       VerticalAlignment="Center"
+                                       Text="Start Watcher" />
+                        </Grid>
+                    </Button.Content>
+                    <Button.CommandBindings>
+                        <CommandBinding CanExecute="StartCommand_CanExecute"
+                                        Command="viewmodels:Commands.StartWatching"
+                                        Executed="StartWatching_Executed" />
+                    </Button.CommandBindings>
+                </Button>
 
-                            <CommandBinding CanExecute="Command_CanExecute"
-                                            Command="local:CustomCommands.ShowMainWindow"
-                                            Executed="ShowCommand_Executed" />
-
-                            <CommandBinding CanExecute="StopCommand_CanExecute"
-                                            Command="local:CustomCommands.StopWatching"
-                                            Executed="StopWatching_Executed" />
-
-                            <CommandBinding CanExecute="StartCommand_CanExecute"
-                                            Command="local:CustomCommands.StartWatching"
-                                            Executed="StartWatching_Executed" />
-                        </ContextMenu.CommandBindings>
-                    </ContextMenu>
-                </ui:NotifyIcon.Menu>
-            </ui:NotifyIcon>
-            <!--#endregion-->
-
-            <!--#region Navigation menu-->
-            <md:Card Grid.Row="0" Grid.Column="0"
-                     Margin="0,10"
-                     md:ElevationAssist.Elevation="Dp8"
-                     UniformCornerRadius="4">
-                <Grid>
-                    <ListBox x:Name="LbxNavigation"
-                             SelectionChanged="LbxNavigation_SelectionChanged"
-                             Style="{StaticResource NavListBox}">
-
-                        <ListBoxItem Style="{StaticResource NavPaneListBoxItem}">
-                            <ListBoxItem.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <md:PackIcon Width="24" Height="24"
-                                                 VerticalAlignment="Center"
-                                                 Foreground="{DynamicResource PrimaryHueMidBrush}"
-                                                 Kind="DocumentSign" />
-                                    <TextBlock Margin="10,0" VerticalAlignment="Center"
-                                               Text="Watcher Log" />
-                                </StackPanel>
-                            </ListBoxItem.Content>
-                        </ListBoxItem>
-
-                        <Separator Height="2" />
-
-                        <ListBoxItem x:Name="lbiStart"
-                                     Style="{StaticResource NavPaneListBoxItem}">
-                            <ListBoxItem.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <md:PackIcon Width="24" Height="24"
-                                                 VerticalAlignment="Center"
-                                                 Foreground="{DynamicResource PrimaryHueMidBrush}"
-                                                 Kind="Play" />
-                                    <TextBlock Margin="10,0" VerticalAlignment="Center"
-                                               Text="Start" />
-                                </StackPanel>
-                            </ListBoxItem.Content>
-                        </ListBoxItem>
-
-                        <ListBoxItem x:Name="lbiStop"
-                                     Style="{StaticResource NavPaneListBoxItem}">
-                            <ListBoxItem.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <md:PackIcon Width="24" Height="24"
-                                                 VerticalAlignment="Center"
-                                                 Foreground="{DynamicResource PrimaryHueMidBrush}"
-                                                 Kind="Pause" />
-                                    <TextBlock Margin="10,0" VerticalAlignment="Center"
-                                               Text="Stop" />
-                                </StackPanel>
-                            </ListBoxItem.Content>
-                        </ListBoxItem>
-
-                        <Separator Height="2" />
-
-                        <ListBoxItem Style="{StaticResource NavPaneListBoxItem}">
-                            <ListBoxItem.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <md:PackIcon Width="24" Height="24"
-                                                 VerticalAlignment="Center"
-                                                 Foreground="{DynamicResource PrimaryHueMidBrush}"
-                                                 Kind="CogOutline" />
-                                    <TextBlock Margin="10,0" VerticalAlignment="Center"
-                                               Text="Settings" />
-                                </StackPanel>
-                            </ListBoxItem.Content>
-                        </ListBoxItem>
-
-                        <ListBoxItem Style="{StaticResource NavPaneListBoxItem}">
-                            <ListBoxItem.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <md:PackIcon Width="24" Height="24"
-                                                 VerticalAlignment="Center"
-                                                 Foreground="{DynamicResource PrimaryHueMidBrush}"
-                                                 Kind="AboutOutline" />
-                                    <TextBlock Margin="10,0" VerticalAlignment="Center"
-                                               Text="About" />
-                                </StackPanel>
-                            </ListBoxItem.Content>
-                        </ListBoxItem>
-
-                        <ListBoxItem Style="{StaticResource NavPaneListBoxItem}">
-                            <ListBoxItem.Content>
-                                <StackPanel Orientation="Horizontal">
-                                    <md:PackIcon Width="24" Height="24"
-                                                 VerticalAlignment="Center"
-                                                 Foreground="{DynamicResource PrimaryHueMidBrush}"
-                                                 Kind="ExitRun" />
-                                    <TextBlock Margin="10,0" VerticalAlignment="Center"
-                                               Text="Exit" />
-                                </StackPanel>
-                            </ListBoxItem.Content>
-                        </ListBoxItem>
-                    </ListBox>
-                </Grid>
-            </md:Card>
-            <!--#endregion-->
-
-            <Frame x:Name="MainFrame"
-                   Grid.Row="0" Grid.Column="1"
-                   NavigationUIVisibility="Hidden" />
-
-            <!--#region Status bar-->
-            <md:Card Grid.Row="3" Grid.Column="0"
-                     Grid.ColumnSpan="2"
-                     Height="35"
-                     md:ElevationAssist.Elevation="Dp4"
-                     MouseDoubleClick="Sbar_MouseDoubleClick">
-                <StatusBar Name="sbar"
-                           Background="{DynamicResource CardBackground}"
-                           FontSize="14"
-                           Foreground="{DynamicResource MaterialDesignBody}">
-                    <StatusBarItem x:Name="sbStatus"
-                                   Padding="20,2"
-                                   HorizontalAlignment="Left"
-                                   Content="Status: Stopped" />
-                    <StatusBarItem x:Name="sbMessage"
-                                   Padding="25,2"
-                                   HorizontalAlignment="Right"
-                                   Visibility="Collapsed">
-                        <StatusBarItem.Style>
-                            <Style TargetType="StatusBarItem">
-                                <Style.Triggers>
-                                    <Trigger Property="Visibility" Value="Visible">
-                                        <Trigger.EnterActions>
-                                            <BeginStoryboard>
-                                                <Storyboard>
-                                                    <DoubleAnimation BeginTime="00:00:00"
-                                                                     Storyboard.TargetProperty="Opacity"
-                                                                     From="0.0" To="1.0"
-                                                                     Duration="00:00:00" />
-                                                    <DoubleAnimation BeginTime="00:00:03"
-                                                                     Storyboard.TargetProperty="Opacity"
-                                                                     From="1.0" To="0.0"
-                                                                     Duration="00:00:02" />
-                                                </Storyboard>
-                                            </BeginStoryboard>
-                                        </Trigger.EnterActions>
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </StatusBarItem.Style>
-                    </StatusBarItem>
-                </StatusBar>
-            </md:Card>
+                <Button x:Name="btnStopWatcher"
+                        Grid.Row="1"
+                        Command="{Binding StopWatching}"
+                        Style="{StaticResource NavButton}">
+                    <Button.Content>
+                        <Grid HorizontalAlignment="Left">
+                            <materialDesign:PackIcon Kind="Pause"
+                                                     Style="{StaticResource NavIcon}" />
+                            <TextBlock Margin="35,0,0,0"
+                                       VerticalAlignment="Center"
+                                       Text="Stop Watcher" />
+                        </Grid>
+                    </Button.Content>
+                    <Button.CommandBindings>
+                        <CommandBinding CanExecute="StopCommand_CanExecute"
+                                        Command="viewmodels:Commands.StopWatching"
+                                        Executed="StopWatching_Executed" />
+                    </Button.CommandBindings>
+                </Button>
+            </Grid>
             <!--#endregion-->
         </Grid>
-    </md:DialogHost>
-</mde:MaterialWindow>
+
+        <!--#region Content control for pages-->
+        <Grid x:Name="MainContent"
+              Grid.Row="1" Grid.Column="1"
+              Background="{DynamicResource MaterialDesignCardBackground}">
+            <ContentControl Content="{Binding CurrentViewModel}" />
+        </Grid>
+        <!--#endregion-->
+
+        <!--#region Status bar-->
+        <StatusBar Name="sbar"
+                   Grid.Row="2" Grid.Column="0"
+                   Grid.ColumnSpan="2"
+                   Height="35"
+                   Background="{DynamicResource CardBackground}"
+                   FontSize="14"
+                   Foreground="{DynamicResource MaterialDesignBody}">
+            <StatusBarItem x:Name="sbStatus"
+                           Padding="20,2"
+                           HorizontalAlignment="Left"
+                           Content="Status: Stopped" />
+            <StatusBarItem x:Name="sbMessage"
+                           Padding="25,2"
+                           HorizontalAlignment="Right"
+                           Visibility="Collapsed">
+                <StatusBarItem.Style>
+                    <Style TargetType="StatusBarItem">
+                        <Style.Triggers>
+                            <Trigger Property="Visibility" Value="Visible">
+                                <Trigger.EnterActions>
+                                    <BeginStoryboard>
+                                        <Storyboard>
+                                            <DoubleAnimation BeginTime="00:00:00"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             From="0.0" To="1.0"
+                                                             Duration="00:00:00" />
+                                            <DoubleAnimation BeginTime="00:00:03"
+                                                             Storyboard.TargetProperty="Opacity"
+                                                             From="1.0" To="0.0"
+                                                             Duration="00:00:02" />
+                                        </Storyboard>
+                                    </BeginStoryboard>
+                                </Trigger.EnterActions>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </StatusBarItem.Style>
+            </StatusBarItem>
+        </StatusBar>
+        <!--#endregion-->
+    </Grid>
+</Window>

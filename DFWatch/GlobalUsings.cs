@@ -34,12 +34,18 @@ global using Microsoft.VisualBasic;
 global using Microsoft.VisualBasic.CompilerServices;
 global using Microsoft.Win32;
 
-global using DFWatch.Dialogs;
-global using DFWatch.Pages;
+global using CommunityToolkit.Mvvm.ComponentModel;
+global using CommunityToolkit.Mvvm.Input;
+global using CommunityToolkit.Mvvm;
+
+global using DFWatch.Configuration;
+global using DFWatch.Models;
+global using DFWatch.ViewModels;
+global using DFWatch.Views;
+global using DFWatch.Helpers;
 
 global using MaterialDesignColors;
 global using MaterialDesignThemes.Wpf;
-global using MaterialDesignExtensions.Controls;
 
 global using NLog;
 global using NLog.Config;
@@ -47,7 +53,6 @@ global using NLog.Targets;
 
 global using Ookii.Dialogs.Wpf;
 
-global using Wpf.Ui.Controls;
-
 global using MessageBox = System.Windows.MessageBox;
 global using TextBox = System.Windows.Controls.TextBox;
+global using NavigationItem = DFWatch.Models.NavigationItem;

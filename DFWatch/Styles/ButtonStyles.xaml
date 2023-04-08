@@ -1,0 +1,31 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+
+    <!--#region Navigation Item Style-->
+    <Style TargetType="Button"
+           x:Key="NavButton"
+           BasedOn="{StaticResource MaterialDesignFlatButton}">
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
+        <Setter Property="Height" Value="38" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="Margin" Value="10,5" />
+        <Setter Property="Padding" Value="15,0" />
+        <Setter Property="materialDesign:ButtonAssist.CornerRadius" Value="3" />
+        <Setter Property="materialDesign:RippleAssist.Feedback" Value="{DynamicResource MaterialDesignBody}" />
+    </Style>
+    <!--#endregion-->
+
+    <!--#region Button Icon style-->
+    <Style TargetType="materialDesign:PackIcon"
+           x:Key="NavIcon">
+        <Setter Property="Height" Value="30" />
+        <Setter Property="Margin" Value="-9,0,0,0" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Width" Value="30" />
+    </Style>
+    <!--#endregion-->
+</ResourceDictionary>

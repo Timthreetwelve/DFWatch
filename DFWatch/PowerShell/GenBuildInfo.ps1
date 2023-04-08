@@ -24,7 +24,6 @@ $class =
 
 namespace $assemblyName
 {
-    /// <summary>Class for information about the current build.</summary>
     public static class BuildInfo
     {
         public const string CommitIDString = `"$commitID`";
