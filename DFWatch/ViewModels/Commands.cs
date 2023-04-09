@@ -27,6 +27,7 @@ public partial class Commands
     [RelayCommand]
     public static void ExitApplication()
     {
+        App.ExplicitClose = true;
         Application.Current.Shutdown();
     }
     #endregion Exit Application
