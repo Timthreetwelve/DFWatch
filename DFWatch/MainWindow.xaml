@@ -39,14 +39,14 @@
 
     <Grid x:Name="MainGrid">
 
-        <!--#region Row definitions-->
+        <!--#region Row & Column definitions-->
         <Grid.RowDefinitions>
             <RowDefinition Height="50" />
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="180" />
+            <ColumnDefinition Width="175" />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
         <!--#endregion-->
@@ -224,7 +224,7 @@
                         Style="{StaticResource NavButton}">
                     <Button.Content>
                         <Grid HorizontalAlignment="Left">
-                            <materialDesign:PackIcon Kind="Pause"
+                            <materialDesign:PackIcon Kind="Stop"
                                                      Style="{StaticResource NavIcon}" />
                             <TextBlock Margin="35,0,0,0"
                                        VerticalAlignment="Center"

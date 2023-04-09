@@ -2,7 +2,9 @@
 
 namespace DFWatch.Models;
 
-/// <summary>Class for controlling the file system Watcher.</summary>
+/// <summary>
+/// Class for controlling the file system Watcher.
+/// </summary>
 public static class Watch
 {
     #region The Watcher
@@ -24,6 +26,7 @@ public static class Watch
         Watcher.Deleted += File_Deleted;
         Watcher.EnableRaisingEvents = true;
         (Application.Current.MainWindow as MainWindow)?.SetStatusMsg("Running");
+        (Application.Current.MainWindow as MainWindow)?.DisappearingMessage("Watcher has started.");
         NLogHelpers.Log.Info($"{AppInfo.AppName} has started watching {Watcher.Path}.");
     }
     #endregion Start method
@@ -36,6 +39,7 @@ public static class Watch
         {
             Watcher.EnableRaisingEvents = false;
             (Application.Current.MainWindow as MainWindow)?.SetStatusMsg("Stopped");
+            (Application.Current.MainWindow as MainWindow)?.DisappearingMessage("Watcher has stopped.");
             NLogHelpers.Log.Info($"{AppInfo.AppName} has stopped watching {Watcher.Path}.");
         }
     }
