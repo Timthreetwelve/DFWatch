@@ -11,8 +11,6 @@
     <Company>T_K</Company>
     <Product>Download Folder Watcher</Product>
     <ApplicationIcon>Images\DW.ico</ApplicationIcon>
-    <PlatformTarget>x64</PlatformTarget>
-    <Platforms>x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
