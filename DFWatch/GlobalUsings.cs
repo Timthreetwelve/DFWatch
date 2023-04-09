@@ -27,7 +27,6 @@ global using System.Windows.Controls.Primitives;
 global using System.Windows.Data;
 global using System.Windows.Input;
 global using System.Windows.Media;
-global using System.Windows.Navigation;
 global using System.Windows.Threading;
 
 global using Microsoft.VisualBasic;
@@ -36,13 +35,13 @@ global using Microsoft.Win32;
 
 global using CommunityToolkit.Mvvm.ComponentModel;
 global using CommunityToolkit.Mvvm.Input;
-global using CommunityToolkit.Mvvm;
 
 global using DFWatch.Configuration;
 global using DFWatch.Models;
 global using DFWatch.ViewModels;
-global using DFWatch.Views;
 global using DFWatch.Helpers;
+
+global using H.NotifyIcon;
 
 global using MaterialDesignColors;
 global using MaterialDesignThemes.Wpf;

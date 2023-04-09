@@ -90,10 +90,15 @@ public partial class MainWindow : Window
         // Window state changed
         StateChanged += MainWindow_StateChanged;
 
+        // Tray Icon
+        tbIcon.ForceCreate(enablesEfficiencyMode: true);
+        tbIcon.Visibility = Visibility.Visible;
+
+
         if (UserSettings.Setting.StartMinimized)
         {
             WindowState = WindowState.Minimized;
-            Hide();
+            WindowExtensions.Hide(window: this, enableEfficiencyMode: true);
         }
 
         // select the 1st item in the navigation listbox
@@ -104,7 +109,6 @@ public partial class MainWindow : Window
     #region Window Events
     private void MainWindow_StateChanged(object sender, EventArgs e)
     {
-        Debug.WriteLine($"State changed: {WindowState}");
         if (WindowState == WindowState.Minimized)
         {
             Hide();
