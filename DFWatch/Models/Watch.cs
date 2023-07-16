@@ -17,6 +17,12 @@ public static class Watch
     /// <summary>Starts the file system Watcher.</summary>
     public static void StartWatcher()
     {
+        if (string.IsNullOrEmpty(UserSettings.Setting.SourceFolder) || !Directory.Exists(UserSettings.Setting.SourceFolder))
+        {
+            NLogHelpers.Log.Info("Path to watch is empty or not found.");
+            return;
+        }
+
         Watcher.Path = UserSettings.Setting.SourceFolder;
         Watcher.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName;
         Watcher.IncludeSubdirectories = false;

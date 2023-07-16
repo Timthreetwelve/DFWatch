@@ -91,17 +91,16 @@ public partial class MainWindow : Window
         StateChanged += MainWindow_StateChanged;
 
         // Tray Icon
-        tbIcon.ForceCreate(enablesEfficiencyMode: true);
-        tbIcon.Visibility = Visibility.Visible;
+        //tbIcon.ForceCreate(enablesEfficiencyMode: true);
+        notifyIcon.Visibility = Visibility.Visible;
 
 
         if (UserSettings.Setting.StartMinimized)
         {
             WindowState = WindowState.Minimized;
-            WindowExtensions.Hide(window: this, enableEfficiencyMode: true);
         }
 
-        // select the 1st item in the navigation listbox
+        // select the 1st item in the navigation ListBox
         NavigationListBox.SelectedIndex = 0;
     }
     #endregion Settings
@@ -121,7 +120,7 @@ public partial class MainWindow : Window
         Watch.DisposeWatcher();
 
         //clean up notify icon (would otherwise stay after application ends)
-        tbIcon.Dispose();
+        notifyIcon.Dispose();
 
         // Stop the stopwatch and record elapsed time
         _stopwatch.Stop();
