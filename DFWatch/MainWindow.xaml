@@ -3,11 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:bh="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:hc="https://handyorg.github.io/handycontrol"
         xmlns:helper="clr-namespace:DFWatch.Helpers"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:styles="clr-namespace:DFWatch.Styles"
+        xmlns:tb="clr-namespace:H.NotifyIcon;assembly=H.NotifyIcon.Wpf"
         xmlns:viewmodels="clr-namespace:DFWatch.ViewModels"
         mc:Ignorable="d"
         Title="{x:Static helper:AppInfo.AppName}"
@@ -52,10 +52,28 @@
         <!--#endregion-->
 
         <!--#region Tray icon with context menu-->
-        <hc:NotifyIcon x:Name="notifyIcon"
-                       Icon="/Images/DW.ico"
-                       Text="{x:Static helper:AppInfo.ToolTipVersion}">
-            <hc:NotifyIcon.ContextMenu>
+        <tb:TaskbarIcon x:Name="tbIcon"
+                        IconSource="/Images/DW.ico"
+                        LeftClickCommand="{Binding ShowMainWindowCommand}"
+                        MenuActivation="RightClick"
+                        ToolTipText="{x:Static helper:AppInfo.ToolTipVersion}">
+            <tb:TaskbarIcon.TrayToolTip>
+                <ToolTip Content="{x:Static helper:AppInfo.ToolTipVersion}"
+                         Placement="Mouse">
+                    <ToolTip.Style>
+                        <Style TargetType="ToolTip"
+                               BasedOn="{StaticResource MaterialDesignToolTip}">
+                            <Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}" />
+                            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
+                            <Setter Property="Opacity" Value="0.85" />
+                            <Setter Property="Placement" Value="Mouse" />
+                            <Setter Property="SnapsToDevicePixels" Value="True" />
+                        </Style>
+                    </ToolTip.Style>
+                </ToolTip>
+            </tb:TaskbarIcon.TrayToolTip>
+
+            <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu FontSize="13"
                              Style="{StaticResource MaterialDesignContextMenu}">
                     <ContextMenu.DataContext>
@@ -81,10 +99,9 @@
                                         Executed="StopWatching_Executed" />
                     </ContextMenu.CommandBindings>
                 </ContextMenu>
-            </hc:NotifyIcon.ContextMenu>
-        </hc:NotifyIcon>
+            </tb:TaskbarIcon.ContextMenu>
+        </tb:TaskbarIcon>
         <!--#endregion-->
-
 
         <!--#region Title Row-->
         <Grid Grid.Column="1">

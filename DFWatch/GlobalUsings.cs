@@ -41,6 +41,8 @@ global using DFWatch.Models;
 global using DFWatch.ViewModels;
 global using DFWatch.Helpers;
 
+global using H.NotifyIcon;
+
 global using MaterialDesignColors;
 global using MaterialDesignThemes.Wpf;
 

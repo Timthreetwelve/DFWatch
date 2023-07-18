@@ -91,10 +91,8 @@ public partial class MainWindow : Window
         StateChanged += MainWindow_StateChanged;
 
         // Tray Icon
-        //tbIcon.ForceCreate(enablesEfficiencyMode: true);
-        notifyIcon.Visibility = Visibility.Visible;
-
-
+        tbIcon.ForceCreate(enablesEfficiencyMode: true);
+        tbIcon.Visibility = Visibility.Visible;
         if (UserSettings.Setting.StartMinimized)
         {
             WindowState = WindowState.Minimized;
@@ -120,7 +118,7 @@ public partial class MainWindow : Window
         Watch.DisposeWatcher();
 
         //clean up notify icon (would otherwise stay after application ends)
-        notifyIcon.Dispose();
+        tbIcon.Dispose();
 
         // Stop the stopwatch and record elapsed time
         _stopwatch.Stop();
@@ -404,4 +402,9 @@ public partial class MainWindow : Window
             MessageBoxImage.Error);
     }
     #endregion Unhandled Exception Handler
+
+    private void NotifyIcon_Click(object sender, RoutedEventArgs e)
+    {
+        NavigationViewModel.ShowMainWindow();
+    }
 }
