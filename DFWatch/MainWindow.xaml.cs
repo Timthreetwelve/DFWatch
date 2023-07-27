@@ -56,14 +56,13 @@ public partial class MainWindow : Window
         // Log the version, build date and commit id
         NLogHelpers.Log.Info($"{AppInfo.AppName} ({AppInfo.AppProduct}) {AppInfo.AppVersion} is starting up");
         NLogHelpers.Log.Info($"{AppInfo.AppName} {AppInfo.AppCopyright}");
+        NLogHelpers.Log.Debug($"{AppInfo.AppName} was started from {AppInfo.AppPath}");
         NLogHelpers.Log.Debug($"{AppInfo.AppName} Build date: {BuildInfo.BuildDateUtc.ToUniversalTime():f} (UTC)");
         NLogHelpers.Log.Debug($"{AppInfo.AppName} Commit ID: {BuildInfo.CommitIDString} ");
 
         // Log the .NET version, app framework and OS platform
-        string version = Environment.Version.ToString();
-        NLogHelpers.Log.Debug($".NET version: {AppInfo.RuntimeVersion.Replace(".NET", "")}  ({version})");
-        NLogHelpers.Log.Debug(AppInfo.Framework);
-        NLogHelpers.Log.Debug(AppInfo.OsPlatform);
+        NLogHelpers.Log.Debug($"Operating System version: {AppInfo.OsPlatform}");
+        NLogHelpers.Log.Debug($".NET version: {AppInfo.RuntimeVersion.Replace(".NET", "")}");
 
         // Window position
         MainWindowHelpers.SetWindowPosition();
@@ -91,8 +90,7 @@ public partial class MainWindow : Window
         StateChanged += MainWindow_StateChanged;
 
         // Tray Icon
-        tbIcon.ForceCreate(enablesEfficiencyMode: true);
-        tbIcon.Visibility = Visibility.Visible;
+        TrayIconHelpers.CreateTrayIcon();
         if (UserSettings.Setting.StartMinimized)
         {
             WindowState = WindowState.Minimized;
@@ -116,9 +114,6 @@ public partial class MainWindow : Window
     {
         // Stop the file system Watcher
         Watch.DisposeWatcher();
-
-        //clean up notify icon (would otherwise stay after application ends)
-        tbIcon.Dispose();
 
         // Stop the stopwatch and record elapsed time
         _stopwatch.Stop();
@@ -357,28 +352,6 @@ public partial class MainWindow : Window
     }
     #endregion Smaller/Larger
 
-    #region RoutedUICommand methods
-    private void StartCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-    {
-        e.CanExecute = !Watch.Watcher.EnableRaisingEvents;
-    }
-
-    private void StartWatching_Executed(object sender, ExecutedRoutedEventArgs e)
-    {
-        Watch.StartWatcher();
-    }
-
-    private void StopCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
-    {
-        e.CanExecute = Watch.Watcher.EnableRaisingEvents;
-    }
-
-    private void StopWatching_Executed(object sender, ExecutedRoutedEventArgs e)
-    {
-        Watch.StopWatcher();
-    }
-    #endregion RoutedUICommand methods
-
     #region Unhandled Exception Handler
     /// <summary>
     /// Handles any exceptions that weren't caught by a try-catch statement
@@ -402,9 +375,4 @@ public partial class MainWindow : Window
             MessageBoxImage.Error);
     }
     #endregion Unhandled Exception Handler
-
-    private void NotifyIcon_Click(object sender, RoutedEventArgs e)
-    {
-        NavigationViewModel.ShowMainWindow();
-    }
 }

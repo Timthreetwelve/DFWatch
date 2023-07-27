@@ -7,7 +7,6 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:styles="clr-namespace:DFWatch.Styles"
-        xmlns:tb="clr-namespace:H.NotifyIcon;assembly=H.NotifyIcon.Wpf"
         xmlns:viewmodels="clr-namespace:DFWatch.ViewModels"
         mc:Ignorable="d"
         Title="{x:Static helper:AppInfo.AppName}"
@@ -51,58 +50,6 @@
         </Grid.ColumnDefinitions>
         <!--#endregion-->
 
-        <!--#region Tray icon with context menu-->
-        <tb:TaskbarIcon x:Name="tbIcon"
-                        IconSource="/Images/DW.ico"
-                        LeftClickCommand="{Binding ShowMainWindowCommand}"
-                        MenuActivation="RightClick"
-                        ToolTipText="{x:Static helper:AppInfo.ToolTipVersion}">
-            <tb:TaskbarIcon.TrayToolTip>
-                <ToolTip Content="{x:Static helper:AppInfo.ToolTipVersion}"
-                         Placement="Mouse">
-                    <ToolTip.Style>
-                        <Style TargetType="ToolTip"
-                               BasedOn="{StaticResource MaterialDesignToolTip}">
-                            <Setter Property="Background" Value="{DynamicResource MaterialDesignPaper}" />
-                            <Setter Property="Foreground" Value="{DynamicResource MaterialDesignBody}" />
-                            <Setter Property="Opacity" Value="0.85" />
-                            <Setter Property="Placement" Value="Mouse" />
-                            <Setter Property="SnapsToDevicePixels" Value="True" />
-                        </Style>
-                    </ToolTip.Style>
-                </ToolTip>
-            </tb:TaskbarIcon.TrayToolTip>
-
-            <tb:TaskbarIcon.ContextMenu>
-                <ContextMenu FontSize="13"
-                             Style="{StaticResource MaterialDesignContextMenu}">
-                    <ContextMenu.DataContext>
-                        <viewmodels:Commands />
-                    </ContextMenu.DataContext>
-                    <MenuItem Command="{Binding ShowMainWindowCommand}"
-                              Header="Show Main Window" />
-                    <Separator />
-                    <MenuItem Command="{Binding StartWatching}"
-                              Header="Start Watcher" />
-                    <MenuItem Command="{Binding StopWatching}"
-                              Header="Stop Watcher" />
-                    <Separator />
-                    <MenuItem Command="{Binding ExitApplicationCommand}"
-                              Header="Exit" />
-                    <ContextMenu.CommandBindings>
-                        <CommandBinding CanExecute="StartCommand_CanExecute"
-                                        Command="viewmodels:Commands.StartWatching"
-                                        Executed="StartWatching_Executed" />
-
-                        <CommandBinding CanExecute="StopCommand_CanExecute"
-                                        Command="viewmodels:Commands.StopWatching"
-                                        Executed="StopWatching_Executed" />
-                    </ContextMenu.CommandBindings>
-                </ContextMenu>
-            </tb:TaskbarIcon.ContextMenu>
-        </tb:TaskbarIcon>
-        <!--#endregion-->
-
         <!--#region Title Row-->
         <Grid Grid.Column="1">
             <Label x:Name="PageTitle"
@@ -134,9 +81,6 @@
                                 BorderThickness="2">
                             <Grid Width="150"
                                   Margin="0">
-                                <Grid.DataContext>
-                                    <viewmodels:Commands />
-                                </Grid.DataContext>
                                 <StackPanel Orientation="Vertical">
                                     <Button Height="35"
                                             Padding="15,1,0,22"
@@ -196,12 +140,6 @@
 
             <!--#region Start & Stop buttons-->
             <Grid VerticalAlignment="Bottom">
-                <!--#region DataContext-->
-                <Grid.DataContext>
-                    <viewmodels:Commands />
-                </Grid.DataContext>
-                <!--#endregion-->
-
                 <!--#region Row definitions-->
                 <Grid.RowDefinitions>
                     <RowDefinition />
@@ -210,7 +148,7 @@
                 <!--#endregion-->
                 <Button x:Name="btnStartWatcher"
                         Grid.Row="0"
-                        Command="{Binding StartWatching}"
+                        Command="{Binding StartWatchingCommand}"
                         Style="{StaticResource NavButton}">
                     <Button.Content>
                         <Grid HorizontalAlignment="Left">
@@ -221,16 +159,11 @@
                                        Text="Start Watcher" />
                         </Grid>
                     </Button.Content>
-                    <Button.CommandBindings>
-                        <CommandBinding CanExecute="StartCommand_CanExecute"
-                                        Command="viewmodels:Commands.StartWatching"
-                                        Executed="StartWatching_Executed" />
-                    </Button.CommandBindings>
                 </Button>
 
                 <Button x:Name="btnStopWatcher"
                         Grid.Row="1"
-                        Command="{Binding StopWatching}"
+                        Command="{Binding StopWatchingCommand}"
                         Style="{StaticResource NavButton}">
                     <Button.Content>
                         <Grid HorizontalAlignment="Left">
@@ -241,11 +174,6 @@
                                        Text="Stop Watcher" />
                         </Grid>
                     </Button.Content>
-                    <Button.CommandBindings>
-                        <CommandBinding CanExecute="StopCommand_CanExecute"
-                                        Command="viewmodels:Commands.StopWatching"
-                                        Executed="StopWatching_Executed" />
-                    </Button.CommandBindings>
                 </Button>
             </Grid>
             <!--#endregion-->

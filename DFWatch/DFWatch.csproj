@@ -11,6 +11,7 @@
     <Company>T_K</Company>
     <Product>Download Folder Watcher</Product>
     <ApplicationIcon>Images\DW.ico</ApplicationIcon>
+    <UseWindowsForms>True</UseWindowsForms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -24,7 +25,6 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="H.NotifyIcon.Wpf" Version="2.0.111" />
     <PackageReference Include="MaterialDesignThemes" Version="4.9.0" />
     <PackageReference Include="Microsoft.VisualBasic" Version="10.3.0" />
     <PackageReference Include="NLog" Version="5.2.2" />

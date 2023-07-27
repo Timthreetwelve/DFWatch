@@ -9,6 +9,7 @@ global using System.Collections.Specialized;
 global using System.ComponentModel;
 global using System.Diagnostics;
 global using System.Globalization;
+global using System.Windows.Interop;
 global using System.IO;
 global using System.Linq;
 global using System.Reflection;
@@ -41,8 +42,6 @@ global using DFWatch.Models;
 global using DFWatch.ViewModels;
 global using DFWatch.Helpers;
 
-global using H.NotifyIcon;
-
 global using MaterialDesignColors;
 global using MaterialDesignThemes.Wpf;
 
@@ -52,6 +51,7 @@ global using NLog.Targets;
 
 global using Ookii.Dialogs.Wpf;
 
+global using Forms = System.Windows.Forms;
 global using MessageBox = System.Windows.MessageBox;
 global using TextBox = System.Windows.Controls.TextBox;
 global using NavigationItem = DFWatch.Models.NavigationItem;
