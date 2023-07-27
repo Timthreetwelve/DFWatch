@@ -83,6 +83,36 @@ internal partial class NavigationViewModel : ObservableObject
     }
     #endregion Navigate Command
 
+    #region Start watching
+    [RelayCommand(CanExecute = nameof(CanStartWatching))]
+    public void StartWatching()
+    {
+        Watch.StartWatcher();
+        StartWatchingCommand.NotifyCanExecuteChanged();
+        StopWatchingCommand.NotifyCanExecuteChanged();
+    }
+
+    public static bool CanStartWatching()
+    {
+        return !Watch.Watcher.EnableRaisingEvents;
+    }
+    #endregion Start watching
+
+    #region Stop watching
+    [RelayCommand(CanExecute = nameof(CanStopWatching))]
+    public void StopWatching()
+    {
+        Watch.StopWatcher();
+        StopWatchingCommand.NotifyCanExecuteChanged();
+        StartWatchingCommand.NotifyCanExecuteChanged();
+    }
+
+    private static bool CanStopWatching()
+    {
+        return Watch.Watcher.EnableRaisingEvents;
+    }
+    #endregion Stop watching
+
     #region Show Main Window
     [RelayCommand]
     public static void ShowMainWindow()
@@ -90,6 +120,31 @@ internal partial class NavigationViewModel : ObservableObject
         MainWindowHelpers.ShowMainWindow();
     }
     #endregion Show Main Window
+
+    #region Exit Application
+    [RelayCommand]
+    public static void ExitApplication()
+    {
+        App.ExplicitClose = true;
+        Application.Current.Shutdown();
+    }
+    #endregion Exit Application
+
+    #region View log file
+    [RelayCommand]
+    public static void ViewLogFile()
+    {
+        TextFileViewer.ViewTextFile(NLogHelpers.GetLogfileName());
+    }
+    #endregion View log file
+
+    #region View readme file
+    [RelayCommand]
+    public static void ViewReadMeFile()
+    {
+        TextFileViewer.ViewTextFile(Path.Combine(AppInfo.AppDirectory, "readme.txt"));
+    }
+    #endregion View readme file
 
     #region Key down events
     /// <summary>
