@@ -8,10 +8,14 @@ internal partial class NavigationViewModel : ObservableObject
     public NavigationViewModel()
     {
         NavigateToPage(NavPage.Main);
+
+        Instance = this;
     }
     #endregion Constructor
 
     private readonly MainWindow _mainWindow = Application.Current.MainWindow as MainWindow;
+
+    public static NavigationViewModel Instance { get; private set; }
 
     #region Observable collection of navigation items
     public static List<NavigationItem> NavigationViewModelTypes { get; set; } = new List<NavigationItem>
@@ -84,12 +88,13 @@ internal partial class NavigationViewModel : ObservableObject
     #endregion Navigate Command
 
     #region Start watching
-    [RelayCommand(CanExecute = nameof(CanStartWatching))]
+    //[RelayCommand(CanExecute = nameof(CanStartWatching))]
+    [RelayCommand]
     public void StartWatching()
     {
         Watch.StartWatcher();
-        StartWatchingCommand.NotifyCanExecuteChanged();
-        StopWatchingCommand.NotifyCanExecuteChanged();
+        //StartWatchingCommand.NotifyCanExecuteChanged();
+        //StopWatchingCommand.NotifyCanExecuteChanged();
     }
 
     public static bool CanStartWatching()
@@ -99,12 +104,13 @@ internal partial class NavigationViewModel : ObservableObject
     #endregion Start watching
 
     #region Stop watching
-    [RelayCommand(CanExecute = nameof(CanStopWatching))]
+    //[RelayCommand(CanExecute = nameof(CanStopWatching))]
+    [RelayCommand]
     public void StopWatching()
     {
         Watch.StopWatcher();
-        StopWatchingCommand.NotifyCanExecuteChanged();
-        StartWatchingCommand.NotifyCanExecuteChanged();
+        //StopWatchingCommand.NotifyCanExecuteChanged();
+        //StartWatchingCommand.NotifyCanExecuteChanged();
     }
 
     private static bool CanStopWatching()

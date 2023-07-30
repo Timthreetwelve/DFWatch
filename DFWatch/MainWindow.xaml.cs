@@ -24,8 +24,6 @@ public partial class MainWindow : Window
         InitializeComponent();
 
         ReadSettings();
-
-        StartUpChecks();
     }
 
     #region Settings
@@ -102,6 +100,11 @@ public partial class MainWindow : Window
     #endregion Settings
 
     #region Window Events
+    private void Window_ContentRendered(object sender, EventArgs e)
+    {
+        StartUpChecks();
+    }
+
     private void MainWindow_StateChanged(object sender, EventArgs e)
     {
         if (WindowState == WindowState.Minimized)
@@ -228,7 +231,8 @@ public partial class MainWindow : Window
 
             if (UserSettings.Setting.WatchOnStart)
             {
-                Watch.StartWatcher();
+                //Watch.StartWatcher();
+                NavigationViewModel.Instance.StartWatchingCommand.Execute(null);
             }
         }
 

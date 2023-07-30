@@ -34,6 +34,7 @@ public static class Watch
         (Application.Current.MainWindow as MainWindow)?.SetStatusMsg("Running");
         (Application.Current.MainWindow as MainWindow)?.DisappearingMessage("Watcher has started.");
         NLogHelpers.Log.Info($"{AppInfo.AppName} has started watching {Watcher.Path}.");
+        WatcherHelpers.IsWatching = true;
     }
     #endregion Start method
 
@@ -47,6 +48,7 @@ public static class Watch
             (Application.Current.MainWindow as MainWindow)?.SetStatusMsg("Stopped");
             (Application.Current.MainWindow as MainWindow)?.DisappearingMessage("Watcher has stopped.");
             NLogHelpers.Log.Info($"{AppInfo.AppName} has stopped watching {Watcher.Path}.");
+            WatcherHelpers.IsWatching = false;
         }
     }
     #endregion Stop method
