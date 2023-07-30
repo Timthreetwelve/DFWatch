@@ -360,7 +360,7 @@
                                       Margin="0,3,0,0"
                                       HorizontalAlignment="Left"
                                       ItemsSource="{Binding Source={StaticResource enumAccentColors}}"
-                                      MaxDropDownHeight="140"
+                                      MaxDropDownHeight="210"
                                       SelectedItem="{Binding Setting.PrimaryColor,
                                                              Source={StaticResource config}}"
                                       Style="{StaticResource MaterialDesignComboBox}" />
