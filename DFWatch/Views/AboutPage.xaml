@@ -30,6 +30,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="180" />
                     <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="50" />
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="26" />
@@ -46,10 +47,20 @@
 
                 <!--#region Icon in upper right-->
                 <Image Grid.Row="0" Grid.RowSpan="2"
-                       Grid.Column="1"
-                       Margin="0,0,10,0"
-                       HorizontalAlignment="Right"
-                       Source="/Images/DW.png" />
+                       Grid.Column="2"
+                       Width="48" Height="48" Stretch="UniformToFill"
+                       HorizontalAlignment="Right">
+                    <Image.Style>
+                        <Style TargetType="{x:Type Image}">
+                            <Setter Property="Source" Value="\Images\dw.png" />
+                            <Style.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Source" Value="\Images\tk.png" />
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Image.Style>
+                </Image>
                 <!--#endregion-->
 
                 <!--#region  TextBlocks with relevant info-->

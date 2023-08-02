@@ -17,6 +17,7 @@
   <ItemGroup>
     <Resource Include="Images\DW.ico" />
     <Resource Include="Images\DW.png" />
+    <Resource Include="Images\TK.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -44,6 +45,14 @@
   <Target Name="BuildInfo" AfterTargets="UpdateAssemblyInfo">
     <Message Importance="high" Text="Beginning GenBuildInfo for $(AssemblyName). Version is $(AssemblyVersion)" />
     <Exec Command="powershell -NoProfile -File &quot;$(ProjectDir)Powershell\GenBuildInfo.ps1&quot; -assemblyName $(AssemblyName) -assemblyVersion $(AssemblyVersion)" />
+  </Target>
+
+  <Target Name="CompileSetup" AfterTargets="Publish">
+    <PropertyGroup>
+      <PowerShellScript>-File "D:\Visual Studio\Source\PowerShell\PublishInnoSetup\PubSetup.ps1"</PowerShellScript>
+      <ScriptName>-issScript "D:\InnoSetup\DFWatch.iss"</ScriptName>
+    </PropertyGroup>
+    <Exec Command="pwsh -NoProfile $(PowerShellScript) $(ScriptName)" />
   </Target>
 
 </Project>
